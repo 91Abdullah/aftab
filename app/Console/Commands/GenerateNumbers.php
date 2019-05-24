@@ -48,6 +48,8 @@ class GenerateNumbers extends Command
         $total_numbers = $this->argument('count');
         $randomNumbers  = [];
 
+
+
         for($i = 0; $i < $total_numbers; $i++) {
             $randomNumbers[$i] = [
                 "number" => "03" . mt_rand(0, 4) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9),
@@ -59,7 +61,7 @@ class GenerateNumbers extends Command
         $finalNums = collect($randomNumbers)->unique("number");
 
         //return dd($finalNums->toArray());
-        //Number::insert($finalNums->toArray());
+        //Number::insert($finalNums->toArray())
         //return dd(Number::all(['number'])->toArray());
 
         $totalNums = Number::all(['number'])->toArray();
