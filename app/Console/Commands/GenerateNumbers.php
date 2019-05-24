@@ -53,8 +53,41 @@ class GenerateNumbers extends Command
         $total_numbers = $total_numbers - $genCount;
 
         for($i = 0; $i < $total_numbers; $i++) {
-            $randomNumbers[$i] = [
+            /*$randomNumbers[$i] = [
                 "number" => "03" . mt_rand(0, 4) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9),
+                "created_at" => Carbon::now(),
+                "updated_at" => Carbon::now()
+            ];*/
+
+            $firstDigit = "0";
+            $levelOne = mt_rand(30, 34);
+
+            $levelTwo = mt_rand(0, 9);
+
+            switch ($levelOne) {
+                case 30:
+                    $levelTwo = mt_rand(0, 9);
+                    break;
+                case 31:
+                    $levelTwo = mt_rand(0, 9);
+                    break;
+                case 32:
+                    $levelTwo = mt_rand(0, 6);
+                    break;
+                case 33:
+                    $levelTwo = mt_rand(0, 8);
+                    break;
+                case 34:
+                    $levelTwo = mt_rand(0, 9);
+                    break;
+                default:
+                    break;
+            }
+
+            $levelThree = $num_str = sprintf("%07d", mt_rand(1, 9999999));
+
+            $randomNumbers[$i] = [
+                "number" => $firstDigit . $levelOne . $levelTwo . $levelThree,
                 "created_at" => Carbon::now(),
                 "updated_at" => Carbon::now()
             ];
@@ -63,7 +96,7 @@ class GenerateNumbers extends Command
         $finalNums = collect($randomNumbers)->unique("number");
 
         //return dd($finalNums->toArray());
-        //Number::insert($finalNums->toArray())
+        //Number::insert($finalNums->toArray());
         //return dd(Number::all(['number'])->toArray());
 
         $totalNums = Number::all(['number'])->toArray();
@@ -86,5 +119,11 @@ class GenerateNumbers extends Command
 
         $genNums = GenNum::insert($uniqueNums->toArray());
 
+    }
+
+    function rutime($ru, $rus, $index)
+    {
+        return ($ru["ru_$index.tv_sec"]*1000 + intval($ru["ru_$index.tv_usec"]/1000))
+            -  ($rus["ru_$index.tv_sec"]*1000 + intval($rus["ru_$index.tv_usec"]/1000));
     }
 }
