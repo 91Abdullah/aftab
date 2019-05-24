@@ -48,7 +48,9 @@ class GenerateNumbers extends Command
         $total_numbers = $this->argument('count');
         $randomNumbers  = [];
 
+        $genCount = GenNum::count();
 
+        $total_numbers = $total_numbers - $genCount;
 
         for($i = 0; $i < $total_numbers; $i++) {
             $randomNumbers[$i] = [
