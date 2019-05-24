@@ -1,0 +1,464 @@
+
+
+$(document).ready(function () {
+    let muteBtn = document.getElementById('muteBtn');
+    let holdBtn = document.getElementById('holdBtn');
+    let holdNotif = document.getElementById('holdNotif');
+    let muteNotif = document.getElementById('muteNotif');
+
+    let manualDialBtn = document.getElementById('manualDialBtn');
+    let listDialBtn = document.getElementById('listDialBtn');
+    let randomDialBtn = document.getElementById('randomDialBtn');
+    let registerBtn = document.getElementById('registerBtn');
+    let hangupBtn = document.getElementById('hangupBtn');
+
+    var remoteAudio = document.getElementById('remoteAudio');
+    var localAudio = document.getElementById('localAudio');
+
+    let phoneStatus = document.getElementById('phone-status');
+    let agentStatus = document.getElementById('agent-status');
+
+    let inCallBtns = document.getElementById('inCallBtns');
+
+    let callStatus = document.getElementById('callStatus');
+    let callNotif = document.getElementById('callNotif');
+
+    let inputNumber = document.getElementById('inputNumber');
+
+    let mvisible = false;
+    let hVisible = false;
+    let mins = 0;
+    let seconds = 0;
+    let timex = undefined;
+
+    let currentSession = undefined;
+
+    // SIP Status
+
+    /*SessionStatus[SessionStatus["STATUS_NULL"] = 0] = "STATUS_NULL";
+    SessionStatus[SessionStatus["STATUS_INVITE_SENT"] = 1] = "STATUS_INVITE_SENT";
+    SessionStatus[SessionStatus["STATUS_1XX_RECEIVED"] = 2] = "STATUS_1XX_RECEIVED";
+    SessionStatus[SessionStatus["STATUS_INVITE_RECEIVED"] = 3] = "STATUS_INVITE_RECEIVED";
+    SessionStatus[SessionStatus["STATUS_WAITING_FOR_ANSWER"] = 4] = "STATUS_WAITING_FOR_ANSWER";
+    SessionStatus[SessionStatus["STATUS_ANSWERED"] = 5] = "STATUS_ANSWERED";
+    SessionStatus[SessionStatus["STATUS_WAITING_FOR_PRACK"] = 6] = "STATUS_WAITING_FOR_PRACK";
+    SessionStatus[SessionStatus["STATUS_WAITING_FOR_ACK"] = 7] = "STATUS_WAITING_FOR_ACK";
+    SessionStatus[SessionStatus["STATUS_CANCELED"] = 8] = "STATUS_CANCELED";
+    SessionStatus[SessionStatus["STATUS_TERMINATED"] = 9] = "STATUS_TERMINATED";
+    SessionStatus[SessionStatus["STATUS_ANSWERED_WAITING_FOR_PRACK"] = 10] = "STATUS_ANSWERED_WAITING_FOR_PRACK";
+    SessionStatus[SessionStatus["STATUS_EARLY_MEDIA"] = 11] = "STATUS_EARLY_MEDIA";
+    SessionStatus[SessionStatus["STATUS_CONFIRMED"] = 12] = "STATUS_CONFIRMED";*/
+
+    //
+
+    // User Agent
+
+    let userAgent = new SIP.UA({
+        uri: authUser + '@' + server_address + ':' + wss_comm_port,
+        transportOptions: {
+            wsServers: ['wss://' + server_address +':' + wss_socket_port + '/ws'],
+            traceSip: false
+        },
+        authorizationUser: authUser,
+        password: authUser,
+        displayName: authUser,
+        register: false,
+        iceCheckingTimeout: 0.5
+    });
+
+    //startTimer();
+    //startUserAgent();
+
+    // Functions
+
+    function incomingNotif(session) {
+
+        //console.log(session);
+        Swal.fire({
+            title: 'You have an incoming call',
+            text: session.remoteIdentity.displayName,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Accept",
+            cancelButtonText: "Reject"
+        }).then((result) => {
+            console.log(result);
+            if(result.value) {
+                session.accept({
+                    sessionDescriptionHandlerOptions: {
+                        constraints: {
+                            audio: true,
+                            video: false
+                        }
+                    }
+                });
+
+                Swal.fire("Accepted", "Call has been accepted", "success");
+
+            } else if(result.dismiss === "cancel") {
+                session.reject();
+                Swal.fire("Rejected", "Call has been rejected", "error");
+            } else {
+
+            }
+        });
+
+        /*swal({
+            title: "You have an incoming call",
+            text:  session.remoteIdentity,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true
+        })
+            .then((status) => {
+                if(status) {
+
+
+
+                    swal("Call has been accepted.", {
+                        icon: "success"
+                    })
+                } else {
+
+                    session.reject();
+
+                    swal("Call has been rejected.")
+                }
+            });*/
+    }
+
+    function startUserAgent() {
+        userAgent.register();
+    }
+
+    function stopUserAgent() {
+        userAgent.unregister();
+    }
+
+    function resetTimer() {
+        mins =0;
+        seconds =0;
+        $('#hours','#mins').html('00:');
+        $('#seconds').html('00');
+    }
+
+    function startTimer(){
+        timex = setTimeout(function(){
+            seconds++;
+            if(seconds >59){seconds=0;mins++;
+                if(mins<10){
+                    $("#mins").text('0'+mins+':');}
+                else $("#mins").text(mins+':');
+            }
+            if(seconds <10) {
+                $("#seconds").text('0'+seconds);} else {
+                $("#seconds").text(seconds);
+            }
+
+
+            startTimer();
+        },1000);
+    }
+
+    function stopTimer() {
+        clearTimeout(timex);
+    }
+
+    // User Interface Functions
+
+    function disableAllDialBtns() {
+        manualDialBtn.disabled = true;
+        listDialBtn.disabled = true;
+        randomDialBtn.disabled = true;
+    }
+
+    function enableAllDialBtns() {
+        manualDialBtn.disabled = false;
+        listDialBtn.disabled = false;
+        randomDialBtn.disabled = false;
+    }
+
+    function changeToRegisteredState()
+    {
+        registerBtn.classList.remove('btn-success');
+        registerBtn.classList.add('btn-danger');
+        registerBtn.innerHTML = "<i class=\"fas fa-window-close\"></i> Unregister";
+
+        agentStatus.classList.add('text-success');
+        agentStatus.classList.remove('text-danger')
+        agentStatus.innerHTML = "<i class=\"fas fa-user-plus\"></i> ONLINE";
+    }
+
+    function changeToUnRegisteredState()
+    {
+        registerBtn.classList.add('btn-danger');
+        registerBtn.classList.remove('btn-success');
+        registerBtn.innerHTML = "<i class=\"fas fa-users-cog\"></i> Register";
+
+        agentStatus.classList.add('text-danger');
+        agentStatus.classList.remove('text-success');
+        agentStatus.innerHTML = "<i class=\"fas fa-sign-in-alt\"></i> OFFLINE";
+    }
+
+    function changeToConnectedState()
+    {
+        phoneStatus.innerHTML = "<i class='fas fa-plug'></i> CONNECTED";
+        phoneStatus.classList.add('text-success');
+        phoneStatus.classList.remove('text-danger');
+    }
+
+    function changeToDisconnectedState()
+    {
+        phoneStatus.innerHTML = "<i class='fas fa-power-off'></i> DISCONNECTED";
+        phoneStatus.classList.add('text-danger');
+        phoneStatus.classList.remove('text-success');
+    }
+
+    function showInCallBtns()
+    {
+        inCallBtns.style.display = "block";
+    }
+
+    function hideInCallBtns()
+    {
+        inCallBtns.style.display = "none";
+    }
+
+    function changeCallAcceptedState()
+    {
+        inCallBtns.style.display = "block";
+        callStatus.innerText = "CONNECTED";
+        callNotif.style.display = "block";
+        startTimer();
+        disableAllDialBtns();
+
+    }
+
+    function changeCallTerminatedState()
+    {
+        inCallBtns.style.display = "none";
+        callStatus.innerText = "DISCONNECTED";
+        callNotif.style.display = "none";
+        muteNotif.classList.add('hide');
+        holdNotif.classList.add('hide');
+        stopTimer();
+        resetTimer();
+        enableAllDialBtns();
+        Swal.close();
+    }
+
+    function dialExternalCall()
+    {
+        if(inputNumber.value.length === 0 || isNaN(inputNumber.value)) {
+            $.notify("You can't dial an empty or invalid number.", "error");
+            return;
+        }
+
+        let session = userAgent.invite(inputNumber.value + '@' + server_address, {
+            sessionDescriptionHandlerOptions: {
+                constraints: {
+                    audio: true,
+                    video: false
+                }
+            }
+        });
+
+        console.log(session);
+
+        currentSession = session;
+
+        session.on('trackAdded', function() {
+            // We need to check the peer connection to determine which track was added
+
+            var pc = session.sessionDescriptionHandler.peerConnection;
+
+            // Gets remote tracks
+            var remoteStream = new MediaStream();
+            pc.getReceivers().forEach(function(receiver) {
+                remoteStream.addTrack(receiver.track);
+            });
+            remoteAudio.srcObject = remoteStream;
+            remoteAudio.play();
+
+            // Gets local tracks
+            var localStream = new MediaStream();
+            pc.getSenders().forEach(function(sender) {
+                localStream.addTrack(sender.track);
+            });
+            localAudio.srcObject = localStream;
+            localAudio.play();
+        });
+
+        session.on('accepted', () => {
+            changeCallAcceptedState();
+        });
+
+        session.on('terminated', () => {
+            changeCallTerminatedState();
+        });
+
+        session.on('bye', (request) => {
+            console.log(request);
+        });
+    }
+
+    // End User Interface Functions
+
+    // Events
+
+
+    //***** UA Events *******//
+
+    userAgent.on('registered', () => {
+        changeToRegisteredState();
+    });
+
+    userAgent.on('unregistered', (response, cause) => {
+        if(cause === undefined) {
+            $.notify("Unregistered from server.");
+        } else {
+            $.notify("Registration failed with error: " + cause + " and response: " + response, "error");
+        }
+        changeToUnRegisteredState();
+    });
+
+    userAgent.transport.on('connected', () => {
+        changeToConnectedState();
+    });
+
+    userAgent.transport.on('disconnected', () => {
+        changeToDisconnectedState();
+    });
+
+    userAgent.transport.on('transportError', () => {
+
+        // Swal.fire({
+        //     title: "Add Exception",
+        //     text: "Please click following link and add exception to certificate authority",
+        //     type: "error",
+        //     backdrop: false,
+        //     allowOutsideClick: false,
+        //     allowEscapeKey: false,
+        //     allowEnterKey: false,
+        //     confirmButtonColor: '#3085d6',
+        //     cancelButtonColor: '#d33',
+        //     confirmButtonText: 'Click Here'
+        // }).then((result) => {
+        //     if(result.value) {
+        //         window.open("https://" + server_address + ":" + wss_socket_port + "/httpstatus", "_blank");
+        //     }
+        // });
+
+
+    });
+
+    userAgent.on('invite', (session) => {
+
+        console.log(session);
+
+        currentSession = session;
+
+        session.on('trackAdded', function() {
+            // We need to check the peer connection to determine which track was added
+
+            var pc = session.sessionDescriptionHandler.peerConnection;
+
+            // Gets remote tracks
+            var remoteStream = new MediaStream();
+            pc.getReceivers().forEach(function(receiver) {
+                remoteStream.addTrack(receiver.track);
+            });
+            remoteAudio.srcObject = remoteStream;
+            remoteAudio.play();
+
+            // Gets local tracks
+            var localStream = new MediaStream();
+            pc.getSenders().forEach(function(sender) {
+                localStream.addTrack(sender.track);
+            });
+            localAudio.srcObject = localStream;
+            localAudio.play();
+        });
+
+        incomingNotif(session);
+
+        session.on('accepted', () => {
+            changeCallAcceptedState();
+        });
+
+        session.on('terminated', () => {
+            changeCallTerminatedState();
+        });
+
+    });
+
+    //***** UA Events *******//
+
+    registerBtn.onclick = function(event) {
+        if(userAgent.isRegistered()) {
+            stopUserAgent();
+        } else {
+            startUserAgent();
+        }
+    };
+
+    hangupBtn.onclick = function (event) {
+        if(currentSession !== undefined) {
+            if(currentSession.request instanceof SIP.OutgoingRequest && !currentSession.hasAnswer) {
+                currentSession.cancel();
+            } else {
+                currentSession.bye();
+            }
+        }
+    };
+
+    muteBtn.onclick = function (event) {
+        if(mvisible) {
+            muteNotif.classList.add('hide');
+
+            ///mute
+            var mutePc = currentSession.sessionDescriptionHandler.peerConnection;
+            mutePc.getLocalStreams().forEach(function (stream) {
+                stream.getAudioTracks().forEach(function (track) {
+                    track.enabled = true;
+                });
+            });
+
+        } else {
+            muteNotif.classList.remove('hide');
+
+            ///mute
+            var unmutePc = currentSession.sessionDescriptionHandler.peerConnection;
+            unmutePc.getLocalStreams().forEach(function (stream) {
+                stream.getAudioTracks().forEach(function (track) {
+                    track.enabled = false;
+                });
+            });
+
+        }
+        mvisible = !mvisible;
+    };
+
+    holdBtn.onclick = function (event) {
+        if(hVisible) {
+            holdNotif.classList.add('hide');
+            currentSession.unhold();
+        } else {
+            holdNotif.classList.remove('hide');
+            currentSession.hold();
+        }
+        hVisible = !hVisible;
+    };
+
+    manualDialBtn.onclick = function (event) {
+        dialExternalCall();
+    };
+
+    window.addEventListener('keypress', function (e) {
+        if (e.keyCode === 13) {
+            e.preventDefault();
+            dialExternalCall();
+        }
+    }, false);
+
+});

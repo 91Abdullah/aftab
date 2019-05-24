@@ -1,0 +1,7 @@
+.hide {
+    color: transparent !important;
+}
+
+.this-will-not-be-read {
+    display: none !important;
+}
