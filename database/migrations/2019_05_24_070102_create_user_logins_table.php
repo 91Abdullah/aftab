@@ -19,8 +19,6 @@ class CreateUserLoginsTable extends Migration
             $table->bigInteger('user_id');
             $table->dateTime('login_time');
             $table->dateTime('logout_time')->nullable();
-
-            $table->foreign('session_id')->references('id')->on('sessions');
         });
 
     }

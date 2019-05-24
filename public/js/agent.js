@@ -302,6 +302,69 @@ $(document).ready(function () {
         });
     }
 
+    function dialRandomCall()
+    {
+        let number = "";
+        axios.get(random_url)
+            .then(function (response) {
+                number = response.data;
+                if(number.length === 0 || isNaN(number)) {
+                    $.notify("You can't dial an empty or invalid number.", "error");
+                    return;
+                }
+
+                let session = userAgent.invite(number + '@' + server_address, {
+                    sessionDescriptionHandlerOptions: {
+                        constraints: {
+                            audio: true,
+                            video: false
+                        }
+                    }
+                });
+
+                console.log(session);
+
+                currentSession = session;
+
+                session.on('trackAdded', function() {
+                    // We need to check the peer connection to determine which track was added
+
+                    var pc = session.sessionDescriptionHandler.peerConnection;
+
+                    // Gets remote tracks
+                    var remoteStream = new MediaStream();
+                    pc.getReceivers().forEach(function(receiver) {
+                        remoteStream.addTrack(receiver.track);
+                    });
+                    remoteAudio.srcObject = remoteStream;
+                    remoteAudio.play();
+
+                    // Gets local tracks
+                    var localStream = new MediaStream();
+                    pc.getSenders().forEach(function(sender) {
+                        localStream.addTrack(sender.track);
+                    });
+                    localAudio.srcObject = localStream;
+                    localAudio.play();
+                });
+
+                session.on('accepted', () => {
+                    changeCallAcceptedState();
+                });
+
+                session.on('terminated', () => {
+                    changeCallTerminatedState();
+                });
+
+                session.on('bye', (request) => {
+                    console.log(request);
+                });
+            })
+            .catch(function (error) {
+
+            });
+    }
+
     // End User Interface Functions
 
     // Events
@@ -392,7 +455,11 @@ $(document).ready(function () {
 
     });
 
-    //***** UA Events *******//
+    //***** End UA Events *******//
+
+    randomDialBtn.onclick = function(event) {
+        dialRandomCall();
+    };
 
     registerBtn.onclick = function(event) {
         if(userAgent.isRegistered()) {

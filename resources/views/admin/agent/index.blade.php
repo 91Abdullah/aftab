@@ -112,6 +112,7 @@
         let wss_socket_port = "{{ \App\Setting::where('key', 'wss_socket_port')->first()->value }}";
         let server_address = "{{ \App\Setting::where('key', 'server_address')->first()->value }}";
         let auto_answer = "{{ \App\Setting::where('key', 'auto_answer')->first()->value }}";
+        let random_url = "{{ route('agent.random') }}";
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     <script src="{{ asset('js/sip.js') }}" defer></script>

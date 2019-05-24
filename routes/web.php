@@ -55,6 +55,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'can:
 
 Route::group(['middleware' => 'can:agent-access', 'prefix' => 'agent', 'namespace' => 'Agent'], function () {
     Route::get('/', 'IndexController@index')->name('agent.index');
+    Route::get('/randomNumber', 'IndexController@getGenNumber')->name('agent.random');
 });
 
 Route::group(['middleware' => 'can:report-access', 'prefix' => 'reports', 'namespace' => 'Report'], function () {
