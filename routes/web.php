@@ -18,9 +18,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/agent1', 'AgentController@index')->name('agent');
-Route::get('/test', 'AgentController@test')->name('test');
+//Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/agent1', 'AgentController@index')->name('agent');
+//Route::get('/test', 'AgentController@test')->name('test');
 
 // Login
 
