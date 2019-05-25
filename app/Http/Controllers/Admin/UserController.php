@@ -84,60 +84,64 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->has('reporter')) {
-            $request->validate([
-                'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                'password' => ['required', 'string', 'min:8', 'confirmed'],
-            ]);
+        if(Role::where('name', 'agent')->first()->users()->count() <= 10) {
+            if($request->has('reporter')) {
+                $request->validate([
+                    'name' => ['required', 'string', 'max:255'],
+                    'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                    'password' => ['required', 'string', 'min:8', 'confirmed'],
+                ]);
+                event(new Registered($user = $this->make($request->all())));
+                $role = Role::where('name', 'reporter')->first();
+                $user->roles()->attach($role->id);
+                return redirect()->route('user.reporting')->with('status', 'Reporting User created.');
+            }
+
+            $this->validator($request->all())->validate();
             event(new Registered($user = $this->make($request->all())));
-            $role = Role::where('name', 'reporter')->first();
+
+            $role = Role::where('name', 'agent')->first();
             $user->roles()->attach($role->id);
-            return redirect()->route('user.reporting')->with('status', 'Reporting User created.');
+
+            DB::table('ps_aors')->insert([
+                'id' => $request->agent_id,
+                'max_contacts' => $this->max_contact,
+                'remove_existing' => $this->remove_existing
+            ]);
+            DB::table('ps_auths')->insert([
+                'id' => $request->agent_id,
+                'auth_type' => $this->auth_type,
+                'password' => $request->agent_password,
+                'username' => $request->agent_id
+            ]);
+            DB::table('ps_endpoints')->insert([
+                'id' => $request->agent_id,
+                'transport' => $this->transport,
+                'aors' => $request->agent_id,
+                'auth' => $request->agent_id,
+                'context' => $this->context,
+                'disallow' => $this->disallow,
+                'allow' => $this->allow,
+                'dtls_auto_generate_cert' => $this->dtls_auto_generate_cert,
+                'webrtc' => $this->webrtc,
+                'use_avpf' => $this->use_avpf,
+                'media_encryption' => $this->media_encryption,
+                'dtls_verify' => $this->dtls_verify,
+                'dtls_setup' => $this->dtls_setup,
+                'ice_support' => $this->ice_support,
+                'media_use_received_transport' => $this->media_use_received_transport,
+                'rtcp_mux' => $this->rtcp_mux
+            ]);
+
+            DB::table('endpoint_user')->insert([
+                'ps_endpoint_id' => $request->agent_id,
+                'user_id' => $user->id
+            ]);
+
+            return redirect()->route('user.index')->with('status', 'Agent has been created.');
+        } else {
+            abort(503);
         }
-
-        $this->validator($request->all())->validate();
-        event(new Registered($user = $this->make($request->all())));
-
-        $role = Role::where('name', 'agent')->first();
-        $user->roles()->attach($role->id);
-
-        DB::table('ps_aors')->insert([
-            'id' => $request->agent_id,
-            'max_contacts' => $this->max_contact,
-            'remove_existing' => $this->remove_existing
-        ]);
-        DB::table('ps_auths')->insert([
-            'id' => $request->agent_id,
-            'auth_type' => $this->auth_type,
-            'password' => $request->agent_password,
-            'username' => $request->agent_id
-        ]);
-        DB::table('ps_endpoints')->insert([
-            'id' => $request->agent_id,
-            'transport' => $this->transport,
-            'aors' => $request->agent_id,
-            'auth' => $request->agent_id,
-            'context' => $this->context,
-            'disallow' => $this->disallow,
-            'allow' => $this->allow,
-            'dtls_auto_generate_cert' => $this->dtls_auto_generate_cert,
-            'webrtc' => $this->webrtc,
-            'use_avpf' => $this->use_avpf,
-            'media_encryption' => $this->media_encryption,
-            'dtls_verify' => $this->dtls_verify,
-            'dtls_setup' => $this->dtls_setup,
-            'ice_support' => $this->ice_support,
-            'media_use_received_transport' => $this->media_use_received_transport,
-            'rtcp_mux' => $this->rtcp_mux
-        ]);
-
-        DB::table('endpoint_user')->insert([
-            'ps_endpoint_id' => $request->agent_id,
-            'user_id' => $user->id
-        ]);
-
-        return redirect()->route('user.index')->with('status', 'Agent has been created.');
     }
 
     /**
