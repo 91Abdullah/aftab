@@ -234,6 +234,11 @@ $(document).ready(function () {
 
     }
 
+    function changeCallDialingStatus()
+    {
+        callStatus.innerText = "DIALING...";
+    }
+
     function changeCallTerminatedState()
     {
         inCallBtns.style.display = "none";
@@ -461,6 +466,7 @@ $(document).ready(function () {
     //***** End UA Events *******//
 
     randomDialBtn.onclick = function(event) {
+        changeCallDialingStatus();
         dialRandomCall();
     };
 
@@ -521,6 +527,7 @@ $(document).ready(function () {
     };
 
     manualDialBtn.onclick = function (event) {
+        changeCallDialingStatus();
         dialExternalCall();
     };
 
