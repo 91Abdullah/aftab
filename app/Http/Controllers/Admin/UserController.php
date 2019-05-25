@@ -185,6 +185,7 @@ class UserController extends Controller
         $user->auths()->update(['id' => $request->agent_id, 'username' => $request->agent_id, 'password' => $request->agent_password]);
         $user->aors()->update(['id' => $request->agent_id]);
         $user->endpoints()->update(['id' => $request->agent_id, 'aors' => $request->agent_id, 'auth' => $request->agent_id]);
+        DB::table('endpoint_user')->where('user_id', $user->id)->update(['ps_endpoint_id' => $request->agent_id]);
         return redirect()->route('user.index');
     }
 
