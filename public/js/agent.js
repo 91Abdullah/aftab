@@ -138,7 +138,7 @@ $(document).ready(function () {
     function resetTimer() {
         mins =0;
         seconds =0;
-        $('#hours','#mins').html('00:');
+        $('#mins').html('00:');
         $('#seconds').html('00');
     }
 
@@ -312,6 +312,9 @@ $(document).ready(function () {
                     $.notify("You can't dial an empty or invalid number.", "error");
                     return;
                 }
+
+                $.notify("Number selected from database: " + number, "info");
+                inputNumber.value = number;
 
                 let session = userAgent.invite(number + '@' + server_address, {
                     sessionDescriptionHandlerOptions: {

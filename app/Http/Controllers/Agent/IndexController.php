@@ -21,7 +21,7 @@ class IndexController extends Controller
         $number = $currentNumber->number;
         $movedNumber = Number::create([
             'number' => $currentNumber->number,
-            'status' => true
+            'status' => 1
         ]);
         $currentNumber->delete();
 
