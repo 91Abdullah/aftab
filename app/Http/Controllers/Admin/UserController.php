@@ -84,7 +84,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        if(Role::where('name', 'agent')->first()->users()->count() <= 10) {
+        if(Role::where('name', 'agent')->first()->users()->count() <= 20) {
             if($request->has('reporter')) {
                 $request->validate([
                     'name' => ['required', 'string', 'max:255'],
