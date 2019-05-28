@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Agent;
 
+use App\Cdr;
 use App\GenNum;
 use App\Number;
 use App\Setting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class IndexController extends Controller
 {
@@ -26,5 +28,10 @@ class IndexController extends Controller
         $currentNumber->delete();
 
         return response()->json($number, 200);
+    }
+
+    public function getRecentCalls()
+    {
+        return Cdr::where('disposition', 'ANSWERED')->latest('start')->take(5)->get(['src', 'dst', 'duration', 'disposition', 'recordingfile'])->toJson(200);
     }
 }

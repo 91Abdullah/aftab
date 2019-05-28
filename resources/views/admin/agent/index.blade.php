@@ -92,11 +92,57 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">STATS</div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-header-title">
+                                Last 5 Calls
+                            </span>
+                        </div>
 
-                <div class="card-body">
+                        <div class="card-body">
+                            <div class="table-responsive" style="height: 200px;">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">src</th>
+                                        <th scope="col">dst</th>
+                                        <th scope="col">duration</th>
+                                        <th scope="col">disposition</th>
+                                        <th scope="col">recording</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach(\App\Cdr::where('disposition', 'ANSWERED')->latest('start')->take(5)->get(['src', 'dst', 'duration', 'disposition', 'recordingfile']) as $item)
+                                        <tr>
+                                            <td>{{ $item->src }}</td>
+                                            <td>{{ $item->dst }}</td>
+                                            <td>{{ $item->duration }}</td>
+                                            <td>{{ $item->disposition }}</td>
+                                            <td></td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-header-title">
+                                Messages
+                            </span>
+                        </div>
 
+                        <div class="card-body">
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

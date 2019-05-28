@@ -46,12 +46,44 @@ class GenerateNumbers extends Command
         $rustart = getrusage();
 
         $total_numbers = $this->argument('count');
-        $randomNumbers  = [];
-
         $genCount = GenNum::count();
-
+        $minValueToMaintain = $total_numbers;
         $total_numbers = $total_numbers - $genCount;
 
+
+        // Check count again
+        do {
+            $finalNums = $this->generateUniqueNumbers($total_numbers);
+            $totalNums = Number::where('created_at', '>', Carbon::now()->subMonths(6))->get(['number'])->toArray();
+            $uniqueNums = $finalNums->whereNotIn('number', $totalNums);
+        } while ($uniqueNums->count() + $genCount < $minValueToMaintain);
+
+        $ru = getrusage();
+
+        $endTime = Carbon::now();
+        $proc = Process::create([
+            "desc" => "This process used " . $this->rutime($ru, $rustart, "utime") . " ms for its computations. It spent " . $this->rutime($ru, $rustart, "stime") . " ms in system calls",
+            "starttime" => $startTime,
+            "endtime" => $endTime,
+            "execution_time" => $this->rutime($ru, $rustart, "utime"),
+            "call_time" => $this->rutime($ru, $rustart, "stime"),
+            "generated_nums" => $uniqueNums->count(),
+            "db_nums" => count($totalNums)
+        ]);
+
+        $genNums = GenNum::insert($uniqueNums->toArray());
+
+    }
+
+    function rutime($ru, $rus, $index)
+    {
+        return ($ru["ru_$index.tv_sec"]*1000 + intval($ru["ru_$index.tv_usec"]/1000))
+            -  ($rus["ru_$index.tv_sec"]*1000 + intval($rus["ru_$index.tv_usec"]/1000));
+    }
+
+    function generateUniqueNumbers(int $total_numbers)
+    {
+        $randomNumbers  = [];
         for($i = 0; $i < $total_numbers; $i++) {
             /*$randomNumbers[$i] = [
                 "number" => "03" . mt_rand(0, 4) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9) . mt_rand(0, 9),
@@ -72,7 +104,7 @@ class GenerateNumbers extends Command
                     $levelTwo = mt_rand(0, 9);
                     break;
                 case 32:
-                    $levelTwo = mt_rand(0, 6);
+                    $levelTwo = mt_rand(0, 4);
                     break;
                 case 33:
                     $levelTwo = mt_rand(0, 8);
@@ -84,7 +116,7 @@ class GenerateNumbers extends Command
                     break;
             }
 
-            $levelThree = $num_str = sprintf("%07d", mt_rand(1, 9999999));
+            $levelThree = $num_str = sprintf("%07d", mt_rand(0, 9999999));
 
             $randomNumbers[$i] = [
                 "number" => $firstDigit . $levelOne . $levelTwo . $levelThree,
@@ -93,37 +125,8 @@ class GenerateNumbers extends Command
             ];
         }
 
-        $finalNums = collect($randomNumbers)->unique("number");
 
-        //return dd($finalNums->toArray());
-        //Number::insert($finalNums->toArray());
-        //return dd(Number::all(['number'])->toArray());
 
-        $totalNums = Number::all(['number'])->toArray();
-
-        $uniqueNums = $finalNums->whereNotIn('number', $totalNums);
-
-        $ru = getrusage();
-
-        $endTime = Carbon::now();
-
-        $proc = Process::create([
-            "desc" => "This process used " . $this->rutime($ru, $rustart, "utime") . " ms for its computations. It spent " . $this->rutime($ru, $rustart, "stime") . " ms in system calls",
-            "starttime" => $startTime,
-            "endtime" => $endTime,
-            "execution_time" => $this->rutime($ru, $rustart, "utime"),
-            "call_time" => $this->rutime($ru, $rustart, "stime"),
-            "generated_nums" => $uniqueNums->count(),
-            "db_nums" => count($totalNums)
-        ]);
-
-        $genNums = GenNum::insert($uniqueNums->toArray());
-
-    }
-
-    function rutime($ru, $rus, $index)
-    {
-        return ($ru["ru_$index.tv_sec"]*1000 + intval($ru["ru_$index.tv_usec"]/1000))
-            -  ($rus["ru_$index.tv_sec"]*1000 + intval($rus["ru_$index.tv_usec"]/1000));
+        return $finalNums = collect($randomNumbers)->unique("number");
     }
 }
