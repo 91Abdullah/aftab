@@ -58,8 +58,8 @@ class CdrController extends Controller
         $path = explode("_", $file);
         try {
             $path[1] = Str::length((string)$path[1]) == 1 ? "0$path[1]" : $path[1];
-            $route = Storage::disk('recordings')->url("$path[0]/$path[1]/$path[2]/$path[3]");
-            return '<audio><source src=' . $route . ' type="audio/wav"></audio>';
+            $route = Storage::disk('recordings')->download("$path[0]/$path[1]/$path[2]/$path[3]");
+            return "<a class='btn btn-danger' href=$route>Download</a>";
         } catch (FileNotFoundException $e) {
             return $e->getMessage();
         } catch (Exception $e) {

@@ -57,7 +57,7 @@ return [
 
         'recordings' => [
             'driver' => 'local',
-            'root' => storage_path('monitor'),
+            'root' => '/var/spool/asterisk/monitor',
             'visibility' => 'private'
         ],
 
