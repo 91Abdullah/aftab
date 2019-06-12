@@ -33,12 +33,7 @@ class CdrController extends Controller
         //dd($cdrs);
         return DataTables::of($cdrs)
             ->editColumn('recordingfile', function (Cdr $cdr) {
-                $date = Carbon::parse($cdr->start);
-                $year = $date->year;
-                $month = $date->month;
-                $day = $date->day;
-                $file_path = "$year/$month/$day/$cdr->recordingfile";
-                return '<audio><source src="' . route('cdr.play', ['file' => $file_path]) . '" type="audio/wav"></audio>';
+                return '<audio><source src="' . route('cdr.play', ['file' => $cdr]) . '" type="audio/wav"></audio>';
             })
             ->rawColumns(['recordingfile'])
             ->toJson();
@@ -46,6 +41,11 @@ class CdrController extends Controller
 
     public function playFile($file)
     {
-        return Storage::disk('recordings')->url($file);
+        $date = Carbon::parse($file->start);
+        $year = $date->year;
+        $month = $date->month;
+        $day = $date->day;
+        $file_path = "$year/$month/$day/$file->recordingfile";
+        return Storage::disk('recordings')->download($file_path);
     }
 }
