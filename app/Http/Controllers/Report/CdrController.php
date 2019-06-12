@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use League\Flysystem\FileNotFoundException;
 use Yajra\DataTables\Facades\DataTables;
 
 class CdrController extends Controller
@@ -33,12 +35,16 @@ class CdrController extends Controller
         //dd($cdrs);
         return DataTables::of($cdrs)
             ->editColumn('recordingfile', function (Cdr $cdr) {
-                $date = Carbon::parse($cdr->start);
-                $year = $date->year;
-                $month = $date->month;
-                $day = $date->day;
-                $file_path = $year . "_" . $month . "_" . $day . "_" . $cdr->recordingfile;
-                return '<audio><source src="' . route('cdr.play', ['file' => $file_path]) . '" type="audio/wav"></audio>';
+                if($cdr->disposition == "ANSWERED") {
+                    $date = Carbon::parse($cdr->start);
+                    $year = $date->year;
+                    $month = $date->month;
+                    $day = strlen($date->day) == 1 ? "0$date->day" : $date->day;
+                    $file_path = $year . "_" . $month . "_" . $day . "_" . $cdr->recordingfile;
+                    $route = $this->playFile($file_path);
+                    return $route;
+                } else
+                    return "";
             })
             ->rawColumns(['recordingfile'])
             ->toJson();
@@ -46,7 +52,17 @@ class CdrController extends Controller
 
     public function playFile($file)
     {
-        $path = explode($file, "_");
-        return Storage::disk('recordings')->download("$path[0]/$path[1]/$path[2]/$path[3]");
+        if($file == "" || !Str::contains($file, ['out', 'in'])) {
+            return false;
+        }
+        $path = explode("_", $file);
+        try {
+            $route = Storage::disk('recordings')->download("$path[0]/$path[1]/$path[2]/$path[3]");
+            return '<audio><source src=' . $route . ' type="audio/wav"></audio>';
+        } catch (FileNotFoundException $e) {
+            return $e->getMessage();
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
 }
