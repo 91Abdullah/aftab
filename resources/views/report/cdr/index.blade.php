@@ -121,9 +121,54 @@
                         {data: 'recordingfile', name: 'recordingfile'}
                     ],
                     dom: 'Bfrtip',
-                    buttons: [
-                        'copy', 'excel', 'pdf', 'print', 'colvis'
-                    ]
+                    buttons: {
+                        dom: {
+                            button: {
+                                className: 'btn'
+                            },
+                            container: {
+                                className: ''
+                            }
+                        },
+                        buttons: [
+                            {
+                                extend:    'copyHtml5',
+                                text:      '<i class="fas fa-file"></i> Copy',
+                                titleAttr: 'Copy',
+                                className: 'btn btn-success'
+                            },
+                            {
+                                extend:    'excelHtml5',
+                                text:      '<i class="fas fa-file-excel"></i> Excel',
+                                titleAttr: 'Excel',
+                                className: 'btn btn-success'
+                            },
+                            {
+                                extend:    'csvHtml5',
+                                text:      '<i class="fas fa-sticky-note"></i> CSV',
+                                titleAttr: 'CSV',
+                                className: 'btn btn-success'
+                            },
+                            {
+                                extend:    'pdfHtml5',
+                                text:      '<i class="fas fa-file-pdf"></i> PDF',
+                                titleAttr: 'PDF',
+                                className: 'btn btn-success'
+                            },
+                            {
+                                extend: 'print',
+                                text: '<i class="fas fa-print"></i> Print',
+                                titleAttr: 'PRINT',
+                                className: 'btn btn-success'
+                            },
+                            {
+                                extend: 'colvis',
+                                text: '<i class="fas fa-columns"></i> Column Visibility',
+                                titleAttr: 'COLVIS',
+                                className: 'btn btn-success'
+                            }
+                        ]
+                    }
                 });
             }
         })

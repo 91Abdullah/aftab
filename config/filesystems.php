@@ -73,7 +73,24 @@ return [
         'monitor' => [
             'driver' => 'local',
             'root' => storage_path('app'),
-        ]
+        ],
+
+        'sftp' => [
+            'driver' => 'sftp',
+            'host' => '10.0.0.19',
+            'username' => 'root',
+            'password' => 'root12',
+            'root' => '/var/spool/asterisk/monitor'
+
+            // Settings for SSH key based authentication...
+            // 'privateKey' => '/path/to/privateKey',
+            // 'password' => 'encryption-password',
+
+            // Optional SFTP Settings...
+            // 'port' => 22,
+            // 'root' => '',
+            // 'timeout' => 30,
+        ],
 
     ],
 
