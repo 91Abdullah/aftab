@@ -39,7 +39,7 @@ class CdrController extends Controller
                     $date = Carbon::parse($cdr->start);
                     $year = $date->year;
                     $month = $date->month;
-                    $day = strlen($date->day) == 1 ? "0$date->day" : $date->day;
+                    $day = $date->day;
                     $file_path = $year . "_" . $month . "_" . $day . "_" . $cdr->recordingfile;
                     $route = $this->playFile($file_path);
                     return $route;
@@ -57,6 +57,7 @@ class CdrController extends Controller
         }
         $path = explode("_", $file);
         try {
+            $path[1] = Str::length((string)$path[1]) == 1 ? "0$path[1]" : $path[1];
             $route = Storage::disk('recordings')->download("$path[0]/$path[1]/$path[2]/$path[3]");
             return '<audio><source src=' . $route . ' type="audio/wav"></audio>';
         } catch (FileNotFoundException $e) {
