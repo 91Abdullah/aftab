@@ -55,7 +55,7 @@
                             <div id="submenu-4" class="collapse submenu" style="">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#">Call Detail Report</a>
+                                        <a class="nav-link" href="{{ route('cdr.index') }}">Call Detail Report</a>
                                     </li>
                                 </ul>
                             </div>

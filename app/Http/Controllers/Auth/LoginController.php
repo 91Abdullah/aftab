@@ -55,7 +55,7 @@ class LoginController extends Controller
             case 'admin':
                 return route('admin.index');
             case 'reporter':
-                return route('reporter.index');
+                return route('report.index');
                 break;
             default:
                 return url('/');

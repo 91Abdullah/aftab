@@ -39,5 +39,10 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('report-access', function (User $user) {
             return $user->roles()->get()->contains('name', 'reporter');
         });
+
+        Gate::define('access-both', function (User $user) {
+            return $user->roles()->get()->contains('name', 'admin')
+                || $user->roles()->get()->contains('name', 'reporter');
+        });
     }
 }

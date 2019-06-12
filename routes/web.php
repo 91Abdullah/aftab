@@ -59,6 +59,14 @@ Route::group(['middleware' => 'can:agent-access', 'prefix' => 'agent', 'namespac
     Route::get('/getRecentCalls', 'IndexController@getRecentCalls')->name('agent.recent');
 });
 
-Route::group(['middleware' => 'can:report-access', 'prefix' => 'reports', 'namespace' => 'Report'], function () {
+Route::group(['middleware' => 'can:access-both', 'prefix' => 'reports', 'namespace' => 'Report'], function () {
     Route::get('/', 'IndexController@index')->name('report.index');
+
+    // Cdr
+
+    Route::group(['prefix' => 'cdr'], function () {
+        Route::view('/', 'report.cdr.index')->name('cdr.index');
+        Route::get('/getReport', 'CdrController@getReport')->name('cdr.report');
+        Route::get('/playRecording/{file}', 'CdrController@playFile')->name('cdr.play');
+    });
 });
