@@ -41,8 +41,7 @@ class CdrController extends Controller
                     $month = $date->month;
                     $day = $date->day;
                     $file_path = $year . "_" . $month . "_" . $day . "_" . $cdr->recordingfile;
-                    $route = $this->playFile($file_path);
-                    return $route;
+                    return "<a class='btn btn-danger' href='" . route('cdr.play', ['file' => $file_path]) . "'>Download</a>";
                 } else
                     return "";
             })
@@ -59,7 +58,7 @@ class CdrController extends Controller
         try {
             $path[1] = Str::length((string)$path[1]) == 1 ? "0$path[1]" : $path[1];
             $route = Storage::disk('recordings')->download("$path[0]/$path[1]/$path[2]/$path[3]");
-            return "<a class='btn btn-danger' href=$route>Download</a>";
+            return $route;
         } catch (FileNotFoundException $e) {
             return $e->getMessage();
         } catch (Exception $e) {
