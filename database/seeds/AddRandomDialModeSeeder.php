@@ -15,7 +15,7 @@ class AddRandomDialModeSeeder extends Seeder
     {
         DB::table('settings')->insert([
             'key' => 'random_mode',
-            'value' => se,
+            'value' => false,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
