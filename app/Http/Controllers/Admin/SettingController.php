@@ -24,7 +24,8 @@ class SettingController extends Controller
             'server_address' => 'required','ipv4',
             'wss_comm_port' => 'required','digits:4',
             'wss_socket_port' => 'required','digits:4',
-            'auto_answer' => 'nullable','in:yes,no'
+            'auto_answer' => 'nullable','in:yes,no',
+            'random_mode' => 'required','boolean'
         ]);
 
         //return dd($request->all());

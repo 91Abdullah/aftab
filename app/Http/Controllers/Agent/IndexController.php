@@ -14,7 +14,8 @@ class IndexController extends Controller
 {
     public function index()
     {
-        return view('admin.agent.index');
+        $random_mode = Setting::where('key', 'random_mode')->first()->value;
+        return view('admin.agent.index', compact('random_mode'));
     }
 
     public function getGenNumber()

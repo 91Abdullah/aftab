@@ -92,6 +92,21 @@
             </div>
         </div>
         <div class="col-md-4">
+            @if($random_mode == "true")
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <label class="col-form-label text-sm-right">Random Mode</label>
+                                <div class="switch-button switch-button-success">
+                                    <input type="checkbox" name="randomMode" id="randomMode"><span>
+                                <label for="randomMode"></label></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
@@ -130,21 +145,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <span class="card-header-title">
-                                Messages
-                            </span>
-                        </div>
 
-                        <div class="card-body">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -158,6 +159,7 @@
         let wss_socket_port = "{{ \App\Setting::where('key', 'wss_socket_port')->first()->value }}";
         let server_address = "{{ \App\Setting::where('key', 'server_address')->first()->value }}";
         let auto_answer = "{{ \App\Setting::where('key', 'auto_answer')->first()->value }}";
+        let random_mode = "{{ \App\Setting::where('key', 'random_mode')->first()->value }}";
         let random_url = "{{ route('agent.random') }}";
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>

@@ -30,10 +30,13 @@ class CdrController extends Controller
         $start = Carbon::parse($request->start_date)->format('Y-m-d ');
         $end = Carbon::parse($request->end_date)->format('Y-m-d');
 
-        $cdrs = Cdr::whereBetween(DB::raw('date(start)'), [$start, $end])->get(['src', 'dst', 'start', 'answer', 'end', 'duration', 'disposition', 'recordingfile']);
+        $cdrs = Cdr::whereBetween(DB::raw('date(start)'), [$start, $end])->get(['src', 'dst', 'clid', 'start', 'answer', 'end', 'duration', 'disposition', 'recordingfile']);
 
-        //dd($cdrs);
         return DataTables::of($cdrs)
+            ->editColumn('clid', function (Cdr $cdr) {
+                preg_match('/"([^"]+)"/', $cdr->clid, $m);
+                return $m[1];
+            })
             ->editColumn('recordingfile', function (Cdr $cdr) {
                 if($cdr->disposition == "ANSWERED") {
                     $date = Carbon::parse($cdr->start);
@@ -57,6 +60,7 @@ class CdrController extends Controller
         $path = explode("_", $file);
         try {
             $path[1] = Str::length((string)$path[1]) == 1 ? "0$path[1]" : $path[1];
+            $path[2] = Str::length((string)$path[2]) == 1 ? "0$path[2]" : $path[2];
             $route = Storage::disk('recordings')->download("$path[0]/$path[1]/$path[2]/$path[3]");
             return $route;
         } catch (FileNotFoundException $e) {

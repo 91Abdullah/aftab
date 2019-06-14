@@ -53,8 +53,8 @@
                 <table id="myTable" class="table table-striped first">
                     <thead>
                     <tr>
-                        <th>Source</th>
                         <th>Dest</th>
+                        <th>Agent</th>
                         <th>Start</th>
                         <th>Answer</th>
                         <th>End</th>
@@ -111,8 +111,8 @@
                         }
                     },
                     columns: [
-                        {data: 'src', name: 'src'},
                         {data: 'dst', name: 'dst'},
+                        {data: 'clid', name: 'clid'},
                         {data: 'start', name: 'start'},
                         {data: 'answer', name: 'answer'},
                         {data: 'end', name: 'end'},

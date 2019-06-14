@@ -1,6 +1,9 @@
 
 
 $(document).ready(function () {
+
+    let randomMode = document.getElementById('randomMode');
+
     let muteBtn = document.getElementById('muteBtn');
     let holdBtn = document.getElementById('holdBtn');
     let holdNotif = document.getElementById('holdNotif');
@@ -30,6 +33,7 @@ $(document).ready(function () {
     let mins = 0;
     let seconds = 0;
     let timex = undefined;
+    let random_mode = false;
 
     let currentSession = undefined;
 
@@ -71,8 +75,34 @@ $(document).ready(function () {
 
     // Functions
 
-    function incomingNotif(session) {
+    function randomModeChange(event) {
+        if(event.target.checked) {
+            manualDialBtn.style.display = "none";
+            listDialBtn.style.display = "none";
+            randomDialBtn.style.display = "none";
+            inputNumber.disabled = true;
+            startRandomMode();
+        } else {
+            manualDialBtn.style.display = "inline-block";
+            listDialBtn.style.display = "inline-block";
+            randomDialBtn.style.display = "inline-block";
+            inputNumber.disabled = false;
+            stopRandomMode();
+        }
+    }
 
+    function startRandomMode() {
+        random_mode = true;
+        $.notify("Starting Random dialing mode...", "success");
+        dialRandomCall();
+    }
+
+    function stopRandomMode() {
+        random_mode = false;
+        $.notify("Stopped Random dialing mode...", "danger");
+    }
+
+    function incomingNotif(session) {
         //console.log(session);
         Swal.fire({
             title: 'You have an incoming call',
@@ -362,6 +392,9 @@ $(document).ready(function () {
 
                 session.on('terminated', () => {
                     changeCallTerminatedState();
+                    if(random_mode && random_mode === true) {
+                        dialRandomCall();
+                    }
                 });
 
                 session.on('bye', (request) => {
@@ -464,6 +497,10 @@ $(document).ready(function () {
     });
 
     //***** End UA Events *******//
+
+    randomMode.onchange = function(event) {
+        randomModeChange(event);
+    };
 
     randomDialBtn.onclick = function(event) {
         changeCallDialingStatus();

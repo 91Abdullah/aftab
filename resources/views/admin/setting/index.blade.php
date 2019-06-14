@@ -29,7 +29,7 @@
                 </div>
 
             @endforeach
-            {!! Form::button('<i class="far fa-edit"></i> Create', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
+            {!! Form::button('<i class="far fa-edit"></i> Update', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
             {!! Form::close() !!}
         </div>
     </div>
