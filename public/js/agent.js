@@ -3,6 +3,8 @@
 $(document).ready(function () {
 
     let randomMode = document.getElementById('randomMode');
+    let scheduleCall = document.getElementById('scheduleCall');
+    let scheduleTable = document.getElementById('scheduleTable');
 
     let muteBtn = document.getElementById('muteBtn');
     let holdBtn = document.getElementById('holdBtn');
@@ -36,6 +38,11 @@ $(document).ready(function () {
     let random_mode = false;
 
     let currentSession = undefined;
+    let currentNumber = "";
+
+    // Set error mode
+
+    $.fn.dataTable.ext.errMode = 'none';
 
     // SIP Status
 
@@ -73,7 +80,98 @@ $(document).ready(function () {
     //startTimer();
     //startUserAgent();
 
+    // Schedule Calls
+
+    let table = $('#scheduleTable').DataTable({
+        processsing: true,
+        serverSide: true,
+        ajax: get_calls,
+        destroy: true,
+        searching: false,
+        paging: false,
+        columns: [
+            {data: 'number'},
+            {data: 'status'},
+            {data: 'schedule_time'},
+            {data: 'updated_at'},
+        ]
+    })
+        .on('error.dt', function (e, settings, helpPage, message) {
+            $.notify(message, "error");
+        });
+
+    let cdrTable = $('#cdrTable').DataTable({
+        processsing: true,
+        serverSide: true,
+        ajax: {
+            url: recent_calls,
+            data: {
+                user_id: authUser
+            }
+        },
+        destroy: true,
+        searching: false,
+        paging: false,
+        columns: [
+            {data: 'dst'},
+            {data: 'clid'},
+            {data: 'start'},
+            {data: 'answer'},
+            {data: 'end'},
+            {data: 'duration'},
+            {data: 'disposition'},
+        ]
+    });
+
+    setInterval(tableReload, 10000);
+
     // Functions
+
+    function tableReload() {
+        table.ajax.reload();
+        cdrTable.ajax.reload();
+    }
+
+    async function scheduleThisCall() {
+
+        if(currentSession === undefined || inputNumber.value === "") {
+            $.notify("You can't schedule an empty number.", "error");
+            return;
+        }
+
+        const {value: formValues} = await Swal.fire({
+            title: 'Schedule This Call',
+            html: '<input id="datepicker" class="form-control" type="text">',
+            showConfirmButton: true,
+            customClass: 'swal2-overflow',
+            preConfirm: () => {
+                return document.getElementById('datepicker').value;
+            },
+            onOpen: () => {
+                let config = {
+                    enableTime: true,
+                    dateFormat: "Y-m-d H:i",
+                };
+                $('#datepicker').flatpickr(config);
+            }
+        });
+
+        if (formValues) {
+            Swal.fire(JSON.stringify(formValues));
+            axios.post(schedule_call, {
+                schedule_time: formValues,
+                user_id: user_id,
+                number: inputNumber.value
+            })
+            .then((response) => {
+                $.notify(response.data.success, "info");
+                tableReload();
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        }
+    }
 
     function randomModeChange(event) {
         if(event.target.checked) {
@@ -497,6 +595,10 @@ $(document).ready(function () {
     });
 
     //***** End UA Events *******//
+
+    scheduleCall.onclick = function(event) {
+        scheduleThisCall();
+    };
 
     randomMode.onchange = function(event) {
         randomModeChange(event);

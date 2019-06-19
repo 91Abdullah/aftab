@@ -57,6 +57,8 @@ Route::group(['middleware' => 'can:agent-access', 'prefix' => 'agent', 'namespac
     Route::get('/', 'IndexController@index')->name('agent.index');
     Route::get('/randomNumber', 'IndexController@getGenNumber')->name('agent.random');
     Route::get('/getRecentCalls', 'IndexController@getRecentCalls')->name('agent.recent');
+    Route::post('/scheduleCall', 'IndexController@scheduleCall')->name('agent.schedule');
+    Route::get('/getScheduledCall', 'IndexController@getScheduledCallsTable')->name('agent.get-calls');
 });
 
 Route::group(['middleware' => 'can:access-both', 'prefix' => 'reports', 'namespace' => 'Report'], function () {

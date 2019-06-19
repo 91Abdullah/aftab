@@ -7,6 +7,8 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.18/b-1.5.6/b-colvis-1.5.6/b-html5-1.5.6/b-print-1.5.6/datatables.min.css"/>
 @endpush
 
 @section('content')
@@ -23,7 +25,7 @@
 
                 <div class="card-body">
                     <form>
-                        <div class="col-6 offset-lg-3 mb-4">
+                        <div class="col-8 offset-lg-2 mb-4">
                             <div class="row text-center">
                                 <div class="col-6">
                                     <span id="phone-status" class="p-2 text-danger font-weight-bold">
@@ -110,6 +112,32 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
+                        <div class="card-header d-flex">
+                            <div class="card-header-title">
+                                Schedule A Call
+                            </div>
+                            <div class="toolbar ml-auto">
+                                <button title="Schedule this call" id="scheduleCall" class="btn btn-primary btn-xs"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <table class="table table-hover table-sm" id="scheduleTable">
+                                <thead>
+                                <tr>
+                                    <th>number</th>
+                                    <th>status</th>
+                                    <th>time</th>
+                                    <th>last called</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
                         <div class="card-header">
                             <span class="card-header-title">
                                 Last 5 Calls
@@ -118,27 +146,18 @@
 
                         <div class="card-body">
                             <div class="table-responsive" style="height: 200px;">
-                                <table class="table">
+                                <table class="table table-hover table-sm" id="cdrTable">
                                     <thead>
                                     <tr>
-                                        <th scope="col">src</th>
                                         <th scope="col">dst</th>
+                                        <th scope="col">agent</th>
+                                        <th scope="col">start</th>
+                                        <th scope="col">anwer</th>
+                                        <th scope="col">end</th>
                                         <th scope="col">duration</th>
                                         <th scope="col">disposition</th>
-                                        <th scope="col">recording</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
-                                    @foreach(\App\Cdr::where('disposition', 'ANSWERED')->latest('start')->take(5)->get(['src', 'dst', 'duration', 'disposition', 'recordingfile']) as $item)
-                                        <tr>
-                                            <td>{{ $item->src }}</td>
-                                            <td>{{ $item->dst }}</td>
-                                            <td>{{ $item->duration }}</td>
-                                            <td>{{ $item->disposition }}</td>
-                                            <td></td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -154,6 +173,7 @@
 @push('scripts')
     <script>
         let authUser = "{!! Auth::user()->auths()->first()->username !!}";
+        let user_id = "{!! Auth::user()->id !!}";
         let authPassword = "{!! Auth::user()->auths()->first()->password !!}";
         let wss_comm_port = "{{ \App\Setting::where('key', 'wss_comm_port')->first()->value }}";
         let wss_socket_port = "{{ \App\Setting::where('key', 'wss_socket_port')->first()->value }}";
@@ -161,8 +181,15 @@
         let auto_answer = "{{ \App\Setting::where('key', 'auto_answer')->first()->value }}";
         let random_mode = "{{ \App\Setting::where('key', 'random_mode')->first()->value }}";
         let random_url = "{{ route('agent.random') }}";
+        let recent_calls = "{{ route('agent.recent') }}";
+        let schedule_call = "{{ route('agent.schedule') }}";
+        let get_calls = "{{ route('agent.get-calls') }}";
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.18/b-1.5.6/b-colvis-1.5.6/b-html5-1.5.6/b-print-1.5.6/datatables.min.js"></script>
     <script src="{{ asset('js/sip.js') }}" defer></script>
     <script src="{{ asset('js/notify.js') }}" defer></script>
     <script src="{{ asset('js/agent.js') }}" defer></script>

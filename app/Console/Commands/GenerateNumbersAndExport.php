@@ -2,28 +2,29 @@
 
 namespace App\Console\Commands;
 
+use App\Exports\NumbersExport;
 use App\GenNum;
 use App\Number;
 use App\Process;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Facades\Excel;
 
-class GenerateNumbers extends Command
+class GenerateNumbersAndExport extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'generate:numbers {count}';
+    protected $signature = 'generate:export {count}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Commands to generate user defined numbers';
+    protected $description = 'Command to generate numbers and export';
 
     /**
      * Create a new command instance.
@@ -46,17 +47,9 @@ class GenerateNumbers extends Command
         $rustart = getrusage();
 
         $total_numbers = $this->argument('count');
-        $genCount = GenNum::count();
-        $minValueToMaintain = $total_numbers;
-        $total_numbers = $total_numbers - $genCount;
-
 
         // Check count again
-        do {
-            $finalNums = $this->generateUniqueNumbers($total_numbers);
-            $totalNums = Number::where('created_at', '>', Carbon::now()->subMonths(6))->get(['number'])->toArray();
-            $uniqueNums = $finalNums->whereNotIn('number', $totalNums);
-        } while ($uniqueNums->count() + $genCount < $minValueToMaintain);
+        $finalNums = $this->generateNumbers($total_numbers);
 
         $ru = getrusage();
 
@@ -67,11 +60,11 @@ class GenerateNumbers extends Command
             "endtime" => $endTime,
             "execution_time" => $this->rutime($ru, $rustart, "utime"),
             "call_time" => $this->rutime($ru, $rustart, "stime"),
-            "generated_nums" => $uniqueNums->count(),
-            "db_nums" => count($totalNums)
+            "generated_nums" => $finalNums->count(),
+            "db_nums" => 0
         ]);
 
-        $genNums = GenNum::insert($uniqueNums->toArray());
+        return Excel::store(new NumbersExport($finalNums), 'numbers.xlsx');
 
     }
 
@@ -81,7 +74,7 @@ class GenerateNumbers extends Command
             -  ($rus["ru_$index.tv_sec"]*1000 + intval($rus["ru_$index.tv_usec"]/1000));
     }
 
-    function generateUniqueNumbers(int $total_numbers)
+    private function generateNumbers(int $total_numbers)
     {
         $randomNumbers  = [];
         for($i = 0; $i < $total_numbers; $i++) {

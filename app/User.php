@@ -61,4 +61,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\PsAor', 'endpoint_user', 'user_id', 'ps_endpoint_id');
     }
+
+    public function schedule_calls()
+    {
+        return $this->hasMany('App\ScheduleCall', 'user_id', 'id');
+    }
 }
