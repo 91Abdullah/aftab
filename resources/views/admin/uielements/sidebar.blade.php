@@ -46,6 +46,19 @@
                             </div>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link {{ request()->is('admin/responseCode*') ? 'active' : '' }}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-4" aria-controls="submenu-4"><i class="fa fa-fw fa-list-alt"></i>Response Codes</a>
+                            <div id="submenu-4" class="collapse submenu" style="">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('responseCode.index') }}">List <span class="badge badge-secondary">New</span></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('responseCode.create') }}">Create</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('setting.index') }}" class="nav-link {{ request()->is('admin/setting*') ? 'active' : '' }}"><i class="fa fa-fw fa-cogs"></i>Settings</a>
                         </li>
                     @endcan

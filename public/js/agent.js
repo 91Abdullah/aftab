@@ -39,6 +39,7 @@ $(document).ready(function () {
 
     let currentSession = undefined;
     let currentNumber = "";
+    let callID = undefined;
 
     // Set error mode
 
@@ -378,6 +379,26 @@ $(document).ready(function () {
         resetTimer();
         enableAllDialBtns();
         Swal.close();
+
+        showCodeForm();
+    }
+
+    async function showCodeForm() {
+        const {value: code} = await Swal.fire({
+            title: 'Select field validation',
+            input: 'select',
+            inputOptions: JSON.parse(codes),
+            inputPlaceholder: 'Select a Code',
+            showCancelButton: false,
+            backdrop: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            allowEnterKey: false,
+        });
+
+        if(code) {
+            console.log(code);
+        }
     }
 
     function create_UUID(){
@@ -402,16 +423,17 @@ $(document).ready(function () {
                 constraints: {
                     audio: true,
                     video: false
-                }
+                },
+                extraHeaders: [
+                    'X-User-Field: ' + create_UUID()
+                ]
             },
-            extraHeaders: [
-                'X-User-Field: ' + create_UUID()
-            ]
         });
 
         console.log(session);
 
         currentSession = session;
+        callID = session.request.callId;
 
         session.on('trackAdded', function() {
             // We need to check the peer connection to determine which track was added

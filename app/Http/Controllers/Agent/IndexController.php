@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Agent;
 use App\Cdr;
 use App\GenNum;
 use App\Number;
+use App\ResponseCode;
 use App\ScheduleCall;
 use App\Setting;
 use App\User;
@@ -21,7 +22,8 @@ class IndexController extends Controller
     public function index()
     {
         $random_mode = Setting::where('key', 'random_mode')->first()->value;
-        return view('admin.agent.index', compact('random_mode'));
+        $responseCodes = ResponseCode::pluck('name', 'code');
+        return view('admin.agent.index', compact('random_mode', 'responseCodes'));
     }
 
     public function getScheduledCallsTable()

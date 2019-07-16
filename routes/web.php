@@ -41,6 +41,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'can:
     Route::get('setting', 'SettingController@index')->name('setting.index');
     Route::patch('setting', 'SettingController@update')->name('setting.update');
 
+    // Response Codes
+
+    Route::resource('responseCode', 'ResponseCodeController');
+
     // List CSV
 
     Route::resource('list', 'UploadListController');
