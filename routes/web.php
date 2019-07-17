@@ -43,7 +43,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'can:
 
     // Response Codes
 
-    Route::resource('responseCode', 'ResponseCodeController');
+    Route::resource('responseCode', 'ResponseCodeController')->except(['show']);
 
     // List CSV
 
@@ -63,6 +63,7 @@ Route::group(['middleware' => 'can:agent-access', 'prefix' => 'agent', 'namespac
     Route::get('/getRecentCalls', 'IndexController@getRecentCalls')->name('agent.recent');
     Route::post('/scheduleCall', 'IndexController@scheduleCall')->name('agent.schedule');
     Route::get('/getScheduledCall', 'IndexController@getScheduledCallsTable')->name('agent.get-calls');
+    Route::post('/saveResponse', 'IndexController@saveResponse')->name('agent.saveResponse');
 });
 
 Route::group(['middleware' => 'can:access-both', 'prefix' => 'reports', 'namespace' => 'Report'], function () {

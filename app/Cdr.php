@@ -10,4 +10,9 @@ class Cdr extends Model
     protected $casts = [
         'duration' => 'string'
     ];
+
+    public function response_codes()
+    {
+        return $this->belongsToMany('App\ResponseCode', 'cdr_response_codes', 'call_id', 'code', 'userfield', 'code');
+    }
 }

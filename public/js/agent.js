@@ -379,8 +379,6 @@ $(document).ready(function () {
         resetTimer();
         enableAllDialBtns();
         Swal.close();
-
-        showCodeForm();
     }
 
     async function showCodeForm() {
@@ -394,11 +392,25 @@ $(document).ready(function () {
             allowOutsideClick: false,
             allowEscapeKey: false,
             allowEnterKey: false,
+            showLoaderOnConfirm: true,
+            preConfirm: (code) => {
+                if(!code)
+                    return false;
+                axios
+                    .post(response_route, {
+                        _token: token,
+                        call_id: callID,
+                        code: code
+                    })
+                    .then((response) => {
+                        $.notify(response.data.success, "success");
+                    })
+                    .catch((error) => {
+                        $.notify(error, "error");
+                        //console.log(error);
+                    });
+            }
         });
-
-        if(code) {
-            console.log(code);
-        }
     }
 
     function create_UUID(){
@@ -463,6 +475,12 @@ $(document).ready(function () {
 
         session.on('terminated', () => {
             changeCallTerminatedState();
+            showCodeForm()
+                .finally(() => {
+                    if(random_mode && random_mode === true) {
+                        dialRandomCall();
+                    }
+                })
         });
 
         session.on('bye', (request) => {
@@ -496,6 +514,7 @@ $(document).ready(function () {
                 console.log(session);
 
                 currentSession = session;
+                callID = session.request.callId;
 
                 session.on('trackAdded', function() {
                     // We need to check the peer connection to determine which track was added
@@ -525,9 +544,13 @@ $(document).ready(function () {
 
                 session.on('terminated', () => {
                     changeCallTerminatedState();
-                    if(random_mode && random_mode === true) {
-                        dialRandomCall();
-                    }
+                    showCodeForm()
+                        .finally(() => {
+                            if(random_mode && random_mode === true) {
+                                dialRandomCall();
+                            }
+                        })
+
                 });
 
                 session.on('bye', (request) => {
@@ -625,6 +648,12 @@ $(document).ready(function () {
 
         session.on('terminated', () => {
             changeCallTerminatedState();
+            showCodeForm()
+                .finally(() => {
+                    if(random_mode && random_mode === true) {
+                        dialRandomCall();
+                    }
+                })
         });
 
     });

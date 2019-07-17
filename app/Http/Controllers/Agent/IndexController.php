@@ -29,7 +29,7 @@ class IndexController extends Controller
     public function getScheduledCallsTable()
     {
         $user = Auth::user();
-        return DataTables::collection($user->schedule_calls->take(5))
+        return DataTables::collection($user->schedule_calls()->orderBy('schedule_time', 'desc')->take(5)->get())
             ->editColumn('schedule_time', function (ScheduleCall $call) {
                 return $call->schedule_time->format("d-m-Y H:i:s");
             })
@@ -101,5 +101,23 @@ class IndexController extends Controller
         $user = User::findOrFail($user);
         $user->schedule_calls()->create($request->all());
         return response()->json(['success' => 'Schedule has been created.']);
+    }
+
+    public function saveResponse(Request $request)
+    {
+        if($request->ajax()) {
+            $callId = $request->call_id;
+            $code = $request->code;
+
+            $insert = DB::table('cdr_response_codes')->insert([
+                'call_id' => $callId,
+                'code' => $code
+            ]);
+
+            return response()->json(['success' => 'Response code has been dumped.']);
+        } else {
+            return response()->json(['error' => 'Invalid Request'], 400);
+        }
+
     }
 }
