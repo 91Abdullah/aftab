@@ -382,6 +382,9 @@ $(document).ready(function () {
     }
 
     async function showCodeForm() {
+        if(Object.keys(JSON.parse(codes)).length === 0) {
+            return;
+        }
         const {value: code} = await Swal.fire({
             title: 'Select field validation',
             input: 'select',
