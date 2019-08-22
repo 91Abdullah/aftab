@@ -11,6 +11,9 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 Route::get('/', function () {
     //return view('welcome');
     return view('landing.favison');
@@ -60,6 +63,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'can:
 Route::group(['middleware' => 'can:agent-access', 'prefix' => 'agent', 'namespace' => 'Agent'], function () {
     Route::get('/', 'IndexController@index')->name('agent.index');
     Route::get('/randomNumber', 'IndexController@getGenNumber')->name('agent.random');
+    Route::get('/listNumber', 'IndexController@getListNumber')->name('agent.list');
     Route::get('/getRecentCalls', 'IndexController@getRecentCalls')->name('agent.recent');
     Route::post('/scheduleCall', 'IndexController@scheduleCall')->name('agent.schedule');
     Route::get('/getScheduledCall', 'IndexController@getScheduledCallsTable')->name('agent.get-calls');
@@ -75,5 +79,15 @@ Route::group(['middleware' => 'can:access-both', 'prefix' => 'reports', 'namespa
         Route::view('/', 'report.cdr.index')->name('cdr.index');
         Route::get('/getReport', 'CdrController@getReport')->name('cdr.report');
         Route::get('/playRecording/{file}', 'CdrController@playFile')->name('cdr.play');
+    });
+
+    Route::group(['prefix' => 'login'], function () {
+        Route::view('/', 'report.login.index')->name('login.index');
+        Route::get('/getReport', 'LoginReportController@getReport')->name('login.report');
+    });
+
+    Route::group(['prefix' => 'code'], function () {
+        Route::get('/', 'ResponseCodeReportController@index')->name('code.index');
+        Route::get('/getReport', 'ResponseCodeReportController@getReport')->name('code.report');
     });
 });

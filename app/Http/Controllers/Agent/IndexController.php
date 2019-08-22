@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Agent;
 
 use App\Cdr;
 use App\GenNum;
+use App\ListNumber;
 use App\Number;
 use App\ResponseCode;
 use App\ScheduleCall;
@@ -119,5 +120,21 @@ class IndexController extends Controller
             return response()->json(['error' => 'Invalid Request'], 400);
         }
 
+    }
+
+    public function getListNumber(Request $request)
+    {
+        if($request->ajax()) {
+            $number = ListNumber::where("status", 0)->first();
+            if($number == null) {
+                return response()->json("No List exists in database or none of the list are active at the moment.", 400);
+            }
+            $sentNumber = $number->number;
+            $number->status = true;
+            $number->save();
+            return response()->json($sentNumber, 200);
+        } else {
+            return response()->json("Invalid request", 400);
+        }
     }
 }

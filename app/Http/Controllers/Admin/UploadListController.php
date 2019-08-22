@@ -122,8 +122,9 @@ class UploadListController extends Controller
     public function destroy(UploadList $list)
     {
         try {
+            $list->numbers()->delete();
             $list->delete();
-            return back()->with('status', 'List has been deleted');
+            return back()->with('status', 'List has been deleted along with all the numbers.');
         } catch (Exception $e) {
             return back()->with('status', $e->getMessage());
         }

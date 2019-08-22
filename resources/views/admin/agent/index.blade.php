@@ -181,6 +181,7 @@
         let auto_answer = "{{ \App\Setting::where('key', 'auto_answer')->first()->value }}";
         let random_mode = "{{ \App\Setting::where('key', 'random_mode')->first()->value }}";
         let random_url = "{{ route('agent.random') }}";
+        let list_url = "{{ route('agent.list') }}";
         let recent_calls = "{{ route('agent.recent') }}";
         let schedule_call = "{{ route('agent.schedule') }}";
         let get_calls = "{{ route('agent.get-calls') }}";

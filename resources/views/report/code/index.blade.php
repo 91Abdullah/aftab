@@ -1,7 +1,7 @@
 @extends('layouts.concept')
 
 @section('page-title', 'Report')
-@section('page-desc', 'Call Detail Records')
+@section('page-desc', 'Response Code Report')
 
 @section('breadcrum-title', 'Index')
 
@@ -22,18 +22,18 @@
                 </div>
             @endif
 
-            {!! Form::open(['route' => 'cdr.report', 'method' => 'post', 'id' => 'getReport']) !!}
+            {!! Form::open(['route' => 'code.report', 'method' => 'post', 'id' => 'getReport']) !!}
 
-                <div class="form-group">
-                    <label for="start">Select Date Range</label>
-                    <div class="input-daterange input-group" id="datepicker">
-                        <input id="start" value="{{ old('start') }}" type="text" class="input-sm form-control" name="start" />
-                        <span class="input-group-text">TO</span>
-                        <input id="end" value="{{ old('end') }}" type="text" class="input-sm form-control" name="end" />
-                    </div>
+            <div class="form-group">
+                <label for="start">Select Date Range</label>
+                <div class="input-daterange input-group" id="datepicker">
+                    <input id="start" value="{{ old('start') }}" type="text" class="input-sm form-control" name="start" />
+                    <span class="input-group-text">TO</span>
+                    <input id="end" value="{{ old('end') }}" type="text" class="input-sm form-control" name="end" />
                 </div>
+            </div>
 
-                {!! Form::submit('Submit', ['class' => 'btn btn-primary']) !!}
+            {!! Form::submit('Submit', ['class' => 'btn btn-primary']) !!}
 
             {!! Form::close() !!}
 
@@ -50,25 +50,17 @@
             @endif
 
             <div class="table-responsive">
-                <table id="myTable" class="table table-striped first">
+                <table id="myTable" class="table table-striped first" style="width: 100%;">
                     <thead>
                     <tr>
-                        <th>Dest</th>
+                        <th>#</th>
                         <th>Agent</th>
-                        <th>Start</th>
-                        <th>Answer</th>
-                        <th>End</th>
-                        <th>Duration</th>
-                        <th>Disposition</th>
-                        <th>Code</th>
-                        <th>Recording</th>
+                        <th>Dialed Calls</th>
+                        @foreach(\App\ResponseCode::pluck('name') as $responseCode)
+                            <th>{{ $responseCode }}</th>
+                        @endforeach
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr>
-                        <td colspan="8">No records found.</td>
-                    </tr>
-                    </tbody>
                 </table>
             </div>
         </div>
@@ -84,7 +76,8 @@
     <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.19/pagination/select.js"></script>
     <script>
 
-        let url = "{!! route('cdr.report') !!}";
+        let url = "{!! route('code.report') !!}";
+        let columns = JSON.parse('{!! $columns !!}');
 
         $(document).ready(function () {
             $('#datepicker').datepicker({
@@ -104,6 +97,7 @@
                     processing: true,
                     serverSide: true,
                     destroy: true,
+                    responsive: true,
                     ajax: {
                         url: url,
                         data: {
@@ -112,17 +106,14 @@
                             end_date: document.getElementById('end').value,
                         }
                     },
-                    columns: [
-                        {data: 'dst', name: 'dst'},
-                        {data: 'clid', name: 'clid'},
-                        {data: 'start', name: 'start'},
-                        {data: 'answer', name: 'answer'},
-                        {data: 'end', name: 'end'},
-                        {data: 'duration', name: 'duration'},
-                        {data: 'disposition', name: 'disposition'},
-                        {data: 'code', name: 'code'},
-                        {data: 'recordingfile', name: 'recordingfile'}
-                    ],
+                    columns: columns/*[
+                        //columns
+                        {data: "id", name: "id"},
+                        {data: "agent", name: "agent"},
+                        {data: "calls", name: "calls"},
+                        {data: "Test", name: "Test"},
+                        {data: "Test2", name: "Test2"},
+                    ]*/,
                     dom: 'Bfrtip',
                     lengthMenu: [
                         [ 10, 25, 50, -1 ],

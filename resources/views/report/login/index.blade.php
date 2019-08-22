@@ -1,7 +1,7 @@
 @extends('layouts.concept')
 
 @section('page-title', 'Report')
-@section('page-desc', 'Call Detail Records')
+@section('page-desc', 'Agent Login')
 
 @section('breadcrum-title', 'Index')
 
@@ -22,18 +22,18 @@
                 </div>
             @endif
 
-            {!! Form::open(['route' => 'cdr.report', 'method' => 'post', 'id' => 'getReport']) !!}
+            {!! Form::open(['route' => 'login.report', 'method' => 'post', 'id' => 'getReport']) !!}
 
-                <div class="form-group">
-                    <label for="start">Select Date Range</label>
-                    <div class="input-daterange input-group" id="datepicker">
-                        <input id="start" value="{{ old('start') }}" type="text" class="input-sm form-control" name="start" />
-                        <span class="input-group-text">TO</span>
-                        <input id="end" value="{{ old('end') }}" type="text" class="input-sm form-control" name="end" />
-                    </div>
+            <div class="form-group">
+                <label for="start">Select Date Range</label>
+                <div class="input-daterange input-group" id="datepicker">
+                    <input id="start" value="{{ old('start') }}" type="text" class="input-sm form-control" name="start" />
+                    <span class="input-group-text">TO</span>
+                    <input id="end" value="{{ old('end') }}" type="text" class="input-sm form-control" name="end" />
                 </div>
+            </div>
 
-                {!! Form::submit('Submit', ['class' => 'btn btn-primary']) !!}
+            {!! Form::submit('Submit', ['class' => 'btn btn-primary']) !!}
 
             {!! Form::close() !!}
 
@@ -53,15 +53,11 @@
                 <table id="myTable" class="table table-striped first">
                     <thead>
                     <tr>
-                        <th>Dest</th>
+                        <th>#</th>
                         <th>Agent</th>
-                        <th>Start</th>
-                        <th>Answer</th>
-                        <th>End</th>
-                        <th>Duration</th>
-                        <th>Disposition</th>
-                        <th>Code</th>
-                        <th>Recording</th>
+                        <th>Session</th>
+                        <th>Login Time</th>
+                        <th>Logout Time</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -84,7 +80,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.19/pagination/select.js"></script>
     <script>
 
-        let url = "{!! route('cdr.report') !!}";
+        let url = "{!! route('login.report') !!}";
 
         $(document).ready(function () {
             $('#datepicker').datepicker({
@@ -113,15 +109,11 @@
                         }
                     },
                     columns: [
-                        {data: 'dst', name: 'dst'},
-                        {data: 'clid', name: 'clid'},
-                        {data: 'start', name: 'start'},
-                        {data: 'answer', name: 'answer'},
-                        {data: 'end', name: 'end'},
-                        {data: 'duration', name: 'duration'},
-                        {data: 'disposition', name: 'disposition'},
-                        {data: 'code', name: 'code'},
-                        {data: 'recordingfile', name: 'recordingfile'}
+                        {data: 'id', name: 'id'},
+                        {data: 'user_id', name: 'Agent'},
+                        {data: 'session_id', name: 'Session'},
+                        {data: 'login_time', name: 'Login Time'},
+                        {data: 'logout_time', name: 'Logout Time'},
                     ],
                     dom: 'Bfrtip',
                     lengthMenu: [

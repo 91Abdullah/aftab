@@ -64,11 +64,17 @@
                     @endcan
                     @if(Auth::user()->can('admin-access') || Auth::user()->can('report-access'))
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->is('admin/reports*') ? 'active' : '' }}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-4" aria-controls="submenu-4"><i class="fas fa-fw fa-chart-pie"></i>Reports</a>
-                            <div id="submenu-4" class="collapse submenu" style="">
+                            <a class="nav-link {{ request()->is('*reports*') ? 'active' : '' }}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5"><i class="fas fa-fw fa-chart-pie"></i>Reports</a>
+                            <div id="submenu-5" class="collapse submenu" style="">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('cdr.index') }}">Call Detail Report</a>
+                                        <a class="nav-link {{ request()->is('*reports/cdr') ? 'active' : '' }}" href="{{ route('cdr.index') }}">Call Detail Report</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ request()->is('*reports/login') ? 'active' : '' }}" href="{{ route('login.index') }}">Agent Login Report</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ request()->is('*reports/code') ? 'active' : '' }}" href="{{ route('code.index') }}">Response Code Report</a>
                                     </li>
                                 </ul>
                             </div>

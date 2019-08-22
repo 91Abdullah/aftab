@@ -37,6 +37,9 @@ class CdrController extends Controller
                 preg_match('/"([^"]+)"/', $cdr->clid, $m);
                 return $m[1];
             })
+            ->addColumn('code', function (Cdr $cdr) {
+                return $cdr->response_codes()->first()->name ?? "NULL";
+            })
             ->editColumn('recordingfile', function (Cdr $cdr) {
                 if($cdr->disposition == "ANSWERED") {
                     $date = Carbon::parse($cdr->start);

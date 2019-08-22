@@ -386,7 +386,7 @@ $(document).ready(function () {
             return;
         }
         const {value: code} = await Swal.fire({
-            title: 'Select field validation',
+            title: 'Select status field',
             input: 'select',
             inputOptions: JSON.parse(codes),
             inputPlaceholder: 'Select a Code',
@@ -424,6 +424,11 @@ $(document).ready(function () {
             return (c==='x' ? r :(r&0x3|0x8)).toString(16);
         });
         return uuid;
+    }
+
+    function getListNumber()
+    {
+        return axios.get(list_url);
     }
 
     function dialExternalCall()
@@ -735,6 +740,18 @@ $(document).ready(function () {
     manualDialBtn.onclick = function (event) {
         changeCallDialingStatus();
         dialExternalCall();
+    };
+
+    listDialBtn.onclick = function (event) {
+        getListNumber()
+            .then((response) => {
+                console.log(response);
+                inputNumber.value = response.data;
+                dialExternalCall();
+            })
+            .catch((error) => {
+                $.notify(error.response.data, "error");
+            });
     };
 
     window.addEventListener('keypress', function (e) {
