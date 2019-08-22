@@ -88,6 +88,6 @@ Route::group(['middleware' => 'can:access-both', 'prefix' => 'reports', 'namespa
 
     Route::group(['prefix' => 'code'], function () {
         Route::get('/', 'ResponseCodeReportController@index')->name('code.index');
-        Route::get('/getReport', 'ResponseCodeReportController@getReport')->name('code.report');
+        Route::post('/getReport', 'ResponseCodeReportController@getReport')->name('code.report');
     });
 });

@@ -100,6 +100,7 @@
                     responsive: true,
                     ajax: {
                         url: url,
+                        method: "POST",
                         data: {
                             _token: '{!! csrf_token() !!}',
                             start_date: document.getElementById('start').value,

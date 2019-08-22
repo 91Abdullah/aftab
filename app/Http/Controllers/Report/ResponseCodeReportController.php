@@ -33,29 +33,32 @@ class ResponseCodeReportController extends Controller
 
     public function getReport(Request $request)
     {
-        $start = Carbon::parse($request->start_date)->format('Y-m-d ');
-        $end = Carbon::parse($request->end_date)->format('Y-m-d');
+        if($request->ajax())
+        {
+            $start = Carbon::parse($request->start_date)->format('Y-m-d ');
+            $end = Carbon::parse($request->end_date)->format('Y-m-d');
 
-        $agents = Role::where("name", "agent")->first()->users->all();
-        $codes = ResponseCode::all();
-        $data = [];
+            $agents = Role::where("name", "agent")->first()->users->all();
+            $codes = ResponseCode::all();
+            $data = [];
 
-        foreach ($agents as $index => $agent) {
-            $calls = Cdr::whereBetween(DB::raw('date(start)'), [$start, $end])->where("channel", "like", "PJSIP/" . $agent->endpoints()->first()->id . "%")->count();
-            $codeArray = [];
+            foreach ($agents as $index => $agent) {
+                $calls = Cdr::whereBetween(DB::raw('date(start)'), [$start, $end])->where("channel", "like", "PJSIP/" . $agent->endpoints()->first()->id . "%")->count();
+                $codeArray = [];
 
-            foreach ($codes as $codeIndex => $code) {
-                $codeArray[$code->name] = $code->cdrs()->whereBetween(DB::raw('date(start)'), [$start, $end])->where("channel", "like", "PJSIP/" . $agent->endpoints()->first()->id . "%")->count();
+                foreach ($codes as $codeIndex => $code) {
+                    $codeArray[$code->name] = $code->cdrs()->whereBetween(DB::raw('date(start)'), [$start, $end])->where("channel", "like", "PJSIP/" . $agent->endpoints()->first()->id . "%")->count();
+                }
+
+                $data[] = array_merge([
+                    "agent" => $agent->name,
+                    "calls" => $calls,
+                    "id" => $agent->endpoints()->first()->id
+                ], $codeArray);
             }
 
-            $data[] = array_merge([
-                "agent" => $agent->name,
-                "calls" => $calls,
-                "id" => $agent->endpoints()->first()->id
-            ], $codeArray);
+            return DataTables::of($data)
+                ->toJson();
         }
-
-        return DataTables::of($data)
-            ->toJson();
     }
 }
