@@ -812,14 +812,28 @@ $(document).ready(function () {
         scheduleThisCall();
     };
 
-    randomMode.onchange = function(event) {
-        randomModeChange(event);
-    };
+    if(random_mode) {
+        randomMode.onchange = function(event) {
+            randomModeChange(event);
+        };
 
-    randomDialBtn.onclick = function(event) {
-        changeCallDialingStatus();
-        dialRandomCall();
-    };
+        randomDialBtn.onclick = function(event) {
+            changeCallDialingStatus();
+            dialRandomCall();
+        };
+
+        listDialBtn.onclick = function (event) {
+            getListNumber()
+                .then((response) => {
+                    console.log(response);
+                    inputNumber.value = response.data;
+                    dialExternalCall();
+                })
+                .catch((error) => {
+                    $.notify(error.response.data, "error");
+                });
+        };
+    }
 
     registerBtn.onclick = function(event) {
         if(userAgent.isRegistered()) {
@@ -882,18 +896,6 @@ $(document).ready(function () {
     manualDialBtn.onclick = function (event) {
         changeCallDialingStatus();
         dialExternalCall();
-    };
-
-    listDialBtn.onclick = function (event) {
-        getListNumber()
-            .then((response) => {
-                console.log(response);
-                inputNumber.value = response.data;
-                dialExternalCall();
-            })
-            .catch((error) => {
-                $.notify(error.response.data, "error");
-            });
     };
 
     window.addEventListener('keypress', function (e) {

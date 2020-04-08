@@ -71,14 +71,16 @@
                             </div>
                         </div>
                         <div class="col-12 text-center">
-                            <button id="listDialBtn" type="button" class="btn btn-success">
-                                <i class="fas fa-phone"></i>
-                                LIST DIAL
-                            </button>
-                            <button id="randomDialBtn" type="button" class="btn btn-success">
-                                <i class="fas fa-phone"></i>
-                                RANDOM DIAL
-                            </button>
+                            @if($random_mode == "true")
+                                <button id="listDialBtn" type="button" class="btn btn-success">
+                                    <i class="fas fa-phone"></i>
+                                    LIST DIAL
+                                </button>
+                                <button id="randomDialBtn" type="button" class="btn btn-success">
+                                    <i class="fas fa-phone"></i>
+                                    RANDOM DIAL
+                                </button>
+                            @endif
                             <button id="manualDialBtn" type="button" class="btn btn-primary">
                                 <i class="fas fa-phone"></i>
                                 DIAL
