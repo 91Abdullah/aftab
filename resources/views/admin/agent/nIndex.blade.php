@@ -22,7 +22,6 @@
                         <button type="button" id="registerBtn" class="btn btn-success btn-sm"><i class="fas fa-users-cog"></i> Register</button>
                     </div>
                 </div>
-
                 <div class="card-body">
                     <form>
                         <div class="col-8 offset-lg-2 mb-4">
@@ -72,19 +71,19 @@
                             </div>
                         </div>
                         <div class="col-12 text-center">
-                            <button id="listDialBtn" type="button" class="btn btn-success btn-lg">
+                            <button id="listDialBtn" type="button" class="btn btn-success">
                                 <i class="fas fa-phone"></i>
                                 LIST DIAL
                             </button>
-                            <button id="randomDialBtn" type="button" class="btn btn-success btn-lg">
+                            <button id="randomDialBtn" type="button" class="btn btn-success">
                                 <i class="fas fa-phone"></i>
                                 RANDOM DIAL
                             </button>
-                            <button id="manualDialBtn" type="button" class="btn btn-success btn-lg">
+                            <button id="manualDialBtn" type="button" class="btn btn-primary">
                                 <i class="fas fa-phone"></i>
-                                MANUAL DIAL
+                                DIAL
                             </button>
-                            <button id="hangupBtn" type="reset" class="btn btn-danger btn-lg">
+                            <button id="hangupBtn" type="reset" class="btn btn-danger">
                                 <i class="fas fa-phone-slash"></i>
                                 HANGUP
                             </button>
@@ -109,6 +108,15 @@
                     </div>
                 </div>
             @endif
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <button id="openAttendedTransfer" class="btn btn-success"><i class="fa fa-hand-paper"></i> Attended Transfer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
@@ -168,6 +176,40 @@
         </div>
     </div>
 
+    <div class="modal fade" id="attendedTransfer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Execute Attended Transfer</h5>
+                    <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </a>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="transferNumber" class="col-form-label">Input Number</label>
+                            <input id="transferNumber" type="text" class="form-control">
+                        </div>
+                        <h6 class="text-center">
+                            <span id="tmins">00:</span><span id="tseconds">00</span>
+                        </h6>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div id="transferDialBtns">
+                        <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="transferDial" class="btn btn-primary"><i class="fa fa-phone"></i> DIAL</button>
+                    </div>
+                    <div id="transferBtns" style="display: none;">
+                        <button id="transferCall" class="btn btn-success"><i class="fa fa-phone"></i> Transfer</button>
+                        <button id="hangupTransferCall" class="btn btn-danger"><i class="fa fa-phone-slash"></i> Hangup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @push('scripts')
@@ -196,6 +238,6 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.18/b-1.5.6/b-colvis-1.5.6/b-html5-1.5.6/b-print-1.5.6/datatables.min.js"></script>
     <script src="{{ asset('js/sip.js') }}" defer></script>
     <script src="{{ asset('js/notify.js') }}" defer></script>
-    <script src="{{ asset('js/agent.js') }}" defer></script>
+    <script src="{{ asset('js/nAgent.js') }}" defer></script>
 @endpush
 

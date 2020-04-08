@@ -54,6 +54,7 @@
                     <thead>
                     <tr>
                         <th>Dest</th>
+                        <th>CLID</th>
                         <th>Agent</th>
                         <th>Start</th>
                         <th>Answer</th>
@@ -66,7 +67,7 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td colspan="8">No records found.</td>
+                        <td colspan="10">No records found.</td>
                     </tr>
                     </tbody>
                 </table>
@@ -115,6 +116,7 @@
                     columns: [
                         {data: 'dst', name: 'dst'},
                         {data: 'clid', name: 'clid'},
+                        {data: 'agent', name: 'agent'},
                         {data: 'start', name: 'start'},
                         {data: 'answer', name: 'answer'},
                         {data: 'end', name: 'end'},

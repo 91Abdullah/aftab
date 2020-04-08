@@ -30,12 +30,12 @@ class CdrController extends Controller
         $start = Carbon::parse($request->start_date)->format('Y-m-d ');
         $end = Carbon::parse($request->end_date)->format('Y-m-d');
 
-        $cdrs = Cdr::whereBetween(DB::raw('date(start)'), [$start, $end])->get(['src', 'dst', 'clid', 'start', 'answer', 'end', 'duration', 'disposition', 'recordingfile']);
+        $cdrs = Cdr::query()->with('response_codes')->whereBetween(DB::raw('date(start)'), [$start, $end])->orderBy('start')->get(['src', 'dst', 'clid', 'start', 'answer', 'end', 'duration', 'disposition', 'recordingfile', 'userfield', 'channel']);
 
         return DataTables::of($cdrs)
-            ->editColumn('clid', function (Cdr $cdr) {
-                preg_match('/"([^"]+)"/', $cdr->clid, $m);
-                return $m[1];
+            ->addColumn('agent', function (Cdr $cdr) {
+                $agent = explode("/", explode("-", $cdr->channel)[0])[1];
+                return $agent == "TCL" ? "Transferred" : $agent;
             })
             ->addColumn('code', function (Cdr $cdr) {
                 return $cdr->response_codes()->first()->name ?? "NULL";

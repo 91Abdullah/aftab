@@ -2,10 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Cdr;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
+    public function test()
+    {
+        $start = Carbon::parse("2020-04-08");
+        $end = Carbon::parse("2020-04-08");
+        $cdrs = Cdr::query()->whereBetween(DB::raw('date(start)'), [$start, $end])->get(['src', 'dst', 'clid', 'start', 'answer', 'end', 'duration', 'disposition', 'recordingfile']);
+        return dd($cdrs);
+    }
     /**
      * Create a new controller instance.
      *

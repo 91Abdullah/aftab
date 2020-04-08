@@ -11,6 +11,9 @@ class Cdr extends Model
         'duration' => 'string'
     ];
 
+    protected $guarded = [];
+    public $timestamps = false;
+
     public function response_codes()
     {
         return $this->belongsToMany('App\ResponseCode', 'cdr_response_codes', 'call_id', 'code', 'userfield', 'code');

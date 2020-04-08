@@ -25,6 +25,9 @@ Auth::routes();
 //Route::get('/agent1', 'AgentController@index')->name('agent');
 //Route::get('/test', 'AgentController@test')->name('test');
 
+// Test Route
+Route::get('/test', 'HomeController@test');
+
 // Login
 
 //Route::get('/login', 'Auth/LoginController@login');

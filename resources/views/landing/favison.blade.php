@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" href="{{ asset('favison/img/favicon.pngs') }}" type="image/png">
-    <title>Concept - Digital Random Dialer</title>
+    <!--<title>Concept - Digital Random Dialer</title>-->
+	<title>Concept - Digital Dialer</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('favison/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('favison/css/themify-icons.css') }}">
@@ -53,14 +54,15 @@
             <div class="row">
                 <div class="col-lg-6 offset-lg-6 col-xl-5 offset-xl-7">
                     <div class="banner_content">
-                        <h3>Random Digital Dialer</h3>
+                        <!--<h3>Random Digital Dialer</h3>-->
+						<h3>Digital Dialer</h3>
                         <h4>Key Features</h4>
                         <ul class="list-styled">
                             <li><i class="fas fa-check"></i> Based on Web real time communications</li>
                             <li><i class="fas fa-check"></i> User roles & authorization</li>
                             <li><i class="fas fa-check"></i> Bulk numbers uploading with multiple formats: csv, xls, xlxs</li>
                             <li><i class="fas fa-check"></i> Agent application window with random dialing, manual dialing and list based dialing</li>
-                            <li><i class="fas fa-check"></i> Realtime dashboard</li>
+                            <!--<li><i class="fas fa-check"></i> Realtime dashboard</li>-->
                             <li><i class="fas fa-check"></i> Agent Reporting and Calls detail reporting</li>
                             <li><i class="fas fa-check"></i> Automated calls recording</li>
                         </ul>
