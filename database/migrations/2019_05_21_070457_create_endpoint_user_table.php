@@ -35,8 +35,6 @@ class CreateEndpointUserTable extends Migration
      */
     public function down()
     {
-        Schema::table('endpoint_user', function (Blueprint $table) {
-            $table->dropIfExists('endpoint_user');
-        });
+        Schema::dropIfExists('endpoint_user');
     }
 }
