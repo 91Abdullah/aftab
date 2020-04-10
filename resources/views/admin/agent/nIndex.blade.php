@@ -233,7 +233,7 @@
         let response_route = "{{ route('agent.saveResponse') }}";
         let token = "{{ csrf_token() }}";
     </script>
-    <script src="{{ asset('js/sweetalert2@8.js' }}"></script>
+    <script src="{{ asset('js/sweetalert2@8.js') }}"></script>
     <script src="{{ asset('js/flatpickr.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/pdfmake.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/vfs_fonts.js') }}"></script>
