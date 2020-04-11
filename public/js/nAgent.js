@@ -417,14 +417,18 @@ $(document).ready(function () {
 
     function disableAllDialBtns() {
         manualDialBtn.disabled = true;
-        listDialBtn.disabled = true;
-        randomDialBtn.disabled = true;
+        if(random_mode) {
+            listDialBtn.disabled = true;
+            randomDialBtn.disabled = true;
+        }
     }
 
     function enableAllDialBtns() {
         manualDialBtn.disabled = false;
-        listDialBtn.disabled = false;
-        randomDialBtn.disabled = false;
+        if(random_mode) {
+            listDialBtn.disabled = false;
+            randomDialBtn.disabled = false;
+        }
     }
 
     function changeToRegisteredState()
