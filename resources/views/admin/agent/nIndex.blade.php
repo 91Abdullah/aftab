@@ -228,7 +228,7 @@
         let list_url = "{{ route('agent.list') }}";
         let recent_calls = "{{ route('agent.recent') }}";
         let schedule_call = "{{ route('agent.schedule') }}";
-        let get_calls = "{{ roulistDialBtnte('agent.get-calls') }}";
+        let get_calls = "{{ route('agent.get-calls') }}";
         let codes = '{!! $responseCodes !!}';
         let response_route = "{{ route('agent.saveResponse') }}";
         let token = "{{ csrf_token() }}";
