@@ -76,14 +76,6 @@ Route::group(['middleware' => 'can:agent-access', 'prefix' => 'agent', 'namespac
 Route::group(['middleware' => 'can:access-both', 'prefix' => 'reports', 'namespace' => 'Report'], function () {
     Route::get('/', 'IndexController@index')->name('report.index');
 
-    // Cdr
-
-    Route::group(['prefix' => 'cdr'], function () {
-        Route::view('/', 'report.cdr.index')->name('cdr.index');
-        Route::get('/getReport', 'CdrController@getReport')->name('cdr.report');
-        Route::get('/playRecording/{file}', 'CdrController@playFile')->name('cdr.play');
-    });
-
     Route::group(['prefix' => 'login'], function () {
         Route::view('/', 'report.login.index')->name('login.index');
         Route::get('/getReport', 'LoginReportController@getReport')->name('login.report');
@@ -92,5 +84,14 @@ Route::group(['middleware' => 'can:access-both', 'prefix' => 'reports', 'namespa
     Route::group(['prefix' => 'code'], function () {
         Route::get('/', 'ResponseCodeReportController@index')->name('code.index');
         Route::post('/getReport', 'ResponseCodeReportController@getReport')->name('code.report');
+    });
+});
+
+Route::group(['prefix' => 'reports', 'namespace' => 'Report'], function () {
+    // Cdr
+    Route::group(['prefix' => 'cdr'], function () {
+        Route::view('/', 'report.cdr.index')->name('cdr.index');
+        Route::get('/getReport', 'CdrController@getReport')->name('cdr.report');
+        Route::get('/playRecording/{file}', 'CdrController@playFile')->name('cdr.play');
     });
 });
