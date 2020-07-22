@@ -53,10 +53,13 @@ class CdrController extends Controller
         return DataTables::of($cdrs)
             ->addColumn('agent', function (Cdr $cdr) {
                 $agent = explode("/", explode("-", $cdr->channel)[0])[1];
-                return $agent == "TCL" ? "Transferred" : $agent;
+                return $agent == "TCL" ? /*"Transferred"*/ "" : $agent;
             })
             ->addColumn('code', function (Cdr $cdr) {
                 return $cdr->response_codes()->first()->name ?? "NULL";
+            })
+            ->editColumn('dcontext', function (Cdr $cdr) {
+                return $cdr->dcontext == "default" ? "Outgoing" : "Incoming";
             })
             ->editColumn('recordingfile', function (Cdr $cdr) {
                 if($cdr->disposition == "ANSWERED") {
