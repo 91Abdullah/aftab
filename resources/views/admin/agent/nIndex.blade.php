@@ -32,6 +32,7 @@
                                 <div class="card-header d-flex">
                                     <h3 class="card-header-title">{{ Auth::user()->name }} - {{ Auth::user()->auths()->first()->username }}</h3>
                                     <div class="toolbar ml-auto">
+                                        <button type="button" id="readyBtn" class="btn btn-danger btn-sm"><i class="fas fa-power-off"></i> Not-Ready</button>
                                         <button type="button" id="registerBtn" class="btn btn-success btn-sm"><i class="fas fa-users-cog"></i> Register</button>
                                     </div>
                                 </div>
@@ -39,14 +40,17 @@
                                     <form>
                                         <div class="row text-center">
                                             <div class="col-6">
-                                <span id="phone-status" class="text-danger" style="font-size: 13px;">
-                                    <i class="fas fa-power-off"></i> DISCONNECTED
-                                </span>
+                                                <span id="phone-status" class="text-danger" style="font-size: 13px;">
+                                                    <i class="fas fa-power-off"></i> DISCONNECTED
+                                                </span>
                                             </div>
                                             <div class="col-6">
-                                <span id="agent-status" class="text-danger" style="font-size: 13px;">
-                                    <i class="fas fa-sign-in-alt"></i> OFFLINE
-                                </span>
+                                                <span id="agent-status" class="text-danger" style="font-size: 13px;">
+                                                    <i class="fas fa-sign-in-alt"></i> OFFLINE
+                                                </span> /
+                                                <span id="agent-qstatus" class="text-success" style="font-size: 13px;">
+                                                    <i class="fas fa-power-off"></i> READY
+                                                </span>
                                             </div>
                                             <audio id="remoteAudio"></audio>
                                             <audio id="localAudio" muted="muted"></audio>
@@ -309,6 +313,12 @@
         let codes = '{!! $responseCodes !!}';
         let response_route = "{{ route('agent.saveResponse') }}";
         let token = "{{ csrf_token() }}";
+
+        // Agent Routes
+        let readyRoute = "{{route('agent.ready')}}";
+        let notReadyRoute = "{{route('agent.notready')}}";
+        let agentQStatus = "{{ route('agent.status') }}";
+
     </script>
     <script src="{{ asset('js/sweetalert2@8.js') }}"></script>
     <script src="{{ asset('js/flatpickr.js') }}"></script>

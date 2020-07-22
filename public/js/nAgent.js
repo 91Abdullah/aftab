@@ -23,6 +23,7 @@ $(document).ready(function () {
     let listDialBtn = document.getElementById('listDialBtn');
     let randomDialBtn = document.getElementById('randomDialBtn');
     let registerBtn = document.getElementById('registerBtn');
+    let readyBtn = document.getElementById('readyBtn');
     let hangupBtn = document.getElementById('hangupBtn');
 
     var remoteAudio = document.getElementById('remoteAudio');
@@ -30,6 +31,7 @@ $(document).ready(function () {
 
     let phoneStatus = document.getElementById('phone-status');
     let agentStatus = document.getElementById('agent-status');
+    let userStatus = document.getElementById('agent-qstatus')
 
     let inCallBtns = document.getElementById('inCallBtns');
 
@@ -77,6 +79,8 @@ $(document).ready(function () {
 
     // User Agent
 
+    let userStatusValue = true
+
     let userAgent = new SIP.UA({
         uri: authUser + '@' + server_address + ':' + wss_comm_port,
         transportOptions: {
@@ -87,7 +91,11 @@ $(document).ready(function () {
         password: authUser,
         displayName: authUser,
         register: false,
-        iceCheckingTimeout: 0.5
+        sessionDescriptionHandlerOptions: {
+            peerConnectionOptions: {
+                iceCheckingTimeout: 200,
+            }
+        }
     });
 
     //startTimer();
@@ -170,7 +178,7 @@ $(document).ready(function () {
             },
         });
 
-        console.log(session);
+        console.log(`Call transfer initiated: ${session}`);
 
         transferSession = session;
 
@@ -206,7 +214,7 @@ $(document).ready(function () {
         });
 
         session.on('bye', (request) => {
-            console.log(request);
+            console.log('Bye Request received');
         });
     }
 
@@ -289,7 +297,7 @@ $(document).ready(function () {
                     tableReload();
                 })
                 .catch((error) => {
-                    console.log(error);
+                    console.log(`Error in submitting workcode: ${error}`);
                 })
         }
     }
@@ -331,7 +339,7 @@ $(document).ready(function () {
             confirmButtonText: "Accept",
             cancelButtonText: "Reject"
         }).then((result) => {
-            console.log(result);
+            console.log(`Incoming call received: ${result}`);
             if(result.value) {
                 session.accept({
                     sessionDescriptionHandlerOptions: {
@@ -351,29 +359,56 @@ $(document).ready(function () {
 
             }
         });
+    }
 
-        /*swal({
-            title: "You have an incoming call",
-            text:  session.remoteIdentity,
-            icon: "warning",
-            buttons: true,
-            dangerMode: true
+    function readyUser() {
+
+        axios.post(readyRoute, {
+            agent: authUser,
+            _token: token
+        }).then(response => {
+            $.notify(response.data.message)
+            userStatusValue = true
+            readyUI()
+        }).catch(error => {
+            $.notify(error.message, "error")
+            $.notify(error.response.data.message, "error")
         })
-            .then((status) => {
-                if(status) {
+    }
 
+    function notReadyUser() {
 
+        axios.post(notReadyRoute, {
+            agent: authUser,
+            _token: token
+        }).then(response => {
+            $.notify(response.data.message)
+            userStatusValue = false
+            notReadyUI()
+        }).catch(error => {
+            $.notify(error.message, "error")
+            $.notify(error.response.data.message)
+        })
+    }
 
-                    swal("Call has been accepted.", {
-                        icon: "success"
-                    })
-                } else {
+    function readyUI() {
+        readyBtn.classList.remove('btn-success');
+        readyBtn.classList.add('btn-danger');
+        readyBtn.innerHTML = "<i class='fas fa-toggle-on'></i> Not-Ready"
 
-                    session.reject();
+        userStatus.innerHTML = "<i class='fas fa-power-off'></i> READY"
+        userStatus.classList.remove('text-danger');
+        userStatus.classList.add('text-success');
+    }
 
-                    swal("Call has been rejected.")
-                }
-            });*/
+    function notReadyUI() {
+        readyBtn.classList.remove('btn-danger');
+        readyBtn.classList.add('btn-success');
+        readyBtn.innerHTML = "<i class='fas fa-power-off'></i> Ready"
+
+        userStatus.innerHTML = "<i class='fas fa-power-off'></i> NOT-READY"
+        userStatus.classList.remove('text-success');
+        userStatus.classList.add('text-danger')
     }
 
     function startUserAgent() {
@@ -431,6 +466,24 @@ $(document).ready(function () {
         }
     }
 
+    function changeToUserStatusState() {
+        axios.post(agentQStatus, {
+            _token: token,
+            agent: authUser,
+        }).then(response => {
+            userStatusValue = response.data.message.paused === "0"
+            if(userStatusValue) {
+                readyUI()
+            } else {
+                notReadyUI()
+            }
+        })
+            .catch(error => {
+                $.notify(error.message, "error")
+                $.notify(error.response.data.message, "error")
+            })
+    }
+
     function changeToRegisteredState()
     {
         registerBtn.classList.remove('btn-success');
@@ -477,6 +530,15 @@ $(document).ready(function () {
         inCallBtns.style.display = "none";
     }
 
+    function addCallerIdToTextBox(session = null) {
+        if(session) {
+            inputNumber.value = session.remoteIdentity.displayName
+            inputNumber.disabled = true
+        } else {
+            inputNumber.disabled = false
+        }
+    }
+
     function changeCallAcceptedState()
     {
         inCallBtns.style.display = "block";
@@ -484,7 +546,6 @@ $(document).ready(function () {
         callNotif.style.display = "block";
         startTimer();
         disableAllDialBtns();
-
     }
 
     function changeCallDialingStatus()
@@ -574,7 +635,7 @@ $(document).ready(function () {
             },
         });
 
-        console.log(session);
+        console.log(`External call dialed: ${session}`);
 
         currentSession = session;
         callID = session.request.callId;
@@ -617,7 +678,7 @@ $(document).ready(function () {
         });
 
         session.on('bye', (request) => {
-            console.log(request);
+            console.log(`Bye on external call: ${request}`);
         });
     }
 
@@ -704,6 +765,7 @@ $(document).ready(function () {
 
     userAgent.on('registered', () => {
         changeToRegisteredState();
+        changeToUserStatusState();
     });
 
     userAgent.on('unregistered', (response, cause) => {
@@ -723,31 +785,13 @@ $(document).ready(function () {
         changeToDisconnectedState();
     });
 
-    userAgent.transport.on('transportError', () => {
-
-        // Swal.fire({
-        //     title: "Add Exception",
-        //     text: "Please click following link and add exception to certificate authority",
-        //     type: "error",
-        //     backdrop: false,
-        //     allowOutsideClick: false,
-        //     allowEscapeKey: false,
-        //     allowEnterKey: false,
-        //     confirmButtonColor: '#3085d6',
-        //     cancelButtonColor: '#d33',
-        //     confirmButtonText: 'Click Here'
-        // }).then((result) => {
-        //     if(result.value) {
-        //         window.open("https://" + server_address + ":" + wss_socket_port + "/httpstatus", "_blank");
-        //     }
-        // });
-
-
+    userAgent.transport.on('transportError', (error) => {
+        $.notify("Error connecting to websocket. Add certificate or no connection could be made with server")
     });
 
     userAgent.on('invite', (session) => {
 
-        console.log(session);
+        /*console.log(`Incoming call received: ${session}`);*/
 
         currentSession = session;
 
@@ -767,7 +811,7 @@ $(document).ready(function () {
             // Gets local tracks
             var localStream = new MediaStream();
             pc.getSenders().forEach(function(sender) {
-                localStream.addTrack(sender.track);
+                //localStream.addTrack(sender.track);
             });
             localAudio.srcObject = localStream;
             localAudio.play();
@@ -777,10 +821,12 @@ $(document).ready(function () {
 
         session.on('accepted', () => {
             changeCallAcceptedState();
+            addCallerIdToTextBox(session);
         });
 
         session.on('terminated', () => {
             changeCallTerminatedState();
+            addCallerIdToTextBox();
             showCodeForm()
                 .finally(() => {
                     if(random_mode && random_mode === true) {
@@ -846,6 +892,18 @@ $(document).ready(function () {
             startUserAgent();
         }
     };
+
+    readyBtn.onclick = function(event) {
+        if(userAgent.isRegistered()) {
+            if(userStatusValue) {
+                notReadyUser()
+            } else {
+                readyUser()
+            }
+        } else {
+            $.notify("You need to first register with server.", "error")
+        }
+    }
 
     hangupBtn.onclick = function (event) {
         if(currentSession !== undefined) {

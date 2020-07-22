@@ -71,6 +71,11 @@ Route::group(['middleware' => 'can:agent-access', 'prefix' => 'agent', 'namespac
     Route::post('/scheduleCall', 'IndexController@scheduleCall')->name('agent.schedule');
     Route::get('/getScheduledCall', 'IndexController@getScheduledCallsTable')->name('agent.get-calls');
     Route::post('/saveResponse', 'IndexController@saveResponse')->name('agent.saveResponse');
+
+    // Agent Routes
+    Route::post('/status', 'AgentStatusController@getAgentStatus')->name('agent.status');
+    Route::post('/ready', 'AgentStatusController@readyAgent')->name('agent.ready');
+    Route::post('/notready', 'AgentStatusController@notReadyAgent')->name('agent.notready');
 });
 
 Route::group(['middleware' => 'can:access-both', 'prefix' => 'reports', 'namespace' => 'Report'], function () {
