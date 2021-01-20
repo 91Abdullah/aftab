@@ -74,7 +74,7 @@ class SubListController extends Controller
     public function update(Request $request, ListNumber $listNumber)
     {
         $request->validate([
-            'number' => ['required','regex:/(03)[0-9]{9}/']
+            'number' => ['required','regex:/(3)[0-9]{8}/']
         ]);
         $listNumber->update($request->all());
         return redirect()->route('sublist.index', ['parent' => $listNumber->parent()->first()])->with('status', 'Number updated in the database.');

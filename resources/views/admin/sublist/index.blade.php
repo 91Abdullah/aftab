@@ -28,6 +28,8 @@
                     <tr>
                         <th>ID</th>
                         <th>Number</th>
+                        <th>Name</th>
+                        <th>City</th>
                         <th>Parent List</th>
                         <th>Status</th>
                         <th></th>

@@ -39,6 +39,8 @@ $(document).ready(function () {
     let callNotif = document.getElementById('callNotif');
 
     let inputNumber = document.getElementById('inputNumber');
+    let cName = document.getElementById('cName');
+    let cCity = document.getElementById('cCity');
 
     let mvisible = false;
     let hVisible = false;
@@ -48,7 +50,7 @@ $(document).ready(function () {
     let tseconds = 0;
     let transferTimex = undefined;
     let timex = undefined;
-    let random_mode = false;
+    //let random_mode =  false;
 
     let currentSession = undefined;
     let transferSession = undefined;
@@ -876,7 +878,9 @@ $(document).ready(function () {
             getListNumber()
                 .then((response) => {
                     console.log(response);
-                    inputNumber.value = response.data;
+                    inputNumber.value = response.data.number;
+                    cName.textContent = response.data.name;
+                    cCity.textContent = response.data.city;
                     dialExternalCall();
                 })
                 .catch((error) => {

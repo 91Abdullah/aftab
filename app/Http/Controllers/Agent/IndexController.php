@@ -125,14 +125,14 @@ class IndexController extends Controller
     public function getListNumber(Request $request)
     {
         if($request->ajax()) {
-            $number = ListNumber::where("status", 0)->first();
+            $number = ListNumber::query()->where("status", 0)->first();
             if($number == null) {
                 return response()->json("No List exists in database or none of the list are active at the moment.", 400);
             }
-            $sentNumber = $number->number;
+            $sentNumber = substr($number->number, 0, 1) === "0" ? $number->number : "0" . $number->number;
             $number->status = true;
             $number->save();
-            return response()->json($sentNumber, 200);
+            return response()->json(['number' => $sentNumber, 'name' => $number->name, 'city' => $number->city], 200);
         } else {
             return response()->json("Invalid request", 400);
         }

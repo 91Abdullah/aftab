@@ -63,6 +63,10 @@
                                                 <h6>
                                                     <span id="callStatus">DISCONNECTED</span>
                                                 </h6>
+                                                <div class="col-sm-4 offset-4">
+                                                    <span class="badge badge-pill badge-info" id="cName"></span>
+                                                    <span class="badge badge-pill badge-dark" id="cCity"></span>
+                                                </div>
                                                 <input aria-label="Input Number" id="inputNumber" type="tel" value="" class="form-control-lg mb-2 text-center">
                                                 <h6>
                                                     <span id="mins">00:</span><span id="seconds">00</span>

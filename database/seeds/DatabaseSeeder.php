@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesTableSeeder::class);
         $this->call(SettingTableSeeder::class);
         $this->call(DefaultAdminSeeder::class);
+        $this->call(AddRandomDialModeSeeder::class);
     }
 }
