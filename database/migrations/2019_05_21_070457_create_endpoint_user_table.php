@@ -21,7 +21,7 @@ class CreateEndpointUserTable extends Migration
 
             //DB::statement("ALTER TABLE endpoint_user CONVERT TO CHARACTER SET latin1 COLLATE latin1_swedish_ci");
 
-            $table->foreign('ps_endpoint_id')->references('id')->on('ps_endpoints')
+            $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 

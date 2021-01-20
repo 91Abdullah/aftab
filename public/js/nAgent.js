@@ -48,7 +48,7 @@ $(document).ready(function () {
     let tseconds = 0;
     let transferTimex = undefined;
     let timex = undefined;
-    let random_mode = false;
+    let random_mode = true;
 
     let currentSession = undefined;
     let transferSession = undefined;

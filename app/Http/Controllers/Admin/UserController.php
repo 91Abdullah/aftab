@@ -32,7 +32,8 @@ class UserController extends Controller
 
     private $context = "default";
     private $disallow = "all";
-    private $allow = "opus,ulaw";
+    // private $allow = "opus,ulaw";
+    private $allow = "alaw,ulaw";
     private $dtls_auto_generate_cert = "yes";
     private $webrtc = "yes";
     private $use_avpf = "yes";
