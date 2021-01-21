@@ -41,6 +41,8 @@
                         <tr>
                             <td>{{ $list->id }}</td>
                             <td>{{ $list->number }}</td>
+                            <td>{{ $list->name }}</td>
+                            <td>{{ $list->city }}</td>
                             <td>
                                 <a href="{{ route('list.index', $list->parent()->first()->id) }}">
                                     {{ $list->parent()->first()->name }}
@@ -48,7 +50,7 @@
                             </td>
                             <td>
                                 <span class="badge badge-{{ $list->status ? 'success' : 'danger' }}">
-                                    {{ $list->active ? 'Called' : 'Uncalled' }}
+                                    {{ $list->status ? 'Called' : 'Uncalled' }}
                                 </span>
                             </td>
                             <td>
