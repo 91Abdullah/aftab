@@ -29,6 +29,10 @@
                 </div>
 
             @endforeach
+                <div class="form-group">
+                    {!! Form::label('random_type', 'Predictive dialer mode', ['class' => 'col-form-label']) !!}
+                    {!! Form::select('random_type', ['number' => 'Random numbers', 'list' => 'List numbers'], 'list', ['class' => 'form-control']) !!}
+                </div>
             {!! Form::button('<i class="far fa-edit"></i> Update', ['type' => 'submit', 'class' => 'btn btn-primary']) !!}
             {!! Form::close() !!}
         </div>

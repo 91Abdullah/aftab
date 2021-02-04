@@ -689,7 +689,13 @@ $(document).ready(function () {
         let number = "";
         axios.get(random_url)
             .then(function (response) {
-                number = response.data;
+                if(random_type === "list") {
+                    number = response.data.number
+                    cName.textContent = response.data.name;
+                    cCity.textContent = response.data.city;
+                }
+                else
+                    number = response.data;
                 if(number.length === 0 || isNaN(number)) {
                     $.notify("You can't dial an empty or invalid number.", "error");
                     return;
@@ -754,7 +760,7 @@ $(document).ready(function () {
                 });
             })
             .catch(function (error) {
-
+                $.notify(error.response.data.error, 'error')
             });
     }
 

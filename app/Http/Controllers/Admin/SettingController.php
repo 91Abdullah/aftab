@@ -10,22 +10,19 @@ class SettingController extends Controller
 {
     public function index()
     {
-        $settings = Setting::all();
-        $uisettings = [];
-
-        //return dd($settings);
-
+        $settings = Setting::query()->where('key', '!=', 'random_type')->get();
         return view('admin.setting.index', compact('settings'));
     }
 
     public function update(Request $request, Setting $setting)
     {
         $request->validate([
-            'server_address' => 'required','ipv4',
-            'wss_comm_port' => 'required','digits:4',
-            'wss_socket_port' => 'required','digits:4',
-            'auto_answer' => 'nullable','in:yes,no',
-            'random_mode' => 'required','boolean'
+            'server_address' => ['required','ipv4'],
+            'wss_comm_port' => ['required','digits:4'],
+            'wss_socket_port' => ['required','digits:4'],
+            'auto_answer' => ['nullable','in:true,false'],
+            'random_mode' => ['required','in:true,false'],
+            'random_type' => ['required', 'in:list,number']
         ]);
 
         //return dd($request->all());

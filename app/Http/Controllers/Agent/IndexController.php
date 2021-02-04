@@ -57,7 +57,16 @@ class IndexController extends Controller
             return response()->json($call->number, 200);
         }
 
-        $currentNumber = GenNum::first();
+        $mode = Setting::query()->where('key', 'random_type')->first()->value;
+
+        if($mode === "list")
+            return $this->getListNumberAsRandom();
+        else if($mode === "number")
+            return $this->getRandomNumber();
+        else
+            return response()->json('Invalid mode. Please contact software administrator.', 500);
+
+        /*$currentNumber = GenNum::first();
         $number = $currentNumber->number;
         $movedNumber = Number::create([
             'number' => $currentNumber->number,
@@ -65,7 +74,32 @@ class IndexController extends Controller
         ]);
         $currentNumber->delete();
 
+        return response()->json($number, 200);*/
+    }
+
+    private function getRandomNumber()
+    {
+        $currentNumber = GenNum::query()->first();
+        $number = $currentNumber->number;
+        $movedNumber = Number::query()->create([
+            'number' => $currentNumber->number,
+            'status' => 1
+        ]);
+        $currentNumber->delete();
+
         return response()->json($number, 200);
+    }
+
+    private function getListNumberAsRandom()
+    {
+        $number = ListNumber::query()->where("status", 0)->first();
+        if($number == null) {
+            return response()->json(['error' => "No List exists in database or none of the list are active at the moment."], 400);
+        }
+        $sentNumber = substr($number->number, 0, 1) === "0" ? $number->number : "0" . $number->number;
+        $number->status = true;
+        $number->save();
+        return response()->json(['number' => $sentNumber, 'name' => $number->name, 'city' => $number->city], 200);
     }
 
     public function getRecentCalls(Request $request)

@@ -119,7 +119,7 @@
                                     <div class="col-md-12">
                                         <div class="card">
                                             <div class="card-body">
-                                                <label class="col-form-label text-sm-right">Random Mode</label>
+                                                <label class="col-form-label text-sm-right">Auto Mode</label>
                                                 <div class="switch-button switch-button-success">
                                                     <input type="checkbox" name="randomMode" id="randomMode"><span>
                                 <label for="randomMode"></label></span>
@@ -309,6 +309,7 @@
         let server_address = "{{ \App\Setting::where('key', 'server_address')->first()->value }}";
         let auto_answer = "{{ \App\Setting::where('key', 'auto_answer')->first()->value }}";
         let random_mode = "{{ \App\Setting::where('key', 'random_mode')->first()->value }}";
+        let random_type = "{{ \App\Setting::where('key', 'random_type')->first()->value }}";
         let random_url = "{{ route('agent.random') }}";
         let list_url = "{{ route('agent.list') }}";
         let recent_calls = "{{ route('agent.recent') }}";

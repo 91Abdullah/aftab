@@ -85,7 +85,7 @@ class AgentStatusController extends Controller
     private function getOptions()
     {
         return [
-            'host' => '127.0.0.1', //Setting::query()->where('key', 'server_address')->first()->value
+            'host' => Setting::query()->where('key', 'server_address')->first()->value ?? '127.0.0.1',
             'port' => '5038',
             'username' => 'defaultapp',
             'secret' => 'randomsecretstring',
