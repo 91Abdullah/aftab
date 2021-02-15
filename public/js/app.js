@@ -97771,7 +97771,7 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var getLiveCalls = function getLiveCalls() {
-  return window.axios.get('/foresight/public/live/show-channels');
+  return window.axios.get('/live/show-channels');
 };
 var getUserDetails = function getUserDetails(_ref) {
   var queryKey = _ref.queryKey;
@@ -97780,10 +97780,10 @@ var getUserDetails = function getUserDetails(_ref) {
       _key = _queryKey[0],
       authId = _queryKey[1].authId;
 
-  return window.axios.get('/foresight/public/live/get-user/' + authId);
+  return window.axios.get('/live/get-user/' + authId);
 };
 var getServer = function getServer() {
-  return window.axios.get('/foresight/public/live/get-server');
+  return window.axios.get('/live/get-server');
 };
 var listenThisCall = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(_ref2) {
@@ -97797,7 +97797,7 @@ var listenThisCall = /*#__PURE__*/function () {
             _queryKey2 = _slicedToArray(queryKey, 2), _key = _queryKey2[0], _queryKey2$ = _queryKey2[1], channel = _queryKey2$.channel, agent = _queryKey2$.agent, mode = _queryKey2$.mode;
             console.log(channel, agent, mode);
             _context.next = 5;
-            return window.axios.post("/foresight/public/live/listen", {
+            return window.axios.post("/live/listen", {
               channel: channel,
               agent: agent,
               mode: mode
