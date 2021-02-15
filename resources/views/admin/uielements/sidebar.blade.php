@@ -21,6 +21,9 @@
                             <div id="submenu-2" class="collapse submenu" style="">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('user.admin.index') }}">Admins <span class="badge badge-secondary">New</span></a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a class="nav-link" href="{{ route('user.index') }}">Agents <span class="badge badge-secondary">New</span></a>
                                     </li>
                                     <li class="nav-item">
@@ -60,6 +63,9 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('setting.index') }}" class="nav-link {{ request()->is('admin/setting*') ? 'active' : '' }}"><i class="fa fa-fw fa-cogs"></i>Settings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('live.monitoring') }}" class="nav-link {{ request()->is('admin/monitoring') ? 'active' : '' }}"><i class="fa fa-fw fa-headphones"></i>Monitoring</a>
                         </li>
                     @endcan
                     <li class="nav-item">

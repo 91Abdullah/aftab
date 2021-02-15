@@ -103,6 +103,8 @@
         </div>
     </div>
 
+    @include('admin.user.admin_create', ['allowed_accounts' => $allowed_accounts])
+
 @endsection
 
 @push('scripts')

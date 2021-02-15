@@ -6,15 +6,19 @@ use App\Role;
 use App\User;
 use Exception;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
+    // Allowed monitoring accounts
+    private $allowed_accounts = ['100', '101'];
     // aor
 
     private $remove_existing = "yes";
@@ -32,7 +36,7 @@ class UserController extends Controller
 
     private $context = "default";
     private $disallow = "all";
-    private $allow = "opus,ulaw";
+    private $allow = "alaw,ulaw,opus";
     private $dtls_auto_generate_cert = "yes";
     private $webrtc = "yes";
     private $use_avpf = "yes";
@@ -45,6 +49,98 @@ class UserController extends Controller
     private $transport = "transport-wss";
 
     // end endpoint
+
+    /**
+     * Admin index
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|View|\Illuminate\View\View
+     */
+    public function indexAdminUser()
+    {
+        $role = Role::query()->where('name', 'admin')->first();
+        $users = $role->users;
+        return view('admin.user.admin_index', compact('users'));
+    }
+
+    /**
+     * @param User $user
+     * Destroy an admin
+     * @return RedirectResponse
+     */
+    public function destroyAdminUser(User $user)
+    {
+        try {
+            $user->endpoints()->delete();
+            $user->auths()->delete();
+            $user->aors()->delete();
+            DB::table('endpoint_user')->where('user_id', $user->id)->delete();
+            $user->delete();
+            return redirect()->route('user.admin.index')->with('status', "Admin {$user->name} has been deleted.");
+        } catch (\Exception $exception) {
+            return redirect()->route('user.admin.index')->with('status', "Admin {$user->name} failed to delete.");
+        }
+    }
+
+    /**
+     * @param Request $request
+     * Create an admin user
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function createAdminUser(Request $request): \Illuminate\Http\RedirectResponse
+    {
+        $allowed_accounts = implode(',', $this->allowed_accounts);
+
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'password' => ['required', 'max:255', 'confirmed'],
+            'sip_account' => ['required', "in:{$allowed_accounts}", 'unique:ps_endpoints,id']
+        ]);
+
+        $role = Role::query()->where('name', 'Admin')->first();
+        if($role) {
+            $user = $this->make($request->all());
+            $user->roles()->attach($role);
+
+            DB::table('ps_aors')->insert([
+                'id' => $request->sip_account,
+                'max_contacts' => $this->max_contact,
+                'remove_existing' => $this->remove_existing
+            ]);
+            DB::table('ps_auths')->insert([
+                'id' => $request->sip_account,
+                'auth_type' => $this->auth_type,
+                'password' => $request->sip_account,
+                'username' => $request->sip_account
+            ]);
+            DB::table('ps_endpoints')->insert([
+                'id' => $request->sip_account,
+                'transport' => $this->transport,
+                'aors' => $request->sip_account,
+                'auth' => $request->sip_account,
+                'context' => $this->context,
+                'disallow' => $this->disallow,
+                'allow' => $this->allow,
+                'dtls_auto_generate_cert' => $this->dtls_auto_generate_cert,
+                'webrtc' => $this->webrtc,
+                'use_avpf' => $this->use_avpf,
+                'media_encryption' => $this->media_encryption,
+                'dtls_verify' => $this->dtls_verify,
+                'dtls_setup' => $this->dtls_setup,
+                'ice_support' => $this->ice_support,
+                'media_use_received_transport' => $this->media_use_received_transport,
+                'rtcp_mux' => $this->rtcp_mux
+            ]);
+
+            DB::table('endpoint_user')->insert([
+                'ps_endpoint_id' => $request->sip_account,
+                'user_id' => $user->id
+            ]);
+
+            return redirect()->route('user.admin.index')->with('status', "Admin {$user->name} has been created.");
+        } else {
+            abort(503);
+        }
+    }
 
     /**
      * Display a listing of reporting users
@@ -69,11 +165,12 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function create()
     {
-        return view('admin.user.create');
+        $allowed_accounts = $this->allowed_accounts;
+        return view('admin.user.create', compact('allowed_accounts'));
     }
 
     /**

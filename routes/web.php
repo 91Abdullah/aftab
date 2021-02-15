@@ -26,11 +26,18 @@ Auth::routes();
 //Route::get('/test', 'AgentController@test')->name('test');
 
 // Test Route
-Route::get('/test', 'HomeController@test');
+Route::get('/test', 'TestController@test');
 
 // Login
 
 //Route::get('/login', 'Auth/LoginController@login');
+
+Route::group(['prefix' => 'live', 'namespace' => 'Live'], function () {
+    Route::get('/get-user/{user}', 'LiveMonitoringController@getUser');
+    Route::get('/get-server', 'LiveMonitoringController@getServer');
+    Route::get('show-channels', 'LiveMonitoringController@getLiveCalls')->name('live.calls');
+    Route::post('listen', 'LiveMonitoringController@listenThisCall')->name('listen.call');
+});
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'can:admin-access'], function () {
 
@@ -39,6 +46,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'can:
     // User level routes
 
     Route::resource('user', 'UserController');
+    Route::get('admin_index', 'UserController@indexAdminUser')->name('user.admin.index');
+    Route::post('admin_user', 'UserController@createAdminUser')->name('user.admin');
+    Route::delete('/admin_destroy/{user}', 'UserController@destroyAdminUser')->name('admin.destroy');
     Route::get('reporting_user', 'UserController@reportingIndex')->name('user.reporting');
     Route::get('validateAgentId', 'UserController@validateAgentId')->name('validate_agent');
 
@@ -46,6 +56,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'can:
 
     Route::get('setting', 'SettingController@index')->name('setting.index');
     Route::patch('setting', 'SettingController@update')->name('setting.update');
+
+    // Live monitoring
+    Route::view('monitoring', 'admin.live.monitoring')->name('live.monitoring');
 
     // Response Codes
 
