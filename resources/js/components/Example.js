@@ -93,7 +93,7 @@ function Example(props) {
                 </div>
                 <div className="card-body">
                     <NotificationContainer />
-                    <Monitor data={userQuery.data.data} server={server} agent={selfAgent} ref={monitor} isConnected={isConnected} setIsConnected={setIsConnected} />
+                    <Monitor data={data} server={server} agent={selfAgent} ref={monitor} isConnected={isConnected} setIsConnected={setIsConnected} />
                     <div className="table-responsive">
                         <table className="table">
                             <thead>

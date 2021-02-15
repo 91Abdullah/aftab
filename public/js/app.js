@@ -97449,7 +97449,7 @@ function Example(props) {
     }, "Disconnected")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "card-body"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_notifications__WEBPACK_IMPORTED_MODULE_5__["NotificationContainer"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Monitor__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      data: userQuery.data.data,
+      data: data,
       server: server,
       agent: selfAgent,
       ref: monitor,
