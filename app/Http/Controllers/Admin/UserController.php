@@ -57,7 +57,7 @@ class UserController extends Controller
     public function indexAdminUser()
     {
         $role = Role::query()->where('name', 'admin')->first();
-        $users = $role->users;
+        $users = $role->users->where('email', '!=', 'admin@example.com');
         return view('admin.user.admin_index', compact('users'));
     }
 
