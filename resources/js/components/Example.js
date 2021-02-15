@@ -19,6 +19,7 @@ function Example(props) {
     const [isConnected, setIsConnected] = useState(false);
     const [selfAgent, setSelfAgent] = useState(false);
     const [server, setServer] = useState(false);
+    const [data, setData] = useState(false);
 
     const userQuery = useQuery(['getUser', { authId: props.authId }], getUserDetails, {
         retry: false
@@ -41,6 +42,7 @@ function Example(props) {
         if(userQuery.isSuccess) {
             setSelfAgent(userQuery.data.data.user)
             setServer(userQuery.data.data.server)
+            setData(userQuery.data.data)
         }
     }, [userQuery])
 

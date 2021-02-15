@@ -97368,6 +97368,11 @@ function Example(props) {
       server = _useState12[0],
       setServer = _useState12[1];
 
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState14 = _slicedToArray(_useState13, 2),
+      data = _useState14[0],
+      setData = _useState14[1];
+
   var userQuery = Object(react_query__WEBPACK_IMPORTED_MODULE_2__["useQuery"])(['getUser', {
     authId: props.authId
   }], _query__WEBPACK_IMPORTED_MODULE_3__["getUserDetails"], {
@@ -97392,6 +97397,7 @@ function Example(props) {
     if (userQuery.isSuccess) {
       setSelfAgent(userQuery.data.data.user);
       setServer(userQuery.data.data.server);
+      setData(userQuery.data.data);
     }
   }, [userQuery]);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
