@@ -97382,7 +97382,8 @@ function Example(props) {
   var listenQuery = Object(react_query__WEBPACK_IMPORTED_MODULE_2__["useQuery"])(['listenCalls', {
     channel: listenChannel,
     agent: agent,
-    mode: mode
+    mode: mode,
+    selfAgent: selfAgent
   }], _query__WEBPACK_IMPORTED_MODULE_3__["listenThisCall"], {
     refetchOnWindowFocus: false,
     enabled: false
@@ -97793,28 +97794,28 @@ var getServer = function getServer() {
 };
 var listenThisCall = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(_ref2) {
-    var queryKey, _queryKey2, _key, _queryKey2$, channel, agent, mode, _yield$window$axios$p, data;
+    var queryKey, _queryKey2, _key, _queryKey2$, channel, agent, mode, selfAgent, _yield$window$axios$p, data;
 
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             queryKey = _ref2.queryKey;
-            _queryKey2 = _slicedToArray(queryKey, 2), _key = _queryKey2[0], _queryKey2$ = _queryKey2[1], channel = _queryKey2$.channel, agent = _queryKey2$.agent, mode = _queryKey2$.mode;
-            console.log(channel, agent, mode);
-            _context.next = 5;
+            _queryKey2 = _slicedToArray(queryKey, 2), _key = _queryKey2[0], _queryKey2$ = _queryKey2[1], channel = _queryKey2$.channel, agent = _queryKey2$.agent, mode = _queryKey2$.mode, selfAgent = _queryKey2$.selfAgent;
+            _context.next = 4;
             return window.axios.post("/live/listen", {
               channel: channel,
               agent: agent,
-              mode: mode
+              mode: mode,
+              selfAgent: selfAgent
             });
 
-          case 5:
+          case 4:
             _yield$window$axios$p = _context.sent;
             data = _yield$window$axios$p.data;
             return _context.abrupt("return", data);
 
-          case 8:
+          case 7:
           case "end":
             return _context.stop();
         }

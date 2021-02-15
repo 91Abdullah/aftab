@@ -12,12 +12,12 @@ export const getServer = () => {
 }
 
 export const listenThisCall = async ({ queryKey }) => {
-    const [_key, { channel, agent, mode }] = queryKey
-    console.log(channel, agent, mode)
+    const [_key, { channel, agent, mode, selfAgent }] = queryKey
     const { data } = await window.axios.post(`/live/listen`, {
         channel,
         agent,
-        mode
+        mode,
+        selfAgent
     })
     return data
 }

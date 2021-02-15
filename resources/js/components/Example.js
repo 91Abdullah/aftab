@@ -25,7 +25,7 @@ function Example(props) {
         retry: false
     })
     const query = useQuery('liveCalls', getLiveCalls)
-    const listenQuery = useQuery(['listenCalls', { channel: listenChannel, agent, mode}], listenThisCall, {
+    const listenQuery = useQuery(['listenCalls', { channel: listenChannel, agent, mode, selfAgent}], listenThisCall, {
         refetchOnWindowFocus: false,
         enabled: false
     })

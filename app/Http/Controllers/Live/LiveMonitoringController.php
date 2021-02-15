@@ -54,7 +54,8 @@ class LiveMonitoringController extends Controller
     public function listenThisCall(Request $request)
     {
         $callerID = ucfirst($request->mode);
-        $action = new OriginateAction("PJSIP/200");
+        $self = $request->selfAgent;
+        $action = new OriginateAction("PJSIP/{$self}");
         $action->setContext("default");
         $action->setPriority("1");
         $action->setCallerId("{$callerID} <{$request->agent}>");
