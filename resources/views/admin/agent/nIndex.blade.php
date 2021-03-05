@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/datatables.min.css') }}"/>
 @endpush
-
+ 
 @section('content')
 
     <div class="row">
@@ -143,10 +143,14 @@
                                     <div class="card">
                                         <div class="card-header d-flex">
                                             <div class="card-header-title">
-                                                Schedule A Call
+                                                {{-- Schedule A Call --}}
+                                                Callback later
                                             </div>
-                                            <div class="toolbar ml-auto">
-                                                <button title="Schedule this call" id="scheduleCall" class="btn btn-primary btn-xs"><i class="fas fa-plus"></i></button>
+                                             <div class="toolbar ml-auto">
+                                                <button title="Callback this number" id="scheduleCall" class="btn btn-primary btn-xs"><i class="fas fa-plus"></i></button>
+                                            </div>
+                                             <div class="toolbar ml-auto">
+                                                <button title="Call listed numbers" id="listscheduleCallBtn" class="btn btn-success btn-xs"><i class="fas fa-phone"></i></button>
                                             </div>
                                         </div>
                                         <div class="card-body table-responsive">
@@ -198,6 +202,10 @@
                 </div>
                 <div class="tab-pane fade" id="cdrs">
                     <div class="card">
+                                        <div class="card-header">
+                                <button id='downloadallBtn' class="btn btn-primary pull-right" >Download All</button>
+            
+                    </div>
                         <div class="card-body">
 
                             @if (session('status'))
@@ -225,6 +233,7 @@
                     </div>
 
                     <div class="card">
+
                         <div class="card-body">
 
                             @if (session('status'))
@@ -246,12 +255,13 @@
                                         <th>Duration</th>
                                         <th>Disposition</th>
                                         <th>Code</th>
+                                        <th>Code B</th>
                                         <th>Recording</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td colspan="10">No records found.</td>
+                                        <td colspan="11">No records found.</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -312,18 +322,21 @@
         let random_type = "{{ \App\Setting::where('key', 'random_type')->first()->value }}";
         let random_url = "{{ route('agent.random') }}";
         let list_url = "{{ route('agent.list') }}";
-        let recent_calls = "{{ route('agent.recent') }}";
+        let callbacklist_url = "{{ route('agent.callbacklist') }}";
+        let recent_calls = "{{ route('agent.recent') }}"; 
         let schedule_call = "{{ route('agent.schedule') }}";
         let get_calls = "{{ route('agent.get-calls') }}";
         let codes = '{!! $responseCodes !!}';
         let response_route = "{{ route('agent.saveResponse') }}";
+        let list_number_call_answered_route = "{{ route('agent.changelistNumberStatus') }}";
+        let callback_answered_route = "{{ route('agent.changecallBackNumberStatus') }}";
         let token = "{{ csrf_token() }}";
 
         // Agent Routes
         let readyRoute = "{{route('agent.ready')}}";
         let notReadyRoute = "{{route('agent.notready')}}";
         let agentQStatus = "{{ route('agent.status') }}";
-
+ 
     </script>
     <script src="{{ asset('js/sweetalert2@8.js') }}"></script>
     <script src="{{ asset('js/flatpickr.js') }}"></script>
@@ -350,7 +363,18 @@
                 toggleActive: true,
                 autoClose: true
             });
-
+            $("#downloadallBtn").click(function(){ 
+                    var anchors= $('#myTable tr a').length;
+                    (function myLoop(i) {
+                        setTimeout(function() {
+                            console.log(i);
+                             try{ $("#myTable tr a")[i].click();}catch(err){console.log(err);}
+                            //  decrement i and call myLoop again if i > 0
+                            if (--i >=0) myLoop(i);  
+                        }, 1000)
+                        //  pass the number of iterations as an argument
+                    })(anchors);                   
+            });
             document.getElementById('getReport').onsubmit = function (e) {
                 e.preventDefault();
                 $('#myTable').DataTable({
@@ -375,6 +399,7 @@
                         {data: 'duration', name: 'duration'},
                         {data: 'disposition', name: 'disposition'},
                         {data: 'code', name: 'code'},
+                        {data: 'code2', name: 'code2'},
                         {data: 'recordingfile', name: 'recordingfile'}
                     ],
                     dom: 'Bfrtip',

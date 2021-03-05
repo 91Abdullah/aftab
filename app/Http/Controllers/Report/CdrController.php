@@ -58,6 +58,9 @@ class CdrController extends Controller
             ->addColumn('code', function (Cdr $cdr) {
                 return $cdr->response_codes()->first()->name ?? "NULL";
             })
+            ->addColumn('code2', function (Cdr $cdr) {
+                return $cdr->response_codes2()->first()->name ?? "NULL";
+            })
             ->editColumn('dcontext', function (Cdr $cdr) {
                 return $cdr->dcontext == "default" ? "Outgoing" : "Incoming";
             })
@@ -68,7 +71,13 @@ class CdrController extends Controller
                     $month = $date->month;
                     $day = $date->day;
                     $file_path = $year . "_" . $month . "_" . $day . "_" . $cdr->recordingfile;
-                    return "<a class='btn btn-danger' href='" . route('cdr.play', ['file' => $file_path]) . "'>Download</a>";
+                    // return $cdr->recordingfile;
+                    if($cdr->recordingfile){
+
+                        return "<a class='btn btn-danger clk' href='" . route('cdr.play', ['file' => $file_path]) . "'>Download</a>";
+                    }else{
+                        return 'File not available.';
+                    }
                 } else
                     return "";
             })

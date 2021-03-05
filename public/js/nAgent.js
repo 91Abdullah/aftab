@@ -21,6 +21,7 @@ $(document).ready(function () {
 
     let manualDialBtn = document.getElementById('manualDialBtn');
     let listDialBtn = document.getElementById('listDialBtn');
+    let listscheduleCallBtn = document.getElementById('listscheduleCallBtn');
     let randomDialBtn = document.getElementById('randomDialBtn');
     let registerBtn = document.getElementById('registerBtn');
     let readyBtn = document.getElementById('readyBtn');
@@ -41,6 +42,7 @@ $(document).ready(function () {
     let inputNumber = document.getElementById('inputNumber');
     let cName = document.getElementById('cName');
     let cCity = document.getElementById('cCity');
+    let listnumberId = '';
 
     let mvisible = false;
     let hVisible = false;
@@ -272,25 +274,26 @@ $(document).ready(function () {
 
         const {value: formValues} = await Swal.fire({
             title: 'Schedule This Call',
-            html: '<input id="datepicker" class="form-control" type="text">',
+            html: '<input class="datepicker" class="form-control" type="text">',
             showConfirmButton: true,
             customClass: 'swal2-overflow',
             preConfirm: () => {
-                return document.getElementById('datepicker').value;
+                return document.getElementsByClassName('datepicker').value;
             },
             onOpen: () => {
                 let config = {
                     enableTime: true,
                     dateFormat: "Y-m-d H:i",
                 };
-                $('#datepicker').flatpickr(config);
+                $('.datepicker').flatpickr(config);
             }
         });
 
         if (formValues) {
+            let scheduleTime = $('.datepicker').val();
             Swal.fire(JSON.stringify(formValues));
             axios.post(schedule_call, {
-                schedule_time: formValues,
+                schedule_time: scheduleTime,
                 user_id: user_id,
                 number: inputNumber.value
             })
@@ -302,6 +305,9 @@ $(document).ready(function () {
                     console.log(`Error in submitting workcode: ${error}`);
                 })
         }
+
+        //END OF ABDULLAH'S CODE
+      
     }
 
     function randomModeChange(event) {
@@ -456,7 +462,9 @@ $(document).ready(function () {
         manualDialBtn.disabled = true;
         if(random_mode) {
             listDialBtn.disabled = true;
+            listscheduleCallBtn.disabled=true;
             randomDialBtn.disabled = true;
+
         }
     }
 
@@ -464,6 +472,7 @@ $(document).ready(function () {
         manualDialBtn.disabled = false;
         if(random_mode) {
             listDialBtn.disabled = false;
+            listscheduleCallBtn.disabled=false;
             randomDialBtn.disabled = false;
         }
     }
@@ -569,14 +578,61 @@ $(document).ready(function () {
     }
 
     async function showCodeForm() {
+ 
         if(Object.keys(JSON.parse(codes)).length === 0) {
             return;
         }
+        //OLD ABDULLAH's CODE
+            // const {value: code} = await Swal.fire({
+            //     title: 'Select status fields',
+            //     input: 'select',
+            //     inputOptions: JSON.parse(codes),
+            //     inputPlaceholder: 'Select a Code',
+                
+            //     showCancelButton: false,
+            //     backdrop: false,
+            //     allowOutsideClick: false,
+            //     allowEscapeKey: false,
+            //     allowEnterKey: false,
+            //     showLoaderOnConfirm: true,
+            //     preConfirm: (code) => {
+            //         if(!code)
+            //             return false;
+            //         axios
+            //             .post(response_route, {
+            //                 _token: token,
+            //                 call_id: callID,
+            //                 code: code
+            //             })
+            //             .then((response) => {
+            //                 $.notify(response.data.success, "success");
+            //             })
+            //             .catch((error) => {
+            //                 $.notify(error, "error");
+            //                 //console.log(error);
+            //             });
+            //     }
+            // });
+
+        // END OF OLD ABDULLAH'S CODE 
+        var indeces = Object.keys(JSON.parse(codes)); 
+        var texts = Object.values(JSON.parse(codes));
+
+        var stringselect1='<select id="code1" class="swal2-select" style="display: flex;"><option value="" disabled="">Select a Code</option>';   
+        var stringselect2='<select id="code2" class="swal2-select" style="display: flex;"><option value="" disabled="">Select a Code</option>';   
+        
+        for (let i = 0; i < Object.keys(JSON.parse(codes)).length; i++) {
+            stringselect1+='<option value="'+indeces[i] +'" >'+texts[i] +'</option>';
+            stringselect2+='<option value="'+indeces[i] +'" >'+texts[i] +'</option>';
+            
+        }
+        stringselect1+='</select>';
+        stringselect2+='</select>';
         const {value: code} = await Swal.fire({
-            title: 'Select status field',
-            input: 'select',
-            inputOptions: JSON.parse(codes),
-            inputPlaceholder: 'Select a Code',
+           
+            
+            title: 'Select status fields',
+            html:stringselect1+stringselect2,
             showCancelButton: false,
             backdrop: false,
             allowOutsideClick: false,
@@ -590,15 +646,17 @@ $(document).ready(function () {
                     .post(response_route, {
                         _token: token,
                         call_id: callID,
-                        code: code
+                        code1: document.getElementById('code1').value,
+                        code2:document.getElementById('code2').value
                     })
                     .then((response) => {
                         $.notify(response.data.success, "success");
                     })
                     .catch((error) => {
                         $.notify(error, "error");
-                        //console.log(error);
+                        // console.log(error);
                     });
+                
             }
         });
     }
@@ -616,6 +674,39 @@ $(document).ready(function () {
     function getListNumber()
     {
         return axios.get(list_url);
+    }
+    function getCallbackListNumber()
+    {
+        return axios.get(callbacklist_url);
+    }
+    function changelistNumbersStatus(){
+        axios
+        .post(list_number_call_answered_route, {
+            listnoId: listnumberId
+        })
+        .then((response) => {
+            // $.notify(response.data.success, "success");
+            console.log('List number marked as answered');
+        })
+        .catch((error) => {
+            // $.notify(error, "error");
+            console.log(error);
+        });
+    }
+    function changeCallbackNumbersStatus(){
+        axios
+        .post(callback_answered_route, {
+            listnoId: listnumberId
+        })
+        .then((response) => {
+            $.notify(response.data.success, "success");
+            // console.log('List number marked as answered');
+            tableReload();
+        })
+        .catch((error) => {
+            // $.notify(error, "error");
+            console.log(error);
+        });
     }
 
     function dialExternalCall()
@@ -665,6 +756,77 @@ $(document).ready(function () {
         });
 
         session.on('accepted', () => {
+            console.log('/////\\\\\/////\\\/////\\\ call answered');
+            changelistNumbersStatus();
+            
+            changeCallAcceptedState();
+        });
+
+        session.on('terminated', () => {
+            changeCallTerminatedState();
+            showCodeForm()
+                .finally(() => {
+                    if(random_mode && random_mode === true) {
+                        dialRandomCall();
+                    }
+                });
+            currentSession = undefined;
+        });
+
+        session.on('bye', (request) => {
+            console.log(`Bye on external call: ${request}`);
+        });
+    }
+    function dialCallbackExternalCall()
+    {
+        if(inputNumber.value.length === 0 || isNaN(inputNumber.value)) {
+            $.notify("No calls schedule or invalid number.", "error");
+            return;
+        }
+
+        let session = userAgent.invite(inputNumber.value + '@' + server_address, {
+            sessionDescriptionHandlerOptions: {
+                constraints: {
+                    audio: true,
+                    video: false
+                },
+                extraHeaders: [
+                    'X-User-Field: ' + create_UUID()
+                ]
+            },
+        });
+
+        console.log(`External call dialed: ${session}`);
+
+        currentSession = session;
+        callID = session.request.callId;
+
+        session.on('trackAdded', function() {
+            // We need to check the peer connection to determine which track was added
+
+            var pc = session.sessionDescriptionHandler.peerConnection;
+
+            // Gets remote tracks
+            var remoteStream = new MediaStream();
+            pc.getReceivers().forEach(function(receiver) {
+                remoteStream.addTrack(receiver.track);
+            });
+            remoteAudio.srcObject = remoteStream;
+            remoteAudio.play();
+
+            // Gets local tracks
+            var localStream = new MediaStream();
+            pc.getSenders().forEach(function(sender) {
+                localStream.addTrack(sender.track);
+            });
+            localAudio.srcObject = localStream;
+            localAudio.play();
+        });
+
+        session.on('accepted', () => {
+            console.log('/////\\\\\/////\\\/////\\\ call answered');
+            changeCallbackNumbersStatus();
+            
             changeCallAcceptedState();
         });
 
@@ -881,13 +1043,50 @@ $(document).ready(function () {
         };
 
         listDialBtn.onclick = function (event) {
+            // alert('nAgent.js');
+            //This File is currently consuming.
             getListNumber()
                 .then((response) => {
                     console.log(response);
                     inputNumber.value = response.data.number;
                     cName.textContent = response.data.name;
                     cCity.textContent = response.data.city;
+                    listnumberId = response.data.id;
                     dialExternalCall();
+                })
+                .catch((error) => {
+                    $.notify(error.response.data, "error");
+                });
+        };
+        setInterval(function() {
+            
+            getCallbackListNumber()
+            .then((response) => {
+                console.log(response);
+                inputNumber.value = response.data.number;
+                // cName.textContent = response.data.name;
+                // cCity.textContent = response.data.city;
+                listnumberId = response.data.id;
+
+                dialCallbackExternalCall();
+            })
+            .catch((error) => {
+                $.notify(error.response.data, "error");
+            });
+
+        }, 30 * 1000); // 180 seconds * 1000 milsec = run every 3 minutes. 
+
+        listscheduleCallBtn.onclick = function (event) {
+      
+            getCallbackListNumber()
+                .then((response) => {
+                    console.log(response);
+                    inputNumber.value = response.data.number;
+                    // cName.textContent = response.data.name;
+                    // cCity.textContent = response.data.city;
+                    listnumberId = response.data.id;
+
+                    dialCallbackExternalCall();
                 })
                 .catch((error) => {
                     $.notify(error.response.data, "error");

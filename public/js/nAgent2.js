@@ -743,15 +743,16 @@ $(document).ready(function () {
     };
 
     listDialBtn.onclick = function (event) {
-        getListNumber()
-            .then((response) => {
-                console.log(response);
-                inputNumber.value = response.data;
-                dialExternalCall();
-            })
-            .catch((error) => {
-                $.notify(error.response.data, "error");
-            });
+        alert('nAgent2.js');
+        // getListNumber()
+        //     .then((response) => {
+        //         console.log(response);
+        //         inputNumber.value = response.data;
+        //         dialExternalCall();
+        //     })
+        //     .catch((error) => {
+        //         $.notify(error.response.data, "error");
+        //     });
     };
 
     window.addEventListener('keypress', function (e) {

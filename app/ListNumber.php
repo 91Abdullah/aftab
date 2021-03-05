@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ListNumber extends Model
 {
-    protected $fillable = ['number', 'upload_list_id', 'name', 'city'];
+    protected $fillable = ['number', 'upload_list_id', 'name', 'city','attempts'];
     public $timestamps = false;
 
     public function parent()

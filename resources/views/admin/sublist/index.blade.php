@@ -32,6 +32,7 @@
                         <th>City</th>
                         <th>Parent List</th>
                         <th>Status</th>
+                        <th>Attempts</th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -53,6 +54,7 @@
                                     {{ $list->status ? 'Called' : 'Uncalled' }}
                                 </span>
                             </td>
+                            <td>{{ $list->attempts }}</td>
                             <td>
                                 <a href="{{ route('sublist.edit', $list->id) }}" class="btn btn-primary"><i class="far fa-edit"></i> Edit</a>
                             </td>

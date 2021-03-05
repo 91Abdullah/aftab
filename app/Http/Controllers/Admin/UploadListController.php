@@ -23,7 +23,7 @@ class UploadListController extends Controller
         $lists = UploadList::all();
         return view('admin.list.index', compact('lists'));
     }
-
+ 
     /**
      * Show the form for creating a new resource.
      *
