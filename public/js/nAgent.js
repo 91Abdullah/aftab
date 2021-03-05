@@ -1059,20 +1059,25 @@ $(document).ready(function () {
                 });
         };
         setInterval(function() {
+            if(listDialBtn.disabled == false){
+                getCallbackListNumber()
+                .then((response) => {
+                    console.log(response);
+                    inputNumber.value = response.data.number;
+                    // cName.textContent = response.data.name;
+                    // cCity.textContent = response.data.city;
+                    listnumberId = response.data.id;
+    
+                    dialCallbackExternalCall();
+                })
+                .catch((error) => {
+                    $.notify(error.response.data, "error");
+                });
+            }else{
+                $.notify("Can't dial scheduled numbers, Already in call.", "error");
+            }
             
-            getCallbackListNumber()
-            .then((response) => {
-                console.log(response);
-                inputNumber.value = response.data.number;
-                // cName.textContent = response.data.name;
-                // cCity.textContent = response.data.city;
-                listnumberId = response.data.id;
-
-                dialCallbackExternalCall();
-            })
-            .catch((error) => {
-                $.notify(error.response.data, "error");
-            });
+           
 
         }, 30 * 1000); // 180 seconds * 1000 milsec = run every 3 minutes. 
 
