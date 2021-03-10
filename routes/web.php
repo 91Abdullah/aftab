@@ -86,6 +86,7 @@ Route::group(['middleware' => 'can:agent-access', 'prefix' => 'agent', 'namespac
     Route::get('/getScheduledCall', 'IndexController@getScheduledCallsTable')->name('agent.get-calls');
     Route::post('/saveResponse', 'IndexController@saveResponse')->name('agent.saveResponse');
     Route::post('/changelistNumberStatus', 'IndexController@changelistNumberStatus')->name('agent.changelistNumberStatus');
+    Route::post('/changelistNumberAttempts', 'IndexController@changelistNumberAttempts')->name('agent.changelistNumberAttempts');
     Route::post('/changecallBackNumberStatus', 'IndexController@changecallBackNumberStatus')->name('agent.changecallBackNumberStatus');
 
     // Agent Routes

@@ -329,6 +329,7 @@
         let codes = '{!! $responseCodes !!}';
         let response_route = "{{ route('agent.saveResponse') }}";
         let list_number_call_answered_route = "{{ route('agent.changelistNumberStatus') }}";
+        let list_number_call_attempted_route = "{{ route('agent.changelistNumberAttempts') }}";
         let callback_answered_route = "{{ route('agent.changecallBackNumberStatus') }}";
         let token = "{{ csrf_token() }}";
 

@@ -163,13 +163,39 @@ class IndexController extends Controller
     {
         if($request->ajax()) {
             $id = $request->listnoId;
-            
-            $result = DB::table('list_numbers')
+            $listnumber = $request->listno;
+            $cdr = DB::table('cdr')
+            ->where('dst', $listnumber)->orderBy('start', 'DESC')->first();
+                
+            $disposition = $cdr->disposition;
+            if($disposition === 'ANSWERED'){
+                $result = DB::table('list_numbers')
                 ->where('id', $id)
                 ->update([
-                    'status' => true,
+                    'status' => true, 
                 ]);
+            }
             return response()->json(['success' => 'Response code has been dumped.']);
+
+            
+        } else {
+            return response()->json(['error' => 'Invalid Request'], 400);
+        }
+
+    }
+    public function changelistNumberAttempts(Request $request)
+    {
+        if($request->ajax()) {
+            $id = $request->listnoId;
+                $result = DB::table('list_numbers')
+                ->where('id', $id)
+                ->update([
+                    'attempts' => DB::raw('attempts + 1'), 
+                ]);
+            
+            return response()->json(['success' => 'Response code has been dumped.']);
+
+            
         } else {
             return response()->json(['error' => 'Invalid Request'], 400);
         }
@@ -179,11 +205,17 @@ class IndexController extends Controller
     {
         if($request->ajax()) {
             $id = $request->listnoId;
-            
+            $listnumber = $request->listno;
+            $cdr = DB::table('cdr')
+            ->where('dst', $listnumber)->orderBy('start', 'DESC')->first();
+                
+            $disposition = $cdr->disposition;
+            if($disposition === 'ANSWERED'){
             $result = DB::table('schedule_calls')
                 ->where('id', $id)
                 ->delete();
-            return response()->json(['success' => 'Schedule called completed.']);
+            }
+            return response()->json(['success' => 'Response code has been dumped.']);
         } else {
             return response()->json(['error' => 'Invalid Request'], 400);
         }
@@ -193,19 +225,18 @@ class IndexController extends Controller
     public function getListNumber(Request $request)
     {
         // return response()->json(['number' => 123, 'name' => 456, 'city' => karachi ,'attempts' => 34], 200);
-        
 
         if($request->ajax()) {
             $number = ListNumber::query()->where([
                 ['status', '=', 0],
-                ['attempts', '<', 3]
+                ['attempts', '>', 0]
             ])->first();
             if($number == null) {
                 return response()->json("No List exists in database or none of the list are active at the moment.", 400);
             }
             $sentNumber = substr($number->number, 0, 1) === "0" ? $number->number : "0" . $number->number;
             // $number->status = true; 
-            $number->attempts ++; 
+            $number->attempts--;
             $number->save();
             return response()->json(['number' => $sentNumber, 'name' => $number->name, 'city' => $number->city ,'id' => $number->id], 200);
         } else {
@@ -227,10 +258,11 @@ class IndexController extends Controller
                 $sentNumber = substr($number->number, 0, 1) === "0" ? $number->number : "0" . $number->number;
                 
                 return response()->json(['number' => $sentNumber, 'scheduleTime' => $scheduleTime,'currentTime' => $currentTime,'id' => $number->id], 200);
-            }else{
-
-                return response()->json([ 'scheduleTime' => $scheduleTime,'currentTime' => $currentTime,'id' => $number->id], 400);
             }
+            // else{
+
+            //     return response()->json([ 'scheduleTime' => $scheduleTime,'currentTime' => $currentTime,'id' => $number->id], 400);
+            // }
 
         } else {
             return response()->json("Invalid request", 400);

@@ -43,6 +43,7 @@ $(document).ready(function () {
     let cName = document.getElementById('cName');
     let cCity = document.getElementById('cCity');
     let listnumberId = '';
+    let listnumber = '';
 
     let mvisible = false;
     let hVisible = false;
@@ -671,6 +672,21 @@ $(document).ready(function () {
         return uuid;
     }
 
+    function updateListNumberAttempts(){
+        axios
+        .post(list_number_call_answered_route, {
+            listnoId: listnumberId,
+            listno: listnumber
+        })
+        .then((response) => {
+            // $.notify(response.data.success, "success");
+            console.log('List number attempts incremented');
+        })
+        .catch((error) => {
+            // $.notify(error, "error");
+            console.log(error);
+        });
+    }
     function getListNumber()
     {
         return axios.get(list_url);
@@ -681,8 +697,9 @@ $(document).ready(function () {
     }
     function changelistNumbersStatus(){
         axios
-        .post(list_number_call_answered_route, {
-            listnoId: listnumberId
+        .post(list_number_call_attempted_route, {
+            listnoId: listnumberId,
+            listno: listnumber
         })
         .then((response) => {
             // $.notify(response.data.success, "success");
@@ -696,7 +713,8 @@ $(document).ready(function () {
     function changeCallbackNumbersStatus(){
         axios
         .post(callback_answered_route, {
-            listnoId: listnumberId
+            listnoId: listnumberId,
+            listno: listnumber
         })
         .then((response) => {
             $.notify(response.data.success, "success");
@@ -715,7 +733,7 @@ $(document).ready(function () {
             $.notify("You can't dial an empty or invalid number.", "error");
             return;
         }
-
+        // updateListNumberAttempts();
         let session = userAgent.invite(inputNumber.value + '@' + server_address, {
             sessionDescriptionHandlerOptions: {
                 constraints: {
@@ -756,14 +774,13 @@ $(document).ready(function () {
         });
 
         session.on('accepted', () => {
-            console.log('/////\\\\\/////\\\/////\\\ call answered');
-            changelistNumbersStatus();
-            
+            console.log('call answered');
             changeCallAcceptedState();
         });
 
         session.on('terminated', () => {
             changeCallTerminatedState();
+            changelistNumbersStatus();
             showCodeForm()
                 .finally(() => {
                     if(random_mode && random_mode === true) {
@@ -825,8 +842,6 @@ $(document).ready(function () {
 
         session.on('accepted', () => {
             console.log('/////\\\\\/////\\\/////\\\ call answered');
-            changeCallbackNumbersStatus();
-            
             changeCallAcceptedState();
         });
 
@@ -843,6 +858,8 @@ $(document).ready(function () {
 
         session.on('bye', (request) => {
             console.log(`Bye on external call: ${request}`);
+            changeCallbackNumbersStatus();
+
         });
     }
 
@@ -1049,6 +1066,7 @@ $(document).ready(function () {
                 .then((response) => {
                     console.log(response);
                     inputNumber.value = response.data.number;
+                    listnumber = response.data.number;
                     cName.textContent = response.data.name;
                     cCity.textContent = response.data.city;
                     listnumberId = response.data.id;
@@ -1079,7 +1097,7 @@ $(document).ready(function () {
             
            
 
-        }, 30 * 1000); // 180 seconds * 1000 milsec = run every 3 minutes. 
+        }, 180 * 1000); // 180 seconds * 1000 milsec = run every 3 minutes. 
 
         listscheduleCallBtn.onclick = function (event) {
       
