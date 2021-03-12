@@ -96,7 +96,11 @@ Route::group(['prefix' => 'reports', 'namespace' => 'Report'], function () {
     // Cdr
     Route::group(['prefix' => 'cdr'], function () {
         Route::view('/', 'report.cdr.index')->name('cdr.index');
+        Route::view('/autogen', 'report.cdr.autogen')->name('cdr.autogen');
+        Route::view('/selfdial', 'report.cdr.selfdial')->name('cdr.selfdial');
         Route::get('/getReport', 'CdrController@getReport')->name('cdr.report');
+        Route::get('/getAutoGenReport', 'CdrController@getAutoGenReport')->name('cdr.autogenreport');
+        Route::get('/getSelfDialReport', 'CdrController@getSelfDialReport')->name('cdr.selfdialreport');
         Route::get('/playRecording/{file}', 'CdrController@playFile')->name('cdr.play');
     });
 });
