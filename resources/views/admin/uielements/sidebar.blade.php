@@ -69,6 +69,12 @@
                                 <li class="nav-item">
                                     <a class="nav-link {{ request()->is('*reports/cdr') ? 'active' : '' }}" href="{{ route('cdr.index') }}">Call Detail Report</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->is('*reports/cdr/autogen') ? 'active' : '' }}" href="{{ route('cdr.autogen') }}">Auto Generated numbers CDR</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->is('*reports/cdr/selfdial') ? 'active' : '' }}" href="{{ route('cdr.selfdial') }}">Self-dial numbers CDR</a>
+                                </li>
                                 @if(Auth::user()->can('admin-access') || Auth::user()->can('report-access'))
                                     <li class="nav-item">
                                         <a class="nav-link {{ request()->is('*reports/login') ? 'active' : '' }}" href="{{ route('login.index') }}">Agent Login Report</a>
