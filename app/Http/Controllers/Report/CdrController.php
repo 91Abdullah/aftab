@@ -92,7 +92,7 @@ class CdrController extends Controller
             });
         }
 
-        $cdrs->join('gen_nums', 'cdr.dst', '=', 'gen_nums.number')
+        $cdrs->join('numbers', 'cdr.dst', '=', 'numbers.number')
             ->whereBetween(DB::raw('date(start)'), [$start, $end])
             ->orderBy('start')->get(['src', 'dst', 'clid', 'start', 'answer', 'end', 'duration', 'disposition', 'recordingfile', 'userfield', 'channel']);
 
@@ -139,7 +139,7 @@ class CdrController extends Controller
             });
         }
 
-        $cdrs->join('numbers', 'cdr.dst', '=', 'numbers.number')
+        $cdrs->join('numbers', 'cdr.dst', '=', 'numbers.number', 'left outer')
             ->whereBetween(DB::raw('date(start)'), [$start, $end])
             ->orderBy('start')->get(['src', 'dst', 'clid', 'start', 'answer', 'end', 'duration', 'disposition', 'recordingfile', 'userfield', 'channel']);
 
