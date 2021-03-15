@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{ asset('assets/libs/css/style.css') }}">
     {{--<link rel="stylesheet" href="{{ asset('assets/vendor/fonts/fontawesome/css/fontawesome-all.css') }}">--}}
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('css/all.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/flag-icon-css/flag-icon.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/hide.css') }}">
@@ -87,7 +87,7 @@
 <script src="{{ asset('assets/vendor/slimscroll/jquery.slimscroll.js') }}"></script>
 <!-- main js -->
 <script src="{{ asset('assets/libs/js/main-js.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<script src="{{ asset('js/sweetalert2@8.js') }}"></script>
 
 @stack('scripts')
 

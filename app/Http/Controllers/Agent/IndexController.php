@@ -24,7 +24,7 @@ class IndexController extends Controller
     {
         $random_mode = Setting::where('key', 'random_mode')->first()->value;
         $responseCodes = ResponseCode::pluck('name', 'code');
-        return view('admin.agent.index', compact('random_mode', 'responseCodes'));
+        return view('admin.agent.nIndex', compact('random_mode', 'responseCodes'));
     }
 
     public function getScheduledCallsTable()

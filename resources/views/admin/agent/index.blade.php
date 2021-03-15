@@ -49,7 +49,7 @@
                                 <h6>
                                     <span id="callStatus">DISCONNECTED</span>
                                 </h6>
-                                <input id="inputNumber" type="text" value="" class="form-control-lg mb-2 text-center">
+                                <input aria-label="Input Number" id="inputNumber" type="text" value="" class="form-control-lg mb-2 text-center">
                                 <h6>
                                     <span id="mins">00:</span><span id="seconds">00</span>
                                 </h6>

@@ -62,14 +62,20 @@
                             <a href="{{ route('setting.index') }}" class="nav-link {{ request()->is('admin/setting*') ? 'active' : '' }}"><i class="fa fa-fw fa-cogs"></i>Settings</a>
                         </li>
                     @endcan
-                    @if(Auth::user()->can('admin-access') || Auth::user()->can('report-access'))
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->is('*reports*') ? 'active' : '' }}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5"><i class="fas fa-fw fa-chart-pie"></i>Reports</a>
-                            <div id="submenu-5" class="collapse submenu" style="">
-                                <ul class="nav flex-column">
-                                    <li class="nav-item">
-                                        <a class="nav-link {{ request()->is('*reports/cdr') ? 'active' : '' }}" href="{{ route('cdr.index') }}">Call Detail Report</a>
-                                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('*reports*') ? 'active' : '' }}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5"><i class="fas fa-fw fa-chart-pie"></i>Reports</a>
+                        <div id="submenu-5" class="collapse submenu" style="">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->is('*reports/cdr') ? 'active' : '' }}" href="{{ route('cdr.index') }}">Call Detail Report</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->is('*reports/cdr/autogen') ? 'active' : '' }}" href="{{ route('cdr.autogen') }}">Auto Generated numbers CDR</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->is('*reports/cdr/selfdial') ? 'active' : '' }}" href="{{ route('cdr.selfdial') }}">Self-dial numbers CDR</a>
+                                </li>
+                                @if(Auth::user()->can('admin-access') || Auth::user()->can('report-access'))
                                     <li class="nav-item">
                                         <a class="nav-link {{ request()->is('*reports/cdr/autogen') ? 'active' : '' }}" href="{{ route('cdr.autogen') }}">Auto Generated numbers CDR</a>
                                     </li>
@@ -82,10 +88,10 @@
                                     <li class="nav-item">
                                         <a class="nav-link {{ request()->is('*reports/code') ? 'active' : '' }}" href="{{ route('code.index') }}">Response Code Report</a>
                                     </li>
-                                </ul>
-                            </div>
-                        </li>
-                    @endif
+                                @endif
+                            </ul>
+                        </div>
+                    </li>
                     @can('agent-access')
                         <li class="nav-item">
                             <a class="nav-link {{ request()->is('agent*') ? 'active' : '' }}" href="{{ route('agent.index') }}" aria-expanded="false"><i class="fas fa-fw fa-user-plus"></i>Agent</a>

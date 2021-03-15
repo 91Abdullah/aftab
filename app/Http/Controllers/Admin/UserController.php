@@ -32,7 +32,8 @@ class UserController extends Controller
 
     private $context = "default";
     private $disallow = "all";
-    private $allow = "opus,ulaw";
+    // private $allow = "opus,ulaw";
+    private $allow = "alaw,ulaw";
     private $dtls_auto_generate_cert = "yes";
     private $webrtc = "yes";
     private $use_avpf = "yes";
@@ -171,7 +172,7 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, User $user)
     {
@@ -219,7 +220,7 @@ class UserController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'agent_id' => ['required', 'unique:ps_endpoints,id', 'numeric'],
             'agent_password' => ['required'],

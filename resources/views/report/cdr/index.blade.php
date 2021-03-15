@@ -53,8 +53,11 @@
                 <table id="myTable" class="table table-striped first">
                     <thead>
                     <tr>
+                        <th>Source</th>
                         <th>Dest</th>
+                        <th>CLID</th>
                         <th>Agent</th>
+                        <th>Type</th>
                         <th>Start</th>
                         <th>Answer</th>
                         <th>End</th>
@@ -66,7 +69,7 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td colspan="8">No records found.</td>
+                        <td colspan="10">No records found.</td>
                     </tr>
                     </tbody>
                 </table>
@@ -113,8 +116,11 @@
                         }
                     },
                     columns: [
+                        {data: 'src', name: 'src'},
                         {data: 'dst', name: 'dst'},
                         {data: 'clid', name: 'clid'},
+                        {data: 'agent', name: 'agent'},
+                        {data: 'dcontext', name: 'dcontext'},
                         {data: 'start', name: 'start'},
                         {data: 'answer', name: 'answer'},
                         {data: 'end', name: 'end'},

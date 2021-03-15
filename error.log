@@ -1,0 +1,149 @@
+[Tue Jan 05 16:16:28.300771 2021] [ssl:warn] [pid 3657] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 05 16:16:33.965735 2021] [ssl:warn] [pid 3657] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 05 16:18:18.959175 2021] [ssl:warn] [pid 3683] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 05 16:18:24.377285 2021] [ssl:warn] [pid 3683] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 05 17:02:54.046837 2021] [ssl:warn] [pid 3949] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 05 17:02:54.454905 2021] [ssl:warn] [pid 3949] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Fri Jan 08 10:37:05.786171 2021] [ssl:warn] [pid 10326] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Fri Jan 08 10:37:06.203414 2021] [ssl:warn] [pid 10326] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Fri Jan 08 11:04:18.881663 2021] [ssl:warn] [pid 10382] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Fri Jan 08 11:04:19.288619 2021] [ssl:warn] [pid 10382] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Fri Jan 08 11:13:00.274944 2021] [ssl:warn] [pid 10440] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Fri Jan 08 11:13:00.678475 2021] [ssl:warn] [pid 10440] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Fri Jan 08 17:10:28.059122 2021] [ssl:warn] [pid 1010] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Fri Jan 08 17:10:28.361644 2021] [ssl:warn] [pid 1010] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jan 10 03:12:02.694143 2021] [ssl:warn] [pid 1010] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Mon Jan 11 18:04:50.806827 2021] [ssl:warn] [pid 4340] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Mon Jan 11 18:04:51.213047 2021] [ssl:warn] [pid 4340] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Mon Jan 11 18:06:45.264738 2021] [ssl:warn] [pid 4361] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Mon Jan 11 18:06:45.669035 2021] [ssl:warn] [pid 4361] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Mon Jan 11 18:07:52.830196 2021] [ssl:warn] [pid 4383] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Mon Jan 11 18:07:52.830224 2021] [ssl:warn] [pid 4383] AH01909: RSA certificate configured for 192.168.144.212:443 does NOT include an ID which matches the server name
+[Mon Jan 11 18:07:53.238299 2021] [ssl:warn] [pid 4383] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Mon Jan 11 18:07:53.238324 2021] [ssl:warn] [pid 4383] AH01909: RSA certificate configured for 192.168.144.212:443 does NOT include an ID which matches the server name
+[Mon Jan 11 18:08:05.964579 2021] [ssl:warn] [pid 4400] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Mon Jan 11 18:08:05.964646 2021] [ssl:warn] [pid 4400] AH01909: RSA certificate configured for 192.168.144.212:443 does NOT include an ID which matches the server name
+[Mon Jan 11 18:08:06.371235 2021] [ssl:warn] [pid 4400] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Mon Jan 11 18:08:06.371295 2021] [ssl:warn] [pid 4400] AH01909: RSA certificate configured for 192.168.144.212:443 does NOT include an ID which matches the server name
+[Mon Jan 11 18:08:55.207772 2021] [ssl:warn] [pid 976] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Mon Jan 11 18:08:55.207900 2021] [ssl:warn] [pid 976] AH01909: RSA certificate configured for 192.168.144.212:443 does NOT include an ID which matches the server name
+[Mon Jan 11 18:08:55.512659 2021] [ssl:warn] [pid 976] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Mon Jan 11 18:08:55.512686 2021] [ssl:warn] [pid 976] AH01909: RSA certificate configured for 192.168.144.212:443 does NOT include an ID which matches the server name
+[Mon Jan 11 18:14:19.345267 2021] [ssl:warn] [pid 976] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Mon Jan 11 18:14:19.345336 2021] [ssl:warn] [pid 976] AH01909: RSA certificate configured for 192.168.144.212:443 does NOT include an ID which matches the server name
+[Mon Jan 11 20:24:59.725026 2021] [ssl:warn] [pid 979] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Mon Jan 11 20:24:59.726361 2021] [ssl:warn] [pid 979] AH01909: RSA certificate configured for 192.168.144.212:443 does NOT include an ID which matches the server name
+[Mon Jan 11 20:25:00.178223 2021] [ssl:warn] [pid 979] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Mon Jan 11 20:25:00.178253 2021] [ssl:warn] [pid 979] AH01909: RSA certificate configured for 192.168.144.212:443 does NOT include an ID which matches the server name
+[Tue Jan 12 10:42:04.692166 2021] [ssl:warn] [pid 6533] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 10:42:04.692209 2021] [ssl:warn] [pid 6533] AH01909: RSA certificate configured for 192.168.144.212:443 does NOT include an ID which matches the server name
+[Tue Jan 12 10:42:05.121177 2021] [ssl:warn] [pid 6533] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 10:42:05.121216 2021] [ssl:warn] [pid 6533] AH01909: RSA certificate configured for 192.168.144.212:443 does NOT include an ID which matches the server name
+[Tue Jan 12 10:45:07.234138 2021] [ssl:warn] [pid 945] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 10:45:07.237479 2021] [ssl:warn] [pid 945] AH01909: RSA certificate configured for 192.168.144.212:443 does NOT include an ID which matches the server name
+[Tue Jan 12 10:45:07.677874 2021] [ssl:warn] [pid 945] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 10:45:07.677918 2021] [ssl:warn] [pid 945] AH01909: RSA certificate configured for 192.168.144.212:443 does NOT include an ID which matches the server name
+[Tue Jan 12 10:46:12.657602 2021] [ssl:warn] [pid 1617] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 10:46:13.105312 2021] [ssl:warn] [pid 1617] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 11:41:54.064241 2021] [ssl:warn] [pid 943] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 11:41:54.498242 2021] [ssl:warn] [pid 943] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 11:56:50.057972 2021] [ssl:warn] [pid 941] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 11:56:50.504123 2021] [ssl:warn] [pid 941] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 12:00:34.553352 2021] [ssl:warn] [pid 1625] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 12:00:34.979929 2021] [ssl:warn] [pid 1625] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 12:01:21.712019 2021] [ssl:warn] [pid 1655] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 12:01:21.712061 2021] [ssl:warn] [pid 1655] AH01909: RSA certificate configured for 10.200.174.76:443 does NOT include an ID which matches the server name
+[Tue Jan 12 12:01:22.143863 2021] [ssl:warn] [pid 1655] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 12:01:22.143916 2021] [ssl:warn] [pid 1655] AH01909: RSA certificate configured for 10.200.174.76:443 does NOT include an ID which matches the server name
+[Tue Jan 12 12:32:09.806557 2021] [ssl:warn] [pid 1727] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 12:32:09.806600 2021] [ssl:warn] [pid 1727] AH01909: RSA certificate configured for 0.0.0.0:443 does NOT include an ID which matches the server name
+[Tue Jan 12 12:32:10.237792 2021] [ssl:warn] [pid 1727] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 12:32:10.237830 2021] [ssl:warn] [pid 1727] AH01909: RSA certificate configured for 0.0.0.0:443 does NOT include an ID which matches the server name
+[Tue Jan 12 15:42:43.128071 2021] [ssl:warn] [pid 1639] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 15:42:43.143142 2021] [ssl:warn] [pid 1639] AH01909: RSA certificate configured for 0.0.0.0:443 does NOT include an ID which matches the server name
+[Tue Jan 12 15:42:59.716043 2021] [ssl:warn] [pid 1650] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 15:42:59.716082 2021] [ssl:warn] [pid 1650] AH01909: RSA certificate configured for 0.0.0.0:443 does NOT include an ID which matches the server name
+[Tue Jan 12 15:43:00.146916 2021] [ssl:warn] [pid 1650] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 15:43:00.146955 2021] [ssl:warn] [pid 1650] AH01909: RSA certificate configured for 0.0.0.0:443 does NOT include an ID which matches the server name
+[Tue Jan 12 15:49:11.320480 2021] [ssl:warn] [pid 1650] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 15:49:11.320522 2021] [ssl:warn] [pid 1650] AH01909: RSA certificate configured for 0.0.0.0:443 does NOT include an ID which matches the server name
+[Tue Jan 12 15:55:43.056925 2021] [ssl:warn] [pid 1887] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 15:55:43.056967 2021] [ssl:warn] [pid 1887] AH01909: RSA certificate configured for 0.0.0.0:443 does NOT include an ID which matches the server name
+[Tue Jan 12 15:56:21.671591 2021] [ssl:warn] [pid 1899] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 15:56:21.671632 2021] [ssl:warn] [pid 1899] AH01909: RSA certificate configured for 0.0.0.0:443 does NOT include an ID which matches the server name
+[Tue Jan 12 15:56:22.102356 2021] [ssl:warn] [pid 1899] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 15:56:22.102394 2021] [ssl:warn] [pid 1899] AH01909: RSA certificate configured for 0.0.0.0:443 does NOT include an ID which matches the server name
+[Tue Jan 12 15:57:35.884391 2021] [ssl:warn] [pid 1920] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 15:57:35.884433 2021] [ssl:warn] [pid 1920] AH01909: RSA certificate configured for 127.0.0.1:443 does NOT include an ID which matches the server name
+[Tue Jan 12 15:57:36.492955 2021] [ssl:warn] [pid 1920] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 15:57:36.492994 2021] [ssl:warn] [pid 1920] AH01909: RSA certificate configured for 127.0.0.1:443 does NOT include an ID which matches the server name
+[Tue Jan 12 15:57:42.182580 2021] [ssl:warn] [pid 1920] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 15:57:42.182620 2021] [ssl:warn] [pid 1920] AH01909: RSA certificate configured for 127.0.0.1:443 does NOT include an ID which matches the server name
+[Tue Jan 12 15:57:45.109597 2021] [ssl:warn] [pid 1949] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 15:57:45.109636 2021] [ssl:warn] [pid 1949] AH01909: RSA certificate configured for 127.0.0.1:443 does NOT include an ID which matches the server name
+[Tue Jan 12 15:57:45.540305 2021] [ssl:warn] [pid 1949] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 15:57:45.540343 2021] [ssl:warn] [pid 1949] AH01909: RSA certificate configured for 127.0.0.1:443 does NOT include an ID which matches the server name
+[Tue Jan 12 16:04:54.542393 2021] [ssl:warn] [pid 2010] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 16:04:54.542437 2021] [ssl:warn] [pid 2010] AH01909: RSA certificate configured for 0.0.0.0:443 does NOT include an ID which matches the server name
+[Tue Jan 12 16:04:54.969784 2021] [ssl:warn] [pid 2010] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 16:04:54.969825 2021] [ssl:warn] [pid 2010] AH01909: RSA certificate configured for 0.0.0.0:443 does NOT include an ID which matches the server name
+[Tue Jan 12 16:05:41.129933 2021] [ssl:warn] [pid 2010] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 16:05:41.129978 2021] [ssl:warn] [pid 2010] AH01909: RSA certificate configured for 0.0.0.0:443 does NOT include an ID which matches the server name
+[Tue Jan 12 16:05:51.966741 2021] [ssl:warn] [pid 2046] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 16:05:51.966782 2021] [ssl:warn] [pid 2046] AH01909: RSA certificate configured for 0.0.0.0:443 does NOT include an ID which matches the server name
+[Tue Jan 12 16:05:52.425787 2021] [ssl:warn] [pid 2046] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 16:05:52.425828 2021] [ssl:warn] [pid 2046] AH01909: RSA certificate configured for 0.0.0.0:443 does NOT include an ID which matches the server name
+[Tue Jan 12 16:08:09.108945 2021] [ssl:warn] [pid 2046] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 16:08:09.108999 2021] [ssl:warn] [pid 2046] AH01909: RSA certificate configured for 0.0.0.0:443 does NOT include an ID which matches the server name
+[Tue Jan 12 16:08:17.839100 2021] [ssl:warn] [pid 2090] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 16:08:17.839138 2021] [ssl:warn] [pid 2090] AH01909: RSA certificate configured for 0.0.0.0:443 does NOT include an ID which matches the server name
+[Tue Jan 12 16:08:18.282228 2021] [ssl:warn] [pid 2090] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 16:08:18.282267 2021] [ssl:warn] [pid 2090] AH01909: RSA certificate configured for 0.0.0.0:443 does NOT include an ID which matches the server name
+[Tue Jan 12 16:10:44.257691 2021] [ssl:warn] [pid 2111] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 16:10:44.257745 2021] [ssl:warn] [pid 2111] AH01909: RSA certificate configured for 0.0.0.0:443 does NOT include an ID which matches the server name
+[Tue Jan 12 16:11:58.982488 2021] [ssl:warn] [pid 2139] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 16:11:58.982530 2021] [ssl:warn] [pid 2139] AH01909: RSA certificate configured for 0.0.0.0:443 does NOT include an ID which matches the server name
+[Tue Jan 12 16:11:59.658027 2021] [ssl:warn] [pid 2139] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 16:11:59.658065 2021] [ssl:warn] [pid 2139] AH01909: RSA certificate configured for 0.0.0.0:443 does NOT include an ID which matches the server name
+[Tue Jan 12 16:12:05.734596 2021] [ssl:warn] [pid 2139] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 16:12:05.734635 2021] [ssl:warn] [pid 2139] AH01909: RSA certificate configured for 0.0.0.0:443 does NOT include an ID which matches the server name
+[Tue Jan 12 16:36:38.565566 2021] [ssl:warn] [pid 2241] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 16:36:38.565619 2021] [ssl:warn] [pid 2241] AH01909: RSA certificate configured for Asterisk18.1:443 does NOT include an ID which matches the server name
+[Tue Jan 12 16:36:38.992595 2021] [ssl:warn] [pid 2241] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 16:36:38.992634 2021] [ssl:warn] [pid 2241] AH01909: RSA certificate configured for Asterisk18.1:443 does NOT include an ID which matches the server name
+[Tue Jan 12 16:36:44.952627 2021] [ssl:warn] [pid 2241] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 16:36:44.952667 2021] [ssl:warn] [pid 2241] AH01909: RSA certificate configured for Asterisk18.1:443 does NOT include an ID which matches the server name
+[Tue Jan 12 16:45:17.259291 2021] [ssl:warn] [pid 2385] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 16:45:17.259337 2021] [ssl:warn] [pid 2385] AH01909: RSA certificate configured for Asterisk18.1:443 does NOT include an ID which matches the server name
+[Tue Jan 12 16:45:22.818820 2021] [ssl:warn] [pid 2385] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 16:45:22.818879 2021] [ssl:warn] [pid 2385] AH01909: RSA certificate configured for Asterisk18.1:443 does NOT include an ID which matches the server name
+[Tue Jan 12 16:45:35.357214 2021] [ssl:warn] [pid 2385] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 16:45:35.357256 2021] [ssl:warn] [pid 2385] AH01909: RSA certificate configured for Asterisk18.1:443 does NOT include an ID which matches the server name
+[Tue Jan 12 17:35:29.954090 2021] [ssl:warn] [pid 2900] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 17:35:29.954131 2021] [ssl:warn] [pid 2900] AH01909: RSA certificate configured for Asterisk18.1:443 does NOT include an ID which matches the server name
+[Tue Jan 12 17:35:30.380823 2021] [ssl:warn] [pid 2900] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Jan 12 17:35:30.380882 2021] [ssl:warn] [pid 2900] AH01909: RSA certificate configured for Asterisk18.1:443 does NOT include an ID which matches the server name
+[Wed Jan 13 03:21:02.742818 2021] [ssl:warn] [pid 2900] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jan 13 03:21:02.742885 2021] [ssl:warn] [pid 2900] AH01909: RSA certificate configured for Asterisk18.1:443 does NOT include an ID which matches the server name
+[Wed Jan 13 19:24:28.800011 2021] [ssl:warn] [pid 18556] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jan 13 19:24:28.800053 2021] [ssl:warn] [pid 18556] AH01909: RSA certificate configured for Asterisk18.1:443 does NOT include an ID which matches the server name
+[Wed Jan 13 19:24:29.266700 2021] [ssl:warn] [pid 18556] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jan 13 19:24:29.266740 2021] [ssl:warn] [pid 18556] AH01909: RSA certificate configured for Asterisk18.1:443 does NOT include an ID which matches the server name
+[Thu Jan 14 00:06:51.877619 2021] [ssl:warn] [pid 1011] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Jan 14 00:06:51.880371 2021] [ssl:warn] [pid 1011] AH01909: RSA certificate configured for Asterisk18.1:443 does NOT include an ID which matches the server name
+[Thu Jan 14 00:06:52.337471 2021] [ssl:warn] [pid 1011] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Jan 14 00:06:52.337501 2021] [ssl:warn] [pid 1011] AH01909: RSA certificate configured for Asterisk18.1:443 does NOT include an ID which matches the server name
+[Thu Jan 14 11:27:48.560241 2021] [ssl:warn] [pid 1038] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Jan 14 11:27:48.564619 2021] [ssl:warn] [pid 1038] AH01909: RSA certificate configured for Asterisk18.1:443 does NOT include an ID which matches the server name
+[Thu Jan 14 11:27:49.040154 2021] [ssl:warn] [pid 1038] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Jan 14 11:27:49.040193 2021] [ssl:warn] [pid 1038] AH01909: RSA certificate configured for Asterisk18.1:443 does NOT include an ID which matches the server name
+[Thu Jan 14 11:37:31.211462 2021] [ssl:warn] [pid 9617] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Jan 14 11:37:31.211522 2021] [ssl:warn] [pid 9617] AH01909: RSA certificate configured for Asterisk18.1:443 does NOT include an ID which matches the server name
+[Thu Jan 14 11:37:41.679387 2021] [ssl:warn] [pid 9617] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Jan 14 11:37:41.679427 2021] [ssl:warn] [pid 9617] AH01909: RSA certificate configured for Asterisk18.1:443 does NOT include an ID which matches the server name
+[Thu Jan 14 12:13:35.888630 2021] [ssl:warn] [pid 10104] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Jan 14 12:13:35.888682 2021] [ssl:warn] [pid 10104] AH01909: RSA certificate configured for Asterisk18.1:443 does NOT include an ID which matches the server name
+[Thu Jan 14 12:23:51.115289 2021] [ssl:warn] [pid 10258] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Jan 14 12:23:51.115333 2021] [ssl:warn] [pid 10258] AH01909: RSA certificate configured for Asterisk18.1:443 does NOT include an ID which matches the server name
+[Thu Jan 14 12:24:11.671041 2021] [ssl:warn] [pid 10281] AH01906: RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Thu Jan 14 12:24:11.671080 2021] [ssl:warn] [pid 10281] AH01909: RSA certificate configured for Asterisk18.1:443 does NOT include an ID which matches the server name
