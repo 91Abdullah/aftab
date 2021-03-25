@@ -79,6 +79,13 @@ Route::group(['middleware' => 'can:access-both', 'prefix' => 'reports', 'namespa
         Route::view('/', 'report.cdr.index')->name('cdr.index');
         Route::get('/getReport', 'CdrController@getReport')->name('cdr.report');
         Route::get('/playRecording/{file}', 'CdrController@playFile')->name('cdr.play');
+       
+        Route::get('/getAutoGenReport', 'CdrController@getAutoGenReport')->name('cdr.autogen');
+        Route::view('/Autogen', 'report.cdr.autogen')->name('cdr.autogenreport');
+
+        Route::get('/getSelfDialReport', 'CdrController@getSelfDialReport')->name('cdr.selfdial');
+        Route::view('/getSelfDial', 'report.cdr.selfdial')->name('cdr.selfdialreport');
+        
     });
 
     Route::group(['prefix' => 'login'], function () {
