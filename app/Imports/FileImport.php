@@ -34,7 +34,8 @@ class FileImport implements ToModel, WithValidation, WithHeadingRow
             'number' => $row['number'],
             'name' => $row['name'],
             'city' => $row['city'],
-            'upload_list_id' => $this->parent_id
+            'upload_list_id' => $this->parent_id,
+            'attempts' => $row['attempts']
         ]);
     }
 
@@ -44,6 +45,7 @@ class FileImport implements ToModel, WithValidation, WithHeadingRow
             'number' => ['required','regex:/(3)[0-9]{8}/'],
             'name' => ['nullable', 'string'],
             'city' => ['nullable', 'string'],
+            'attempts' => ['nullable', 'integer'],
         ];
     }
 }

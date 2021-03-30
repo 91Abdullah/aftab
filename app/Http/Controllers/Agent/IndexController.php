@@ -21,7 +21,7 @@ use Yajra\DataTables\Facades\DataTables;
 class IndexController extends Controller
 {
     public function index()
-    {
+    { 
         $random_mode = Setting::where('key', 'random_mode')->first()->value;
         $responseCodes = ResponseCode::pluck('name', 'code');
         return view('admin.agent.nIndex', compact('random_mode', 'responseCodes'));
@@ -119,6 +119,7 @@ class IndexController extends Controller
 
     public function scheduleCall(Request $request)
     {
+      
         $dt = Carbon::parse($request->schedule_time);
         $user = $request->user_id;
         $number = $request->number;
@@ -142,13 +143,78 @@ class IndexController extends Controller
     {
         if($request->ajax()) {
             $callId = $request->call_id;
-            $code = $request->code;
+            $code1 = $request->code1;
+            $code2 = $request->code2;
+            // return $code1;
 
             $insert = DB::table('cdr_response_codes')->insert([
                 'call_id' => $callId,
-                'code' => $code
+                'code' => $code1,
+                'code2' => $code2
             ]);
+            return response()->json(['success' => 'Response code has been dumped.']);
+        } else {
+            return response()->json(['error' => 'Invalid Request'], 400);
+        }
 
+    }
+
+    public function changelistNumberStatus(Request $request)
+    {
+        if($request->ajax()) {
+            $id = $request->listnoId;
+            $listnumber = $request->listno;
+            $cdr = DB::table('cdr')
+            ->where('dst', $listnumber)->orderBy('start', 'DESC')->first();
+                
+            $disposition = $cdr->disposition;
+            if($disposition === 'ANSWERED'){
+                $result = DB::table('list_numbers')
+                ->where('id', $id)
+                ->update([
+                    'status' => true, 
+                ]);
+            }
+            return response()->json(['success' => 'Response code has been dumped.']);
+
+            
+        } else {
+            return response()->json(['error' => 'Invalid Request'], 400);
+        }
+
+    }
+    public function changelistNumberAttempts(Request $request)
+    {
+        if($request->ajax()) {
+            $id = $request->listnoId;
+                $result = DB::table('list_numbers')
+                ->where('id', $id)
+                ->update([
+                    'attempts' => DB::raw('attempts + 1'), 
+                ]);
+            
+            return response()->json(['success' => 'Response code has been dumped.']);
+
+            
+        } else {
+            return response()->json(['error' => 'Invalid Request'], 400);
+        }
+
+    }
+    public function changecallBackNumberStatus(Request $request)
+    {
+        if($request->ajax()) {
+            $id = $request->listnoId;
+            $listnumber = $request->listno;
+            $cdr = DB::table('cdr')
+            ->where('dst', $listnumber)->orderBy('start', 'DESC')->first();
+                
+            $disposition = $cdr->disposition;
+            if($disposition === 'ANSWERED'){
+            $result = DB::table('schedule_calls')
+                ->where('id', $id)
+                ->delete();
+            }
             return response()->json(['success' => 'Response code has been dumped.']);
         } else {
             return response()->json(['error' => 'Invalid Request'], 400);
@@ -158,15 +224,46 @@ class IndexController extends Controller
 
     public function getListNumber(Request $request)
     {
+        // return response()->json(['number' => 123, 'name' => 456, 'city' => karachi ,'attempts' => 34], 200);
+
         if($request->ajax()) {
-            $number = ListNumber::query()->where("status", 0)->first();
+            $number = ListNumber::query()->where([
+                ['status', '=', 0],
+                ['attempts', '>', 0]
+            ])->first();
             if($number == null) {
                 return response()->json("No List exists in database or none of the list are active at the moment.", 400);
             }
             $sentNumber = substr($number->number, 0, 1) === "0" ? $number->number : "0" . $number->number;
-            $number->status = true;
+            // $number->status = true; 
+            $number->attempts--;
             $number->save();
-            return response()->json(['number' => $sentNumber, 'name' => $number->name, 'city' => $number->city], 200);
+            return response()->json(['number' => $sentNumber, 'name' => $number->name, 'city' => $number->city ,'id' => $number->id], 200);
+        } else {
+            return response()->json("Invalid request", 400);
+        }
+    }
+    public function getCallbackListNumber(Request $request)
+    {
+        // return response()->json(['number' => 123, 'name' => 456, 'city' => karachi ,'attempts' => 34], 200);
+        
+        if($request->ajax()) {
+            $number = ScheduleCall::query()->orderBy('schedule_time', 'ASC')->first();
+            if($number == null) {
+                return response()->json("No callback List exists in database at the moment.", 400);
+            }
+            $currentTime = Carbon::now(new \DateTimeZone('Asia/Karachi'));
+            $scheduleTime = Carbon::parse($request->schedule_time)->format("d-m-Y H:i:s");
+            if($currentTime >= $scheduleTime){
+                $sentNumber = substr($number->number, 0, 1) === "0" ? $number->number : "0" . $number->number;
+                
+                return response()->json(['number' => $sentNumber, 'scheduleTime' => $scheduleTime,'currentTime' => $currentTime,'id' => $number->id], 200);
+            }
+            // else{
+
+            //     return response()->json([ 'scheduleTime' => $scheduleTime,'currentTime' => $currentTime,'id' => $number->id], 400);
+            // }
+
         } else {
             return response()->json("Invalid request", 400);
         }

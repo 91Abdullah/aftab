@@ -80,10 +80,14 @@ Route::group(['middleware' => 'can:agent-access', 'prefix' => 'agent', 'namespac
     Route::get('/', 'IndexController@index')->name('agent.index');
     Route::get('/randomNumber', 'IndexController@getGenNumber')->name('agent.random');
     Route::get('/listNumber', 'IndexController@getListNumber')->name('agent.list');
+    Route::get('/CallbacklistNumber', 'IndexController@getCallbackListNumber')->name('agent.callbacklist');
     Route::get('/getRecentCalls', 'IndexController@getRecentCalls')->name('agent.recent');
     Route::post('/scheduleCall', 'IndexController@scheduleCall')->name('agent.schedule');
     Route::get('/getScheduledCall', 'IndexController@getScheduledCallsTable')->name('agent.get-calls');
     Route::post('/saveResponse', 'IndexController@saveResponse')->name('agent.saveResponse');
+    Route::post('/changelistNumberStatus', 'IndexController@changelistNumberStatus')->name('agent.changelistNumberStatus');
+    Route::post('/changelistNumberAttempts', 'IndexController@changelistNumberAttempts')->name('agent.changelistNumberAttempts');
+    Route::post('/changecallBackNumberStatus', 'IndexController@changecallBackNumberStatus')->name('agent.changecallBackNumberStatus');
 
     // Agent Routes
     Route::post('/status', 'AgentStatusController@getAgentStatus')->name('agent.status');

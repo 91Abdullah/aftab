@@ -18,4 +18,8 @@ class Cdr extends Model
     {
         return $this->belongsToMany('App\ResponseCode', 'cdr_response_codes', 'call_id', 'code', 'userfield', 'code');
     }
+    public function response_codes2()
+    {
+        return $this->belongsToMany('App\ResponseCode', 'cdr_response_codes', 'call_id', 'code2', 'userfield', 'code');
+    }
 }

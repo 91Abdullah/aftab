@@ -50,6 +50,8 @@
             @endif
 
             <div class="table-responsive">
+            <button id='downloadallBtn' class="btn btn-primary" style = 'float:right'>Download All</button>
+            <br><br><br><br>
                 <table id="myTable" class="table table-striped first">
                     <thead>
                     <tr>
@@ -90,7 +92,7 @@
         let url = "{!! route('cdr.report') !!}";
 
         $(document).ready(function () {
-            $('#datepicker').datepicker({
+            $('#datepicker').datepicker({ 
                 format: "yyyy-mm-dd",
                 todayBtn: "linked",
                 clearBtn: true,
@@ -100,7 +102,20 @@
                 toggleActive: true,
                 autoClose: true
             });
-
+        
+            $("#downloadallBtn").click(function(){ 
+                    var anchors= $('#myTable tr a').length;
+                    (function myLoop(i) {
+                        setTimeout(function() {
+                            console.log(i);
+                             //  your code here
+                             try{ $("#myTable tr a")[i].click();}catch(err){console.log(err);}
+                            //  decrement i and call myLoop again if i > 0
+                            if (--i >=0) myLoop(i);  
+                        }, 1000)
+                        //  pass the number of iterations as an argument
+                    })(anchors);                   
+            });
             document.getElementById('getReport').onsubmit = function (e) {
                 e.preventDefault();
                 $('#myTable').DataTable({

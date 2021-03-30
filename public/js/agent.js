@@ -10,7 +10,7 @@ $(document).ready(function () {
     let holdBtn = document.getElementById('holdBtn');
     let holdNotif = document.getElementById('holdNotif');
     let muteNotif = document.getElementById('muteNotif');
-
+  
     let manualDialBtn = document.getElementById('manualDialBtn');
     let listDialBtn = document.getElementById('listDialBtn');
     let randomDialBtn = document.getElementById('randomDialBtn');
@@ -135,43 +135,49 @@ $(document).ready(function () {
 
     async function scheduleThisCall() {
 
-        if(currentSession === undefined || inputNumber.value === "") {
-            $.notify("You can't schedule an empty number.", "error");
-            return;
-        }
+        // if(currentSession === undefined || inputNumber.value === "") {
+        //     $.notify("You can't schedule an empty number.", "error");
+        //     return;
+        // }
 
-        const {value: formValues} = await Swal.fire({
-            title: 'Schedule This Call',
-            html: '<input id="datepicker" class="form-control" type="text">',
-            showConfirmButton: true,
-            customClass: 'swal2-overflow',
-            preConfirm: () => {
-                return document.getElementById('datepicker').value;
-            },
-            onOpen: () => {
-                let config = {
-                    enableTime: true,
-                    dateFormat: "Y-m-d H:i",
-                };
-                $('#datepicker').flatpickr(config);
-            }
-        });
+        // const {value: formValues} = await Swal.fire({
+        //     title: 'Schedule This Call',
+        //     html: '<input id="datepicker" class="form-control">',
+        //     showConfirmButton: true,
+        //     customClass: 'swal2-overflow',
+        //     preConfirm: () => {
+        //         return document.getElementById('datepicker').value;
+        //     },
+        //     onOpen: () => {
+        //         let config = {
+        //             enableTime: true,
+        //             dateFormat: "Y-m-d H:i",
+        //         };
+        //         $('#datepicker').flatpickr(config);
+        //     }
+        // });
 
-        if (formValues) {
-            Swal.fire(JSON.stringify(formValues));
-            axios.post(schedule_call, {
-                schedule_time: formValues,
-                user_id: user_id,
-                number: inputNumber.value
-            })
-            .then((response) => {
-                $.notify(response.data.success, "info");
-                tableReload();
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-        }
+        // if (formValues) {
+        //     Swal.fire(JSON.stringify(formValues));
+        //     axios.post(schedule_call, {
+        //         schedule_time: formValues,
+        //         user_id: user_id,
+        //         number: inputNumber.value
+        //     })
+        //     .then((response) => {
+        //         $.notify(response.data.success, "info");
+        //         tableReload();
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     })
+        // }
+
+        //END OF ABDULLAH'S CODE
+
+      
+
+
     }
 
     function randomModeChange(event) {
@@ -743,15 +749,16 @@ $(document).ready(function () {
     };
 
     listDialBtn.onclick = function (event) {
-        getListNumber()
-            .then((response) => {
-                console.log(response);
-                inputNumber.value = response.data;
-                dialExternalCall();
-            })
-            .catch((error) => {
-                $.notify(error.response.data, "error");
-            });
+        alert('agent.js');
+        // getListNumber()
+        //     .then((response) => {
+        //         console.log(response);
+        //         inputNumber.value = response.data;
+        //         dialExternalCall();
+        //     })
+        //     .catch((error) => {
+        //         $.notify(error.response.data, "error");
+        //     });
     };
 
     window.addEventListener('keypress', function (e) {
