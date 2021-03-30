@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Role;
+use App\Setting;
 use App\User;
 use Exception;
 use Illuminate\Auth\Events\Registered;
@@ -128,7 +129,8 @@ class UserController extends Controller
                 'dtls_setup' => $this->dtls_setup,
                 'ice_support' => $this->ice_support,
                 'media_use_received_transport' => $this->media_use_received_transport,
-                'rtcp_mux' => $this->rtcp_mux
+                'rtcp_mux' => $this->rtcp_mux,
+                'from_domain' => Setting::query()->where('key', 'server_address')->first()->value ?? '127.0.0.1'
             ]);
 
             DB::table('endpoint_user')->insert([
