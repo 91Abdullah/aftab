@@ -54,7 +54,7 @@ class CoreReload extends Command
             'host' => '192.168.0.200',
             'port' => 5038,
             'username' => 'manager_application',
-            'password' => 'abdullah',
+            'secret' => 'abdullah',
             'connect_timeout' => 1000,
             'read_timeout' => 1000,
             'scheme' => 'tcp://'
