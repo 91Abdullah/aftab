@@ -75,7 +75,7 @@ $(document).ready(function () {
         password: authUser,
         displayName: authUser,
         register: false,
-        iceCheckingTimeout: 0.5
+        iceCheckingTimeout: 1000
     });
 
     //startTimer();

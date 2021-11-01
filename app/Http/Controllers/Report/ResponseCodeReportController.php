@@ -28,6 +28,7 @@ class ResponseCodeReportController extends Controller
             $mergedArray[] = ["data" => $code, "name" => $code];
         }
         $columns = collect(array_merge($columns, $mergedArray))->toJson();
+//dd($mergedArray);
         return view('report.code.index', compact('columns'));
     }
 
