@@ -68,7 +68,15 @@
                             <div id="submenu-5" class="collapse submenu" style="">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
+                                        <a class="nav-link {{ request()->is('*reports/searchNumber') }}" href="{{ route('search.number') }}">Search Number</a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a class="nav-link {{ request()->is('*reports/cdr') ? 'active' : '' }}" href="{{ route('cdr.index') }}">Call Detail Report</a>
+                                    </li>
+                                    <li class="nav-item {{ request()->is('*reports/cdr/downloadReport*') ? 'active' : '' }}">
+                                        <a href="{{ route('cdr.download') }}" class="nav-link">
+                                            Call Detail Report Download
+                                        </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link {{ request()->is('*reports/cdr/autogen') ? 'active' : '' }}" href="{{ route('cdr.autogenreport') }}">Auto Generated numbers CDR</a>

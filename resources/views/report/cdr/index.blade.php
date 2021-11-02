@@ -66,7 +66,9 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td colspan="8">No records found.</td>
+                        <td colspan="9">
+                            <p style="text-align: center;">No records found.</p>
+                        </td>
                     </tr>
                     </tbody>
                 </table>

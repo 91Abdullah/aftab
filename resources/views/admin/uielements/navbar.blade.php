@@ -9,7 +9,7 @@
         </button>
         <div class="collapse navbar-collapse " id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto navbar-right-top">
-                <li class="nav-item">
+<!--                <li class="nav-item">
                     <div id="custom-search" class="top-search-bar">
                         <input class="form-control" type="text" placeholder="Search..">
                     </div>
@@ -92,7 +92,7 @@
                             <div class="conntection-footer"><a href="#">More</a></div>
                         </li>
                     </ul>
-                </li>
+                </li>-->
                 <li class="nav-item dropdown nav-user">
                     <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{ asset('assets/images/avatar-1.jpg') }}" alt="" class="user-avatar-md rounded-circle"></a>
                     <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">

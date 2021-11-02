@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Report;
 
 use App\Cdr;
+use App\Exports\CdrReportExport;
+use App\ResponseCode;
+use App\Role;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -11,8 +14,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use League\Flysystem\FileNotFoundException;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Auth;
+use function foo\func;
 
 
 class CdrController extends Controller
@@ -27,12 +32,37 @@ class CdrController extends Controller
         return view('report.cdr.index', compact('cdrs'));
     }
 
+    public function searchNumber(Request $request)
+    {
+        return view('report.cdr.searchNumber');
+    }
+
+    public function getSearchNumber(Request $request)
+    {
+        $data = Cdr::query()->where('dst', 'like', "%{$request->number}%")->orderBy('start', 'desc')->paginate(10);
+        return view('report.cdr.searchNumber', compact('data'));
+    }
+
+    public function getDownloadReport()
+    {
+        return view('report.cdr.download');
+    }
+
+    public function downloadReport(Request $request)
+    {
+        if($request->has('start') && $request->has('end')) {
+            return Excel::download(new CdrReportExport($request->start, $request->end), 'cdr_report.xlsx');
+        } else {
+            return view('report.cdr.download')->with("status", "Invalid date/time entered.");
+        }
+    }
+
     public function getReport(Request $request)
     {
         $start = Carbon::parse($request->start_date)->format('Y-m-d ');
         $end = Carbon::parse($request->end_date)->format('Y-m-d');
 
-        $cdrs = Cdr::whereBetween(DB::raw('date(start)'), [$start, $end])->get(['src', 'dst', 'clid', 'start', 'answer', 'end', 'duration', 'disposition', 'recordingfile']);
+        $cdrs = Cdr::whereBetween(DB::raw('date(start)'), [$start, $end])->get(['src', 'dst', 'clid', 'start', 'answer', 'end', 'duration', 'disposition', 'recordingfile', 'userfield']);
 
         return DataTables::of($cdrs)
             ->editColumn('clid', function (Cdr $cdr) {
@@ -40,7 +70,7 @@ class CdrController extends Controller
                 return $m[1];
             })
             ->addColumn('code', function (Cdr $cdr) {
-                return $cdr->response_codes()->first()->name ?? "NULL";
+                return $cdr->response_codes()->first()->name ?? null;
             })
             ->editColumn('recordingfile', function (Cdr $cdr) {
                 if($cdr->disposition == "ANSWERED") {
@@ -74,6 +104,7 @@ class CdrController extends Controller
         }
 
         $cdrs->join('numbers', 'cdr.dst', '=', 'numbers.number')
+            ->select('*')
             ->whereBetween(DB::raw('date(start)'), [$start, $end])
             ->orderBy('start')->get(['src', 'dst', 'clid', 'start', 'answer', 'end', 'duration', 'disposition', 'recordingfile', 'userfield', 'channel']);
 
@@ -124,7 +155,7 @@ class CdrController extends Controller
         ->whereBetween(DB::raw('date(start)'), [$start, $end])
         ->whereNull('num.number')
         ->orderBy('start')->get(['src', 'dst', 'clid', 'start', 'answer', 'end', 'duration', 'disposition', 'recordingfile', 'userfield', 'channel']);
-            
+
 
 
         return DataTables::of($cdrs)
@@ -171,5 +202,18 @@ class CdrController extends Controller
         }
     }
 
-
+    public function getFile(Request $request)
+    {
+        try {
+            $path = explode("-", $request->file);
+            $date = Carbon::parse($path[3]);
+            $year = $date->format('Y');
+            $month = $date->format('m');
+            $day = $date->format('d');
+            $file = $request->file;
+            return Storage::disk('recordings')->download("{$year}/{$month}/{$day}/$file");
+        } catch (FileNotFoundException | Exception $e) {
+            return $e->getMessage();
+        }
+    }
 }

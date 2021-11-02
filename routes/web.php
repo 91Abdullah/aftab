@@ -23,7 +23,7 @@ Auth::routes();
 
 //Route::get('/home', 'HomeController@index')->name('home');
 //Route::get('/agent1', 'AgentController@index')->name('agent');
-//Route::get('/test', 'AgentController@test')->name('test');
+//Route::get('/test', 'AgentController@getTest')->name('test');
 
 // Login
 
@@ -77,15 +77,20 @@ Route::group(['middleware' => 'can:access-both', 'prefix' => 'reports', 'namespa
 
     Route::group(['prefix' => 'cdr'], function () {
         Route::view('/', 'report.cdr.index')->name('cdr.index');
+        Route::get('/searchNumber', 'CdrController@searchNumber')->name('search.number');
+        Route::get('/getSearchNumber', 'CdrController@getSearchNumber');
         Route::get('/getReport', 'CdrController@getReport')->name('cdr.report');
+        Route::get('/downloadReport', 'CdrController@getDownloadReport')->name('cdr.download');
+        Route::post('/downloadReport', 'CdrController@downloadReport');
+        Route::post('/getFile', 'CdrController@getFile')->name('get.file');
         Route::get('/playRecording/{file}', 'CdrController@playFile')->name('cdr.play');
-       
+
         Route::get('/getAutoGenReport', 'CdrController@getAutoGenReport')->name('cdr.autogen');
         Route::view('/Autogen', 'report.cdr.autogen')->name('cdr.autogenreport');
 
         Route::get('/getSelfDialReport', 'CdrController@getSelfDialReport')->name('cdr.selfdial');
         Route::view('/getSelfDial', 'report.cdr.selfdial')->name('cdr.selfdialreport');
-        
+
     });
 
     Route::group(['prefix' => 'login'], function () {
