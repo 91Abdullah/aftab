@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Report;
 
 use App\Cdr;
 use App\Exports\CdrReportExport;
+use App\Exports\SearchNumberExport;
 use App\ResponseCode;
 use App\Role;
 use Carbon\Carbon;
@@ -39,8 +40,13 @@ class CdrController extends Controller
 
     public function getSearchNumber(Request $request)
     {
-        $data = Cdr::query()->where('dst', 'like', "%{$request->number}%")->orderBy('start', 'desc')->paginate(10);
+        $data = Cdr::query()->where('dst', 'like', "%{$request->number}%")->orderBy('start', 'desc')->paginate(50);
         return view('report.cdr.searchNumber', compact('data'));
+    }
+
+    public function getDownloadSearchNumberReport(Request $request): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    {
+        return Excel::download(new SearchNumberExport($request->number), 'search_number.xlsx');
     }
 
     public function getDownloadReport()

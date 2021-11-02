@@ -3,24 +3,23 @@
 namespace App\Exports;
 
 use App\Cdr;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class CdrReportExport implements FromCollection, WithHeadings
+class SearchNumberExport implements FromCollection, WithHeadings
 {
-    use Exportable;
-    public function __construct($start, $end)
+    private $number;
+    public function __construct($number)
     {
-        $this->start = $start;
-        $this->end = $end;
+        $this->number = $number;
     }
 
-    public function collection()
+    /**
+    * @return \Illuminate\Support\Collection
+    */
+    public function collection(): \Illuminate\Support\Collection
     {
-        return Cdr::query()->whereDate('start', '>=', $this->start)->whereDate('end', '<=', $this->end)->orderBy('start', 'desc')->with(['response_codes' => function($q) {
+        return Cdr::query()->where('dst', 'like', "%{$this->number}%")->orderBy('start', 'desc')->with(['response_codes' => function($q) {
             $q->select(['id', 'name']);
         }])->get()->map(function ($row) {
             return [$row->dst, explode("-", explode("/", $row->channel)[1])[0] ?? null, $row->start, $row->end, $row->billsec, $row->disposition, $row->response_codes->first()->name ?? null];

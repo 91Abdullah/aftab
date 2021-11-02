@@ -38,6 +38,13 @@
     @isset($data)
         <div class="card">
             <div class="card-body">
+                <div class="m-b-10 float-right">
+                    <form method="post" action="{{ action('Report\CdrController@getDownloadSearchNumberReport') }}">
+                        @csrf
+                        <input name="number" type="hidden" value="{{ request('number') }}">
+                        <button type="submit" class="btn btn-secondary"><i class="fa fa-cloud-download-alt"></i> Download Report</button>
+                    </form>
+                </div>
                 <table class="table">
                     <thead>
                     <tr>

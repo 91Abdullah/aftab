@@ -82,6 +82,7 @@ Route::group(['middleware' => 'can:access-both', 'prefix' => 'reports', 'namespa
         Route::get('/getReport', 'CdrController@getReport')->name('cdr.report');
         Route::get('/downloadReport', 'CdrController@getDownloadReport')->name('cdr.download');
         Route::post('/downloadReport', 'CdrController@downloadReport');
+        Route::post('/downloadSearchReport', 'CdrController@getDownloadSearchNumberReport');
         Route::post('/getFile', 'CdrController@getFile')->name('get.file');
         Route::get('/playRecording/{file}', 'CdrController@playFile')->name('cdr.play');
 
